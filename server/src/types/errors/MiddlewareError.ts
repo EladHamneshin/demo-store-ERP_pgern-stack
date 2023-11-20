@@ -1,6 +1,5 @@
-import { DatabaseError as PgError} from 'pg';
-import RequestError from './RequestError.js';
+import RequestError from './RequestError';
 
-type MiddlewareError = PgError | Error | RequestError;
+type MiddlewareError = Error | RequestError;
 
 export default MiddlewareError;
