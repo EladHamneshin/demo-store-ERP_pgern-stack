@@ -3,8 +3,6 @@ import { updateInventoryService } from '../services/updateInventoryService';
 
 export async function updateInventoryController(req: Request, res: Response) {
     try {
-        console.log("controller");
-        
         // ניסיון לעדכן את המלאי
         const success = await updateInventoryService(req);
         res.status(200).json(success)
