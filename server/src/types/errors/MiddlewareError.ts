@@ -1,6 +1,6 @@
-import {Error as MongooseError} from 'mongoose';
+import { DatabaseError as PgError} from 'pg';
 import RequestError from './RequestError.js';
 
-type MiddlewareError = MongooseError | Error | RequestError;
+type MiddlewareError = PgError | Error | RequestError;
 
 export default MiddlewareError;
