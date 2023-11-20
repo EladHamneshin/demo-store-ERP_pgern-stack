@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import initProductTable from './configs/db';
 import { notFound, errorHandler } from './middlewares/errorsMiddleware';
 import shopInventoryRouter from './routes/shopInventoryRouts'
+import shop_inventoryRouter from './routes/shopInventoryRouts';
 
 const app = express();
 
