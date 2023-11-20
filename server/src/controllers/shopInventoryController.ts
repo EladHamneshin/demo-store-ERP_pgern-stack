@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import * as Service from '../services/shop_inventoryService'
+import * as Service from '../services/shopInventoryRouterService'
 
 
 export const getProductById = async (req: Request, res: Response) => {
