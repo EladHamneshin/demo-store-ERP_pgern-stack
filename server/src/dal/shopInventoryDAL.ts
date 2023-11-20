@@ -1,5 +1,3 @@
-import second from '../configs/db';
-
 type ProductToUpdate = {
   productId: string;
   requiredQuantity: number;
