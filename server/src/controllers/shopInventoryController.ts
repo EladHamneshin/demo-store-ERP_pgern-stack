@@ -1,6 +1,18 @@
 import { Request, Response } from 'express'
 import * as Service from '../services/shopInventoryRouterService'
 
+export const externalGetAllData = async (req: Request, res: Response) => {
+    try {
+        const myUrl = req.url;
+        const searchParam =  req.query.search?.toString();
+        const allData =  await Service.getAllData(searchParam);
+        res.send(allData)
+    }
+    catch (error) {
+        console.error('an error occurred:', error);
+        res.status(500).send("Internal Server Error");
+    }
+}
 
 export const getProductById = async (req: Request, res: Response) => {
   try {

@@ -5,9 +5,8 @@ import { updateInventoryController } from '../controllers/updateInventoryControl
 
 const shopInventoryRouter = express.Router();
 
+shopInventoryRouter.get('', controller.externalGetAllData)
 shopInventoryRouter.get('/:product_id', Controller.getProductById)
 shopInventoryRouter.post('/updateInventory',updateInventoryController);
 
 export default shopInventoryRouter;
-
-

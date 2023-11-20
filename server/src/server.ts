@@ -18,7 +18,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use('/api/shop_inventory', shopInventoryRouter);
+app.use('/api', shopInventoryRouter);
+
 
 app.use(notFound);
 app.use(errorHandler);

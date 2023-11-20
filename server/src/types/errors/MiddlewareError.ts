@@ -1,4 +1,4 @@
-import RequestError from './RequestError';
+import RequestError from './RequestError.js';
 
 type MiddlewareError = Error | RequestError;
 
