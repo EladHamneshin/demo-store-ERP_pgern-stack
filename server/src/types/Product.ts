@@ -1,5 +1,5 @@
 
-interface Product {
+export interface Product {
   id: string;
   name: string;
   salePrice: number;
@@ -11,4 +11,18 @@ interface Product {
   image: { url: string; alt: string };
 }
 
-export default Product;
+export interface AdminProduct {
+  id: string;
+  name: string;
+  salePrice: number;
+  quantity: number;
+  description: string;
+  category: string;
+  discountPercentage: number;
+  rating: number;
+  image: { url: string; alt: string }; 
+  isForSale : boolean;
+  costPrice: number;
+  supplier : string;
+}
+

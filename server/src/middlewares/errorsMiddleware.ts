@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import STATUS_CODES from '../utils/StatusCodes.js';
-import RequestError from '../types/errors/RequestError.js';
-import MiddlewareError from '../types/errors/MiddlewareError.js';
+import STATUS_CODES from '../utils/StatusCodes';
+import RequestError from '../types/errors/RequestError';
+import MiddlewareError from '../types/errors/MiddlewareError';
 
 
 const notFound = (req: Request, res: Response, next: NextFunction) => {
