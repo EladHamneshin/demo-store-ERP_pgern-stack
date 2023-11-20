@@ -17,6 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(notFound);
 app.use(errorHandler);
+app.use('/api/shop_inventory', )
 
 const port = process.env.PORT || 5000;
 
