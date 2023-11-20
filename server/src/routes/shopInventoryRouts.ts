@@ -1,8 +1,11 @@
 import express from 'express';
-import * as controller from '../controllers/controller'
+import * as controller from '../controllers/shopInventoryController'
 
 const shopInventoryRouter = express.Router();
 
-shopInventoryRouter.get('/shop_inventory', controller.externalGetAllData) ///check url!!!
+shopInventoryRouter.get('', controller.externalGetAllData)
+shopInventoryRouter.get('/:product_id', controller.getProductById);
 
 export default shopInventoryRouter
+
+
