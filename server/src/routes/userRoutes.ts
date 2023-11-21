@@ -1,11 +1,11 @@
 import express from "express";
-import userController from "../controllers/userController";
+import * as userController from "../controllers/userController";
 import authRoutes from "./authRoutes";
 import { authHandler } from "../middlewares/authMiddleware";
 
 const userRouter = express.Router();
 
-userRouter.use("/", authRoutes);
+userRouter.use("/auth", authRoutes);
 
 userRouter.get("/", authHandler, userController.getUser);
 userRouter.post("/register", userController.registerUser);

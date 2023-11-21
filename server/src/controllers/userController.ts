@@ -5,11 +5,20 @@ import RequestError from "../types/errors/RequestError";
 import userService from "../services/userService";
 import userValidation from "../utils/validations/userValidation";
 
+///
+declare global {
+  namespace Express {
+    export interface Request {
+      userId: string;
+    }
+  }
+}
+///
 
 // @desc    Register a new user
 // @route   POST  /api/users/register
 // @access  Public
-const registerUser = asyncHandler(async (req: Request, res: Response) => {
+export const registerUser = asyncHandler(async (req: Request, res: Response) => {
 
     const { error } = userValidation(req.body);
     if (error)
@@ -26,7 +35,7 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
 // @desc    Get user
 // @route   GET /api/users
 // @access  Private
-const getUser = asyncHandler(async (req, res) => {  
+export const getUser = asyncHandler(async (req, res) => {  
   const user = await userService.getUser(req.userId);
 
   res.json({
@@ -34,5 +43,3 @@ const getUser = asyncHandler(async (req, res) => {
     email: user.email,
   });
 });
-
-export default { registerUser, getUser };

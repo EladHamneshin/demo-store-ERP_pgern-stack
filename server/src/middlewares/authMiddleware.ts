@@ -3,10 +3,6 @@ import asyncHandler from 'express-async-handler';
 import STATUS_CODES from '../utils/StatusCodes';
 import RequestError from '../types/errors/RequestError';
 
-// type IRequest = {
-//   Request<ParamsDictionary, any, any, QueryString.ParsedQs, Record<string, any>>
-// }
-
 const authHandler = asyncHandler( async (req, _res, next) => {
   const token = req.cookies.jwt;
 
