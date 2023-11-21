@@ -26,3 +26,15 @@ export interface AdminProduct {
   supplier : string;
 }
 
+// export interface ProductToUpdate {
+//   productId: string;
+//   requiredQuantity: number;
+// };
+
+export type UpdateBody = {
+  Products: {
+    productId: string
+    requiredQuantity: number
+    }[]
+  action: string;
+} 

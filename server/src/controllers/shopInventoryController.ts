@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import * as Service from '../services/shopInventoryService';
 import asyncHandler from 'express-async-handler';
+import { UpdateBody } from '../types/Product';
 
 export const getAllData = asyncHandler(
   async (req: Request, res: Response) => {
@@ -24,7 +25,7 @@ export const getProductById = asyncHandler(
 
 export const updateInventory = asyncHandler(
   async (req: Request, res: Response) => {
-   const success = await Service.updateInventory(req);
-   res.json(success);
- } 
+  const success = await Service.updateInventory(req);
+  res.send(success)
+  } 
 )
