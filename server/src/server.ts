@@ -7,6 +7,7 @@ import initProductTable from './configs/db';
 import { notFound, errorHandler } from './middlewares/errorsMiddleware';
 import shopInventoryRouter from './routes/shopInventoryRouts'
 import shop_inventoryRouter from './routes/shopInventoryRouts';
+import {registerRouter} from './routes/registerRouts'
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use('/api', shopInventoryRouter);
+app.use('/api', registerRouter)
 
 
 app.use(notFound);
