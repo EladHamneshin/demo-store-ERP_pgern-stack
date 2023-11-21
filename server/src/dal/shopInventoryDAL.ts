@@ -1,37 +1,43 @@
+import query from "../utils/qearyDB";
+
 type ProductToUpdate = {
   productId: string;
   requiredQuantity: number;
+  action: string;
 };
 
-export const dalAllData = async (searchParam: string | undefined) => {
-  const allData = { k: 'all data will come later' }; /// change after to: await...
-  return allData;
-
-  // if (searchParam === ''|| undefined) {
-  // }
-
-  // else {
-  // SELECT *product* FROM *productTable*
-  // WHERE *product.name* === serchParam
-  // }
+export const dalAllData = async (queryString: string) => {  
+  const {rows}: any = await query(queryString);
+  return rows;
 };
 
-export const getProductById = async (productId: number) => {
-  console.log('gggggggggg');
 
-  return {
-    product_id: productId,
-    name: 'test',
-    description: 'test',
-    price: 10.99,
-    category: 'test',
-    image: '/images/products/test.jpg',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-  };
+export const getProductById = async (queryString: string) => {
+  const {rows}: any = await query(queryString);
+  return rows
 };
+
 
 export async function updateInventory(products: ProductToUpdate[]) {
+  for (const product of products) {
+    // let queryString = 
+    // `UPDATE products
+    //  SET quantity = quantity - ${product.requiredQuantity}
+    //  WHERE id = 1;`
+     if (product.action === 'inc') {
+      let queryString = 
+      `UPDATE products
+       SET quantity = quantity + ${product.requiredQuantity}
+       WHERE id = ${product.productId};`
+     }
+     else if  (product.action === 'dec') {
+      let queryString = 
+      `UPDATE products
+       SET quantity = quantity - ${product.requiredQuantity}
+       WHERE id = ${product.productId};`
+     }
+  }
+  
   console.log('updateInventoryDal');
 
   return 'updateInventoryDal';

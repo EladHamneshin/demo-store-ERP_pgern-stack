@@ -1,11 +1,10 @@
 import express from 'express';
 import * as Controller from '../controllers/shopInventoryController';
-import { updateInventory } from '../controllers/updateInventoryController';
 
 const shopInventoryRouter = express.Router();
 
-shopInventoryRouter.get('', controller.externalGetAllData);
+shopInventoryRouter.get('/?field=x&value=y', Controller.getAllData);
 shopInventoryRouter.get('/:product_id', Controller.getProductById);
-shopInventoryRouter.post('/updateInventory', updateInventory);
+shopInventoryRouter.post('/updateInventory', Controller.updateInventory);
 
 export default shopInventoryRouter;
