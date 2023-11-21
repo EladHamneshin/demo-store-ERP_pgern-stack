@@ -1,27 +1,27 @@
 CREATE TABLE
     IF NOT EXISTS coordinates (
-        id SERIAL PRIMARY KEY,
+        id UUID PRIMARY KEY,
         lat FLOAT NOT NULL,
         lng FLOAT NOT NULL
     );
 
 CREATE TABLE
     IF NOT EXISTS categories (
-        id SERIAL PRIMARY KEY,
+        id UUID PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         clicked INT NOT NULL
     );
 
 CREATE TABLE
     IF NOT EXISTS images (
-        id SERIAL PRIMARY KEY,
+        id UUID PRIMARY KEY,
         url VARCHAR(255) NOT NULL,
         alt VARCHAR(255) NOT NULL
     );
 
 CREATE TABLE
     IF NOT EXISTS products (
-        id SERIAL PRIMARY KEY,
+        id UUID PRIMARY KEY,
         name VARCHAR(21) NOT NULL,
         price INT NOT NULL,
         quantity INT NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE
 
 CREATE TABLE
     IF NOT EXISTS productcoordinates (
-        id SERIAL PRIMARY KEY,
+        id UUID PRIMARY KEY,
         product INT NOT NULL,
         coordinates INT NOT NULL,
         FOREIGN KEY (product) REFERENCES products(id),
@@ -46,13 +46,13 @@ CREATE TABLE
 
 CREATE TABLE
     IF NOT EXISTS tags (
-        id SERIAL PRIMARY KEY,
+        id UUID PRIMARY KEY,
         name VARCHAR(255) NOT NULL
     );
 
 CREATE TABLE
     IF NOT EXISTS tagvalues (
-        id SERIAL PRIMARY KEY,
+        id UUID PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         tag INT NOT NULL,
         FOREIGN KEY (tag) REFERENCES tags(id)
@@ -60,7 +60,7 @@ CREATE TABLE
 
 CREATE TABLE
     IF NOT EXISTS producttags (
-        id SERIAL PRIMARY KEY,
+        id UUID PRIMARY KEY,
         product INT NOT NULL,
         tag INT NOT NULL,
         tagvalue INT NOT NULL,
