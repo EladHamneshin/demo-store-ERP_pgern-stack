@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import STATUS_CODES from "../utils/StatusCodes";
 import RequestError from "../types/errors/RequestError";
-import userService from "../services/userService";
+import * as userService from "../services/userService";
 import userValidation from "../utils/validations/userValidation";
 
 ///
@@ -27,8 +27,8 @@ export const registerUser = asyncHandler(async (req: Request, res: Response) => 
     const user = await userService.addUser(req.body);
   
     res.status(STATUS_CODES.CREATED).json({
-      _id: user._id,
-      email: user.email,
+      id: user?.id,
+      email: user?.email,
     });
 });
 
@@ -39,7 +39,7 @@ export const getUser = asyncHandler(async (req, res) => {
   const user = await userService.getUser(req.userId);
 
   res.json({
-    _id: user._id,
+    id: user.id,
     email: user.email,
   });
 });
