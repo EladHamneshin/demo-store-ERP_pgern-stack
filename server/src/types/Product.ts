@@ -14,7 +14,7 @@ export interface Product {
   longitude: number;
   latitude: number;
   tags: {
-    [: string]: string
+    [key: string]: string
   };
 }
 
