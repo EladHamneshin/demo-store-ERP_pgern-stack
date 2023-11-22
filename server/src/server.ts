@@ -5,6 +5,7 @@ import express from 'express';
 import cookieParser from 'cookie-parser';
 import { notFound, errorHandler } from './middlewares/errorsMiddleware';
 import inventoryRouter from './routes/inventoryRouts';
+import shopInventoryRouter from './routes/shopInventoryRouts';
 import userRoutes from './routes/userRoutes'
 
 const app = express();
@@ -17,6 +18,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+
+app.use('/api/shopInventory', shopInventoryRouter);
 app.use('/api/user', userRoutes);
 app.use('/api/inventory', inventoryRouter);
 
