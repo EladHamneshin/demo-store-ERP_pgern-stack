@@ -3,22 +3,19 @@ import { Request, query } from 'express';
 import RequestError from '../types/errors/RequestError';
 import STATUS_CODES from '../utils/StatusCodes';
 import { getAllDataQuery } from '../types/SQLqueries';
-import { UpdateBody } from '../types/Product';
+import {validate} from 'uuid';
 
 export const getAllData = async (searchParam: string | undefined, categoryParam: string | undefined) => {
-  // console.log('searchParams is:', searchParam);
-  // console.log('categoryParams is:', categoryParam);
-
   if (categoryParam !== undefined) {
     const categoryQuery = 
     `${getAllDataQuery}
     where c.name = '${categoryParam}'
     GROUP BY p.id, c.name, i.url, i.alt, c2.lng, c2.lat`;
-    const dataByCtegory = await DAL.getAllData(categoryQuery);
-    if (dataByCtegory === null || dataByCtegory === undefined) {
-      throw new RequestError('data not found', STATUS_CODES.NOT_FOUND);
+    const dataByCategory = await DAL.getAllData(categoryQuery);
+    if (dataByCategory === undefined || dataByCategory === null) {
+      throw new RequestError('data not found', STATUS_CODES.INTERNAL_SERVER_ERROR);
     }
-    return dataByCtegory;
+    return dataByCategory;
   }
   else {
     if (searchParam !== undefined) {
@@ -28,7 +25,7 @@ export const getAllData = async (searchParam: string | undefined, categoryParam:
           OR p.description LIKE '%${searchParam}%'
           GROUP BY p.id, c.name, i.url, i.alt, c2.lng, c2.lat`;
       const dataBySearch = await DAL.getAllData(searchString);
-      if (dataBySearch === null || dataBySearch === undefined) {
+      if (dataBySearch === undefined || dataBySearch === null) {
         throw new RequestError('data not found', STATUS_CODES.NOT_FOUND);
       }
       return dataBySearch;
@@ -38,7 +35,7 @@ export const getAllData = async (searchParam: string | undefined, categoryParam:
           `${getAllDataQuery}
             GROUP BY p.id, c.name, i.url, i.alt, c2.lng, c2.lat`;
       const allData = await DAL.getAllData(queryString);
-      if (allData === null || allData === undefined) {
+      if (allData === undefined || allData === null) {
         throw new RequestError('data not found', STATUS_CODES.NOT_FOUND);
       }
       return allData;
@@ -46,17 +43,17 @@ export const getAllData = async (searchParam: string | undefined, categoryParam:
   }
 };
 
-export const getProductById = async (productId: number) => {
-  if (isNaN(productId) || productId <= 0) {
-    throw new RequestError(
-      'Invalid product ID format',
-      STATUS_CODES.BAD_REQUEST
-    );
+
+export const getProductById = async (productId: string) => {
+  if (!validate(productId)) {
+      throw new RequestError(
+        'Invalid product ID format',
+        STATUS_CODES.NOT_FOUND);
   }
 
   let queryString = `
     select * from products
-    where id = ${productId}`;
+    where id = '${productId}'`;
 
   const product = await DAL.getProductById(queryString);
   if (product === null || product === undefined) {
@@ -64,6 +61,7 @@ export const getProductById = async (productId: number) => {
   }
   return product;
 };
+
 
 export const updateInventory = async (req: Request) => {
   // בדיקה שהבקשה מכילה גוף תקין
@@ -84,7 +82,8 @@ export const updateInventory = async (req: Request) => {
     const { productId, requiredQuantity } = item;
 
     // בבקשה productid בדיקה שיש 
-    if (!productId || productId === '0') {
+    
+    if (!productId || !validate(productId)) {
       throw new RequestError('no such product id', STATUS_CODES.BAD_REQUEST);
     }
     // בדיקה שהכמות הנדרשת חוקית
@@ -95,11 +94,13 @@ export const updateInventory = async (req: Request) => {
     // בדיקה שיש במלאי את הכמות הנדרשת
     const checkQuery = `
     select quantity from products 
-    where id = ${productId}`;
+    where id = '${productId}'`;
 
     const prodQuantity = await DAL.checkQuantity(checkQuery);
     if (prodQuantity < requiredQuantity && action === 'buy') {
-      throw new RequestError('not enough in stock', STATUS_CODES.BAD_REQUEST);
+      throw new RequestError(
+      `not enough in stock; product '${productId}' quntity is ${prodQuantity}, but you asked for ${requiredQuantity}`,
+       STATUS_CODES.BAD_REQUEST);
     }
   }
 
@@ -109,7 +110,7 @@ export const updateInventory = async (req: Request) => {
     const queryString =
       `UPDATE products
        SET quantity = quantity ${queryAction} ${requiredQuantity}
-       WHERE id = ${productId};`
+       WHERE id = '${productId}';`
 
     const res = await DAL.updateInventory(queryString);
     if (!res) {
@@ -119,6 +120,8 @@ export const updateInventory = async (req: Request) => {
   }
   return STATUS_CODES.OK;
 };
+
+
 
 
 

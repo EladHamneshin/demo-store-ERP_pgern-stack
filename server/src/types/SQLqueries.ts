@@ -1,11 +1,11 @@
-export const getAllDataQuery = 
+export const getAllDataQuery =
     `SELECT p.id, 
         p.name, 
         p.price AS salePrice,
         p.quantity, 
         p.description, 
         c.name AS category,
-        p.discount AS discountPercentage, 
+        p.discount,
         p.rating, 
         p.clicked AS click,
         i.url AS image_url,
@@ -27,4 +27,6 @@ export const getAllDataQuery =
             ON pt.tag_and_value_id = tv.id 
         LEFT JOIN tags t 
             ON tv.tag = t.id`
+
+
 

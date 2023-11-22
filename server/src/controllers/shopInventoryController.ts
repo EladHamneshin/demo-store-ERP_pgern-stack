@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import * as Service from '../services/shopInventoryService';
 import asyncHandler from 'express-async-handler';
-import { UpdateBody } from '../types/Product';
 
 export const getAllData = asyncHandler(
   async (req: Request, res: Response) => {
@@ -14,10 +13,8 @@ export const getAllData = asyncHandler(
 
 export const getProductById = asyncHandler(
   async (req: Request, res: Response) => {
-    const productId = Number(req.params.product_id);
-
+    const productId = req.params.product_id;
     const data = await Service.getProductById(productId);
-
     res.json(data);
   }
 );
