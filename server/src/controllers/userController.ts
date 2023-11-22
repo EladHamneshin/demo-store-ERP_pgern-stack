@@ -5,15 +5,6 @@ import RequestError from "../types/errors/RequestError";
 import * as userService from "../services/userService";
 import userValidation from "../utils/validations/userValidation";
 
-///
-declare global {
-  namespace Express {
-    export interface Request {
-      userId: string;
-    }
-  }
-}
-///
 
 // @desc    Register a new user
 // @route   POST  /api/users/register
