@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser';
 import { notFound, errorHandler } from './middlewares/errorsMiddleware';
 import shopInventoryRouter from './routes/shopInventoryRouts'
 import {registerRouter} from './routes/registerRouts'
-import shopCategoriesRouter from './routes/categoryRouter';
+import shopCategoriesRouter from './routes/categoriesRouter';
 
 const app = express();
 
