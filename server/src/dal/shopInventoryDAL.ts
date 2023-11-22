@@ -1,7 +1,7 @@
 import query from "../utils/qearyDB";
 
 
-export const dalAllData = async (queryString: string) => {  
+export const getAllData = async (queryString: string) => {  
   const {rows}: any = await query(queryString); // edit rows type
   return rows;
 };

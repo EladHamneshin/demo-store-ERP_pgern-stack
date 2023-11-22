@@ -12,7 +12,7 @@ export const getAllData = async (searchParam: string | undefined) => {
     if (searchParam === undefined) {
       console.log('1');
       let queryString = 'select * from products'
-      const allData = await DAL.dalAllData(queryString);
+      const allData = await DAL.getAllData(queryString);
       return allData;
     }
     
@@ -21,7 +21,7 @@ export const getAllData = async (searchParam: string | undefined) => {
       let queryString = `
         SELECT * FROM products 
         WHERE name === ${searchParam}` // edit after
-        const allData = await DAL.dalAllData(queryString);
+        const allData = await DAL.getAllData(queryString);
         return allData;
       }
   } 
