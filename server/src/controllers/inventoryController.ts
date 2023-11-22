@@ -1,11 +1,40 @@
 import { Request, Response } from 'express';
-import {allInventoryService} from '../services/inventoryService'
+import {addNewProductService, deleteProductByIdService, getAllProductsService, getProductByIdService, updateProductByIdService} from '../services/inventoryService'
+import asyncHandler from 'express-async-handler';
+import { AdminProduct } from '../types/Product';
 
-export const allInventoryController = async (req: Request , res: Response) => {
-    try {
-        const allInventory = await allInventoryService();
-        res.json(allInventory)
-    } catch (error){
-        res.json({ error: "Couldn't fetch the inventory!" })
-    }
-}
+
+export const getAllProductsController = asyncHandler( async (req: Request , res: Response) => {
+    
+    const allproducts: AdminProduct[] |void[] = await getAllProductsService();
+    res.json(allproducts);
+
+})
+
+export const getProductByIdController = asyncHandler( async (req: Request , res: Response) => {
+    
+    const product: AdminProduct = await getProductByIdService(req.params.id);
+    res.json(product);
+    
+})
+
+export const addNewProductController = asyncHandler( async (req: Request , res: Response) => {
+
+    const newProduct: AdminProduct = await addNewProductService(req.body);
+    res.json(newProduct)
+    
+})
+
+export const updateProductByIdController = asyncHandler( async (req: Request , res: Response) => {
+    
+    const updatedProduct: AdminProduct = await updateProductByIdService(req.body, req.params.id);
+    res.json(updatedProduct)
+
+})
+
+export const deleteProductByIdController = asyncHandler( async (req: Request , res: Response) => {
+
+    const deletedProduct: AdminProduct = await deleteProductByIdService(req.params.id);
+    res.json(deletedProduct)
+    
+})

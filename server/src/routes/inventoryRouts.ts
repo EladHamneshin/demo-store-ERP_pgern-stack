@@ -1,7 +1,13 @@
-import express, { Router } from 'express'
-import {allInventoryController} from '../controllers/inventoryController'
+import express, { Router } from 'express';
+import { addNewProductController, deleteProductByIdController, getAllProductsController, getProductByIdController, updateProductByIdController } from '../controllers/inventoryController';
 
-const router = express.Router()
+const inventoryRouter = express.Router();
 
-router.get('/inventory/', allInventoryController)
-router.get('inventory/:id')
+inventoryRouter.get('/', getAllProductsController);
+inventoryRouter.get('/:id', getProductByIdController);
+inventoryRouter.post('/', addNewProductController);
+inventoryRouter.put('/:id', updateProductByIdController);
+inventoryRouter.delete('/:id', deleteProductByIdController);
+
+
+export default inventoryRouter;
