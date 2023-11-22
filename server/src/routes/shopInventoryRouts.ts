@@ -3,7 +3,8 @@ import * as Controller from '../controllers/shopInventoryController';
 
 const shopInventoryRouter = express.Router();
 
-shopInventoryRouter.get('/?field=x&value=y', Controller.getAllData);
+
+shopInventoryRouter.get('/', Controller.getAllData);
 shopInventoryRouter.get('/:product_id', Controller.getProductById);
 shopInventoryRouter.post('/updateInventory', Controller.updateInventory);
 
