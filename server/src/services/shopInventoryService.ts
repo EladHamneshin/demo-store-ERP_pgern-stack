@@ -4,6 +4,7 @@ import RequestError from '../types/errors/RequestError';
 import STATUS_CODES from '../utils/StatusCodes';
 import { getAllDataQuery } from '../types/SQLqueries';
 import {validate} from 'uuid';
+// import { object } from 'joi';
 
 export const getAllData = async (searchParam: string | undefined, categoryParam: string | undefined) => {
   if (categoryParam !== undefined) {
@@ -63,7 +64,7 @@ export const getProductById = async (productId: string) => {
 };
 
 
-export const updateInventory = async (req: Request) => {
+export const checkUpdateRequest = async (req: Request) => {
   // בדיקה שהבקשה מכילה גוף תקין
   if (!req.body || !Array.isArray(req.body.items)) {
     throw new RequestError('Invalid request body', STATUS_CODES.BAD_REQUEST);
@@ -75,14 +76,18 @@ export const updateInventory = async (req: Request) => {
   if (action !== 'buy' && action !== 'return') {
     throw new RequestError(`${action}: invalid action`, STATUS_CODES.BAD_REQUEST);
   }
-  const queryAction = action === 'buy' ? '-' : '+';
+  interface ProductsArr {
+    [productId: string]: number;
+  };
+
+  let errorProductsArr: ProductsArr[] = [];
+  let successProductsArr: ProductsArr[] = [];
 
   // לולאה על פריטי הבקשה
   for (const item of items) {
-    const { productId, requiredQuantity } = item;
+    const { productId, requiredQuantity } = item;    
 
     // בבקשה productid בדיקה שיש 
-    
     if (!productId || !validate(productId)) {
       throw new RequestError('no such product id', STATUS_CODES.BAD_REQUEST);
     }
@@ -98,11 +103,37 @@ export const updateInventory = async (req: Request) => {
 
     const prodQuantity = await DAL.checkQuantity(checkQuery);
     if (prodQuantity < requiredQuantity && action === 'buy') {
-      throw new RequestError(
-      `not enough in stock; product '${productId}' quntity is ${prodQuantity}, but you asked for ${requiredQuantity}`,
-       STATUS_CODES.BAD_REQUEST);
+      errorProductsArr.push({[productId]: prodQuantity});
+    }
+    else if (prodQuantity >= requiredQuantity) {
+      successProductsArr.push({[productId]: prodQuantity});
     }
   }
+  return ([errorProductsArr, successProductsArr])
+}
+
+export const updateInventory = async (req: Request) => {
+  const { items, action } = req.body;
+  const [errorProductsArr, successProductsArr] = await checkUpdateRequest(req);
+  
+  // בדיקה אם אין מספיק כמות בחלק מהמוצרים
+  if (errorProductsArr.length > 0 && successProductsArr.length > 0) {
+    const formattedErrorProducts = errorProductsArr.map(product => {
+      const key = Object.keys(product)[0]; 
+      const value = product[key]; 
+      return `{${key}: ${value}}`;
+    }).join(', ');
+
+    throw new RequestError(
+      `not enough in stock; here's the products id which don't have enough quantity: [${formattedErrorProducts}]`,
+     STATUS_CODES.BAD_REQUEST)
+  }
+  // בדיקה אם מספיק כמות בכל המוצרים
+  else if (errorProductsArr.length > 0) {
+    throw new RequestError('all products not in stock',STATUS_CODES.BAD_REQUEST)
+  }
+  
+  const queryAction = action === 'buy' ? '-' : '+';
 
   // עדכון המלאי
   for (const item of items) {
@@ -116,13 +147,8 @@ export const updateInventory = async (req: Request) => {
     if (!res) {
       throw new RequestError('Response error', STATUS_CODES.INTERNAL_SERVER_ERROR);
     }
-
   }
+  
   return STATUS_CODES.OK;
 };
-
-
-
-
-
 
