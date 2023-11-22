@@ -1,18 +1,19 @@
 import { Pool } from 'pg';
 import { config } from 'dotenv';
+import RequestError from '../types/errors/RequestError';
+import STATUS_CODES from '../utils/StatusCodes';
 config();
 
 export const connectDB = async () => {
-  try {
-    const pool: Pool = new Pool();
+  const pool: Pool = new Pool();
 
-    const client = await pool.connect();
-
-    return client;
-  } catch (error) {
-    if (error instanceof Error) {
-      console.error(`Error: ${error.message}`);
-      process.exit(1);
-    }
+  const client = await pool.connect();
+  if (!client) {
+    throw new RequestError(
+      'Could not connect to DB',
+      STATUS_CODES.INTERNAL_SERVER_ERROR
+    );
   }
+
+  return client;
 };
