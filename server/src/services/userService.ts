@@ -1,10 +1,10 @@
 import User from "../types/User";
-import * as userDal from "../dal/userDal";
+import userDal from "../dal/userDal";
 import STATUS_CODES from "../utils/StatusCodes";
 import RequestError from "../types/errors/RequestError";
 import { hashPassword } from "../utils/encryptionUtils";
 
-export const addUser = async (user: User) => {
+const addUser = async (user: User) => {
 	const { email, password } = user;
 	const isUserRegistered  = await userDal.getUserByEmail(email);
 
@@ -17,9 +17,11 @@ export const addUser = async (user: User) => {
 	return newUser;
 }
 
-export const getUser = async (userId: string) => {
+const getUser = async (userId: string) => {
 	const user = await userDal.getUser(userId);
 	if(!user)
 		throw new RequestError('User not found', STATUS_CODES.NOT_FOUND);
 	return user;
 }
+
+export default { addUser, getUser };
