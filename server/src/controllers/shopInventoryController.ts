@@ -5,10 +5,9 @@ import { UpdateBody } from '../types/Product';
 
 export const getAllData = asyncHandler(
   async (req: Request, res: Response) => {
-    console.log('1');
     const searchParam = req.query.search?.toString();
-    console.log(searchParam);
-    const allData = await Service.getAllData(searchParam);
+    const categoryParam = req.query.category?.toString();
+    const allData = await Service.getAllData(searchParam, categoryParam);
     res.json(allData);
   }
 );

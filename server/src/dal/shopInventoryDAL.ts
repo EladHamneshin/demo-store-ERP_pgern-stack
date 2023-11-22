@@ -2,7 +2,7 @@ import query from "../utils/qearyDB";
 
 
 export const getAllData = async (queryString: string) => {  
-  const {rows}: any = await query(queryString); // edit rows type
+  const {rows}: any = await query(queryString); // edit rows type  
   return rows;
 };
 
@@ -14,7 +14,10 @@ export const getProductById = async (queryString: string) => {
 
 export async function checkQuantity(checkQuery: string) {
   const {rows}: any = await query(checkQuery); // edit rows type
+  console.log('rows:', rows);
   const [{quantity}] = rows;
+  console.log('quantity:', quantity);
+  
   return quantity
 }
 
