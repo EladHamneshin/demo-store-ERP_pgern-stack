@@ -1,20 +1,31 @@
-// import UserModel from "../models/userModel.ts";
+import query from "../utils/qearyDB";
 import User from "../types/User";
 
-const addUser = async (user: User) => {
-  // return await UserModel.create(user);
-  return { _id: 'dcs7c9sc76sdcsd7sdc', email: 'mail@.com', password: '64gf7ed7ehc7e' }
+export const addUser = async (user: User) => {
+  const {email, password} = user;
+  const insert = await query(`
+  insert into users (email, password)
+  values('${email}', '${password}')
+  RETURNING *
+  `);
+  const result = insert?.rows[0];
+  console.log(insert);
+  
+  return result;
 }
 
-const getUser = async (userId: string) => {
-  // return await UserModel.findById(userId);
-  return { _id: 'dcs7c9sc76sdcsd7sdc', email: 'mail@.com', password: '64gf7ed7ehc7e' }
+export const getUser = async (userId: string) => {
+  const getUser = await query(`
+  select * from users
+  where id = '${userId}'
+  `);
+  return getUser?.rows[0];
 }
 
-const getUserByEmail = async (email: string) => {
-  // return await UserModel.findOne({email})
-  return { _id: 'dcs7c9sc76sdcsd7sdc', email: 'mail@.com', password: '64gf7ed7ehc7e' }
+export const getUserByEmail = async (email: string) => {
+  const getUser = await query(`
+  select * from users
+  where email = '${email}'
+  `);
+  return getUser?.rows[0];
 }
-
-
-export default { addUser, getUser, getUserByEmail };

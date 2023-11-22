@@ -20,10 +20,10 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const user = await authService.authUser(email, password);
 
-  generateToken(res, user._id);
+  generateToken(res, user.id);
 
   res.json({
-    _id: user._id,
+    id: user.id,
     email: user.email,
   });
 });
