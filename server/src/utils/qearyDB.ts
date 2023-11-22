@@ -15,7 +15,7 @@ const query = async (query: string) => {
       (error as DatabaseError).message,
       STATUS_CODES.INTERNAL_SERVER_ERROR
     );
+  }
 };
-
 
 export default query;
