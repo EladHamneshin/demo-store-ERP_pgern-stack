@@ -2,13 +2,20 @@
 export interface Product {
   id: string;
   name: string;
-  salePrice: number;
+  saleprice: number;
   quantity: number;
   description: string;
   category: string;
-  discountPercentage: number;
+  discount: number;
   rating: number;
-  image: { url: string; alt: string };
+  click: number;
+  image_url: string;
+  image_alt: string;
+  longitude: number;
+  latitude: number;
+  tags: {
+    [: string]: string
+  };
 }
 
 export interface AdminProduct {
@@ -20,10 +27,10 @@ export interface AdminProduct {
   category: string;
   discountPercentage: number;
   rating: number;
-  image: { url: string; alt: string }; 
-  isForSale : boolean;
+  image: { url: string; alt: string };
+  isForSale: boolean;
   costPrice: number;
-  supplier : string;
+  supplier: string;
 }
 
 // export interface ProductToUpdate {
@@ -35,6 +42,6 @@ export type UpdateBody = {
   Products: {
     productId: string
     requiredQuantity: number
-    }[]
+  }[]
   action: string;
 } 

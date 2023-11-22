@@ -1,20 +1,22 @@
 import query from "../utils/qearyDB";
+import { Product } from "../types/Product";
 
 
 export const getAllData = async (queryString: string) => {  
-  const {rows}: any = await query(queryString); // edit rows type
+  const {rows}: { rows:Product[] } = await query(queryString);  
+  
   return rows;
 };
 
 
 export const getProductById = async (queryString: string) => {
-  const {rows}: any = await query(queryString); // edit rows type
+  const {rows}: { rows:Product[] } = await query(queryString);
   return rows
 };
 
 export async function checkQuantity(checkQuery: string) {
-  const {rows}: any = await query(checkQuery); // edit rows type
-  const [{quantity}] = rows;
+  const {rows}: { rows:Product[] } = await query(checkQuery);
+  const [{quantity}] = rows;  
   return quantity
 }
 
