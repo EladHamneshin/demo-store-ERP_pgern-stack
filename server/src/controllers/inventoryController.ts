@@ -1,22 +1,41 @@
 import { Request, Response } from 'express';
-import * as Service from '../services/inventoryService';
+import {addNewProductService, deleteProductByIdService, getAllProductsService, getProductByIdService, updateProductByIdService} from '../services/inventoryService'
 import asyncHandler from 'express-async-handler';
+import { AdminProduct } from '../types/Product';
 
-export const getAllData = asyncHandler(async (req: Request, res: Response) => {
-  const searchParam = req.query.search?.toString();
-  const allData = await Service.getAllData(searchParam);
-  res.json(allData);
-});
 
-export const getProductById = asyncHandler(
-  async (req: Request, res: Response) => {
-    const productId = Number(req.params.product_id);
-    const data = await Service.getProductById(productId);
-    res.json(data);
-  }
-);
+export const getAllProductsController = asyncHandler( async (req: Request , res: Response) => {
+    
+    const allproducts: AdminProduct[] |void[] = await getAllProductsService();
+    res.json(allproducts);
 
-export const updateInventory = async (req: Request, res: Response) => {
-  const success = await Service.updateInventory(req);
-  res.json(success);
-};
+})
+
+export const getProductByIdController = asyncHandler( async (req: Request , res: Response) => {
+    
+    const product: AdminProduct = await getProductByIdService(req.params.id);
+    res.json(product);
+    
+})
+
+export const addNewProductController = asyncHandler( async (req: Request , res: Response) => {
+
+    const newProduct = await addNewProductService(req.body);
+    res.json(newProduct)
+    
+})
+
+export const updateProductByIdController = asyncHandler( async (req: Request , res: Response) => {
+    
+    const updatedProduct: AdminProduct = await updateProductByIdService(req.body, req.params.id);
+    res.json(updatedProduct)
+
+})
+
+export const deleteProductByIdController = asyncHandler( async (req: Request , res: Response) => {
+
+    const deletedProduct: AdminProduct = await deleteProductByIdService(req.params.id);
+    res.json(deletedProduct)
+    
+})
+
