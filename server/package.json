@@ -5,7 +5,8 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsc && node .",
-    "deba": "nodemon src/server.ts",
+    "pro": "tsc -w && nodemon dist/server.js",
+    "start": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
