@@ -5,6 +5,7 @@ import RequestError from "../types/errors/RequestError";
 import generateToken from "../utils/jwtUtils";
 import authService from "../services/authService";
 import userValidation from "../utils/validations/userValidation";
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
 // @desc    Auth user & get token
 // @route   POST /api/users/auth/login
@@ -13,9 +14,33 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
   const { error } = userValidation(req.body);
   if (error)
     throw new RequestError(error.message, STATUS_CODES.BAD_REQUEST);
+  const token = req.cookies.jwt;
 
-  if (req.cookies.jwt)
-    throw new RequestError('User already logged in', STATUS_CODES.BAD_REQUEST);
+  if (token) {
+    if (!process.env.JWT_SECRET) {
+      console.error('JWT_SECRET not defined');
+      process.exit(1);
+    }
+
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      console.log(decoded);
+      req.userId = (decoded as JwtPayload).userId;
+      // console.log(req.userId);
+      
+    } catch (error) {
+      // console.log(error);
+    }
+    if (!req.userId) {
+      res.cookie('jwt', '', {
+        httpOnly: true,
+        expires: new Date(0),
+      });
+      // throw new RequestError('Wrong authentication try again', STATUS_CODES.BAD_REQUEST);
+    } else {
+      throw new RequestError('User already logged in', STATUS_CODES.BAD_REQUEST);
+    }
+  }
 
   const { email, password } = req.body;
   const user = await authService.authUser(email, password);
