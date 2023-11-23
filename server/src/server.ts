@@ -9,7 +9,6 @@ import inventoryRouter from './routes/inventoryRouts';
 import shopInventoryRouter from './routes/shopInventoryRouts';
 import userRoutes from './routes/userRoutes'
 
-
 const app = express();
 
 // APP CONFIGS

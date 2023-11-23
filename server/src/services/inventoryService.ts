@@ -1,55 +1,96 @@
-import * as DAL from '../dal/inventoryDal';
-import { Request } from 'express';
 import RequestError from '../types/errors/RequestError';
 import STATUS_CODES from '../utils/StatusCodes';
+import { addNewProductDal, deleteProductByIdDal, getAllProductsDal, getProductByIdDal, updateProductByIdDal } from '../dal/inventoryDal'
+import { AdminProduct } from '../types/Product';
 
-export const getAllData = async (searchParam: string | undefined) => {
-  try {
-    const allData = await DAL.dalAllData(searchParam);
-    return allData;
-  } catch (error) {
-    console.error('an error occurred at services:', error);
-  }
+export const getAllProductsService = async () => {
+
+    const preProducts = await getAllProductsDal();
+    const products = preProducts.map(convertToAdminProduct);
+    if (!products) {
+        throw new RequestError('failed to fatch data', STATUS_CODES.INTERNAL_SERVER_ERROR);
+    } else {
+        return products;
+    };
 };
 
-export const getProductById = async (productId: number) => {
-  if (isNaN(productId) || productId <= 0) {
-    throw new RequestError(
-      'Invalid product ID format',
-      STATUS_CODES.BAD_REQUEST
-    );
-  }
-  const product = await DAL.getProductById(productId);
-  if (product === null || product === undefined) {
-    throw new RequestError('Product not found', STATUS_CODES.NOT_FOUND);
-  }
-  return product;
+export const getProductByIdService = async (id: string) => {
+
+    const preProduct: AdminProduct[] = await getProductByIdDal(id);
+    const product = convertToAdminProduct(preProduct[0]);
+    if (!product) {
+        throw new RequestError('failed to fatch data', STATUS_CODES.INTERNAL_SERVER_ERROR);
+    } 
+    else if (!product.id){
+        console.log(product);
+        throw new RequestError(`product with '${id}' id does not exist`, STATUS_CODES.BAD_REQUEST);
+    } 
+    else {
+        return product;
+    };
 };
 
-export const updateInventory = async (req: Request) => {
-  // בדיקה שהבקשה מכילה גוף תקין
-  if (!req.body || !Array.isArray(req.body)) {
-    throw new RequestError('Invalid request body', STATUS_CODES.BAD_REQUEST);
-  }
+export const addNewProductService = async (newProduct: Omit<AdminProduct, "id">) => {
+    
+    const product: AdminProduct[] = await addNewProductDal(newProduct);
+    
+    const res = convertToAdminProduct(product[0])
+    if (!res) {
+        throw new RequestError('failed to fatch data', STATUS_CODES.INTERNAL_SERVER_ERROR);
+    } else {
+        return res;
+    };
+}
 
-  // לולאה על פריטי הבקשה
-  for (const item of req.body) {
-    const { productId, requiredQuantity } = item;
-
-    // בדיקה שיש productId בבקשה
-    if (!productId) {
-      throw new RequestError('no product id', STATUS_CODES.BAD_REQUEST);
+export const updateProductByIdService = async (partsOfProductToUpdate: Partial<AdminProduct>, id: string) => {
+    
+    const product: AdminProduct = await getProductByIdDal(id);
+    if (!product.id){
+        throw new RequestError(`product with '${id}' id does not exist`, STATUS_CODES.BAD_REQUEST);
     }
 
-    // בדיקה שהכמות הנדרשת חוקית
-    if (requiredQuantity === undefined || requiredQuantity <= 0) {
-      throw new RequestError('not enough in stock', STATUS_CODES.BAD_REQUEST);
+    const updatedProduct: AdminProduct = await updateProductByIdDal(partsOfProductToUpdate, id)
+    if (!updatedProduct) {
+        throw new RequestError('failed to fatch data', STATUS_CODES.INTERNAL_SERVER_ERROR);
+    } else {
+        return updatedProduct;
+    };
+}
+
+export const deleteProductByIdService = async (id: string) => {
+    
+    const product: AdminProduct = await getProductByIdDal(id);
+    if (!product.id){
+        throw new RequestError(`product with '${id}' id does not exist`, STATUS_CODES.BAD_REQUEST);
     }
+
+    const deletedProduct: AdminProduct = await deleteProductByIdDal(id);
+    if (!deletedProduct) {
+        throw new RequestError('failed to fatch data', STATUS_CODES.INTERNAL_SERVER_ERROR);
+    } else {
+        return deletedProduct;
+    };
+}
+
+
+function convertToAdminProduct(source: any): AdminProduct {    
+    const adminProduct: AdminProduct = {
+      id: source.id,
+      name: source.name,
+      salePrice: source.saleprice,
+      quantity: source.quantity,
+      description: source.description,
+      category: source.category,
+      discountPercentage: source.discountpercentage,
+      rating: source.rating,
+      click: source.click,
+      image: { url: source.image_url, alt: source.image_alt },
+      coordinate: { longitude: source.longitude, latitude: source.latitude },
+      tags: source.tags,
+      isForSale: source.isforsale,
+      costPrice: source.costprice,
+      supplier: source.supplier,
+    };
+  
+    return adminProduct;
   }
-  const res = await DAL.updateInventory(req.body);
-  if (!res) {
-    throw new RequestError('error', STATUS_CODES.INTERNAL_SERVER_ERROR);
-  } else {
-    return res;
-  }
-};

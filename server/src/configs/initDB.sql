@@ -1,25 +1,9 @@
--- Active: 1694601384132@@127.0.0.1@5432@demo-store
-
--- Active: 1694601384132@@127.0.0.1@5432@demo-store
-
--- Active: 1694601384132@@127.0.0.1@5432@demo-store
-
--- Active: 1694601384132@@127.0.0.1@5432@demo-store
-
-CREATE TABLE 
-  IF NOT EXISTS users (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    email VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL
-  );
-
-
-
 CREATE TABLE
     IF NOT EXISTS coordinates (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         lat FLOAT NOT NULL,
-        lng FLOAT NOT NULL
+        lng FLOAT NOT NULL,
+        UNIQUE(lat,lng)
     );
 
 CREATE TABLE
@@ -48,6 +32,9 @@ CREATE TABLE
         discount INT NOT NULL,
         rating INT NOT NULL,
         clicked INT NOT NULL,
+        isForSale BOOLEAN DEFAULT true,
+        costPrice INT NOT NULL,
+        supplier VARCHAR NOT NULL,
         FOREIGN KEY (category) REFERENCES categories(id),
         FOREIGN KEY (image) REFERENCES images(id)
     );
@@ -64,8 +51,14 @@ CREATE TABLE
 CREATE TABLE
     IF NOT EXISTS tags (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        name VARCHAR(255) NOT NULL
-    );
+        name VARCHAR(255) NOT NULL UNIQUE
+
+CREATE TABLE 
+  IF NOT EXISTS users (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
+  );
 
 CREATE TABLE
     IF NOT EXISTS tag_values (
@@ -112,7 +105,9 @@ INSERT INTO
         category,
         discount,
         rating,
-        clicked
+        clicked,
+        costPrice,
+        supplier 
     )
 VALUES (
         'Samsung Galaxy S21',
@@ -131,7 +126,9 @@ VALUES (
         ),
         0,
         5,
-        0
+        0,
+        500,
+        'ivan electronics'
     ), (
         'Lenovo IdeaPad 3',
         500,
@@ -149,7 +146,9 @@ VALUES (
         ),
         0,
         5,
-        0
+        0,
+        250,
+        'josh computing solutions'
     );
 
 INSERT INTO
@@ -329,20 +328,5 @@ VALUES ( (
                 lat = 40.7128
         )
     );
-
-
-DROP TABLE coordinates;
-
-DROP TABLE categories;
-
-DROP TABLE images;
-
-DROP TABLE products;
-
-DROP TABLE product_coordinates;
-
-DROP TABLE tags;
-
-DROP TABLE tag_values;
 
 DROP TABLE product_tags;
