@@ -56,7 +56,9 @@ export const getProductById = async (productId: string) => {
     select * from products
     where id = '${productId}'`;
 
-  const product = await DAL.getProductById(queryString);
+  const [product] = await DAL.getProductById(queryString);
+  console.log(product);
+  
   if (product === null || product === undefined) {
     throw new RequestError('Product not found', STATUS_CODES.NOT_FOUND);
   }
@@ -113,11 +115,6 @@ export const checkUpdateRequest = async (req: Request) => {
 export const updateInventory = async (req: Request) => {
   const { items, action } = req.body;
   const [errorProductsArr, successProductsArr] = await checkUpdateRequest(req);
-  // const formattedErrorProducts = errorProductsArr.map(product => {
-  //   const key = Object.keys(product)[0]; 
-  //   const value = product[key]; 
-  //   return `{${key}: ${value}}`;
-  // }).join(', ');
   
   // בדיקה אם אין מספיק כמות בחלק מהמוצרים
   if (errorProductsArr.length > 0 && successProductsArr.length > 0) {
@@ -132,19 +129,15 @@ export const updateInventory = async (req: Request) => {
       `all products not in stock;`,
       STATUS_CODES.BAD_REQUEST)
   }
-  //   throw new RequestError(
-  //     `all products not in stock; the products quantity: ${formattedErrorProducts}`,
-  //     STATUS_CODES.BAD_REQUEST)
-  // }
   
   const queryAction = action === 'buy' ? '-' : '+';
 
   // עדכון המלאי
   for (const item of items) {
-    const { productId, requiredQuantity } = item;
+    const { productId, quantity } = item;
     const queryString =
       `UPDATE products
-       SET quantity = quantity ${queryAction} ${requiredQuantity}
+       SET quantity = quantity ${queryAction} ${quantity}
        WHERE id = '${productId}';`
 
     const res = await DAL.updateInventory(queryString);
