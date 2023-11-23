@@ -1,9 +1,7 @@
 import UserInfo from "../types/User";
 import handleApiRes from "./apiResHandler";
 
-const apiUri = import.meta.env.VITE_API_URI;
-console.log(apiUri);
-
+const apiUri = process.env.BASE_URL;
 
 async function loginUser(email: string, password: string): Promise<UserInfo> {
     const response = await fetch(`${apiUri}/api/user/auth/login`, {
