@@ -4,6 +4,7 @@ import RequestError from '../types/errors/RequestError';
 import STATUS_CODES from '../utils/StatusCodes';
 import { getAllDataQuery } from '../types/SQLqueries';
 import {validate} from 'uuid';
+import { ProductsArr } from '../types/Product';
 
 export const getAllData = async (searchParam: string | undefined, categoryParam: string | undefined) => {
   if (categoryParam !== undefined) {
@@ -55,7 +56,9 @@ export const getProductById = async (productId: string) => {
     select * from products
     where id = '${productId}'`;
 
-  const product = await DAL.getProductById(queryString);
+  const [product] = await DAL.getProductById(queryString);
+  console.log(product);
+  
   if (product === null || product === undefined) {
     throw new RequestError('Product not found', STATUS_CODES.NOT_FOUND);
   }
@@ -63,7 +66,7 @@ export const getProductById = async (productId: string) => {
 };
 
 
-export const updateInventory = async (req: Request) => {
+export const checkUpdateRequest = async (req: Request) => {
   // בדיקה שהבקשה מכילה גוף תקין
   if (!req.body || !Array.isArray(req.body.items)) {
     throw new RequestError('Invalid request body', STATUS_CODES.BAD_REQUEST);
@@ -73,21 +76,22 @@ export const updateInventory = async (req: Request) => {
 
   // בדיקה שהפעולה חוקית 
   if (action !== 'buy' && action !== 'return') {
-    throw new RequestError(`${action}: invalid action`, STATUS_CODES.BAD_REQUEST);
+    throw new RequestError(`${action}: invalid action`, STATUS_CODES.BAD_REQUEST, );
   }
-  const queryAction = action === 'buy' ? '-' : '+';
+
+  let errorProductsArr: ProductsArr[] = [];
+  let successProductsArr: ProductsArr[] = [];
 
   // לולאה על פריטי הבקשה
   for (const item of items) {
-    const { productId, requiredQuantity } = item;
+    const { productId, quantity } = item;    
 
     // בבקשה productid בדיקה שיש 
-    
     if (!productId || !validate(productId)) {
       throw new RequestError('no such product id', STATUS_CODES.BAD_REQUEST);
     }
     // בדיקה שהכמות הנדרשת חוקית
-    if (requiredQuantity === undefined || requiredQuantity <= 0) {
+    if (quantity === undefined || quantity <= 0) {
       throw new RequestError('invalid quantity', STATUS_CODES.BAD_REQUEST);
     }
 
@@ -96,33 +100,52 @@ export const updateInventory = async (req: Request) => {
     select quantity from products 
     where id = '${productId}'`;
 
-    const prodQuantity = await DAL.checkQuantity(checkQuery);
-    if (prodQuantity < requiredQuantity && action === 'buy') {
-      throw new RequestError(
-      `not enough in stock; product '${productId}' quntity is ${prodQuantity}, but you asked for ${requiredQuantity}`,
-       STATUS_CODES.BAD_REQUEST);
+    const existsQuantity = await DAL.checkQuantity(checkQuery);
+
+    if (existsQuantity < quantity && action === 'buy') {
+      errorProductsArr.push({[productId]: existsQuantity});
+    }
+    else if (existsQuantity >= quantity && action === 'buy') {
+      successProductsArr.push({[productId]: existsQuantity});
     }
   }
+  return ([errorProductsArr, successProductsArr])
+}
+
+export const updateInventory = async (req: Request) => {
+  const { items, action } = req.body;
+  const [errorProductsArr, successProductsArr] = await checkUpdateRequest(req);
+  
+  // בדיקה אם אין מספיק כמות בחלק מהמוצרים
+  if (errorProductsArr.length > 0 && successProductsArr.length > 0) {
+
+    throw new RequestError(
+      `some products not in stock;`,
+     STATUS_CODES.BAD_REQUEST)
+  }
+  // בדיקה אם אין מספיק כמות בכל המוצרים
+  else if (errorProductsArr.length > 0) {
+    throw new RequestError(
+      `all products not in stock;`,
+      STATUS_CODES.BAD_REQUEST)
+  }
+  
+  const queryAction = action === 'buy' ? '-' : '+';
 
   // עדכון המלאי
   for (const item of items) {
-    const { productId, requiredQuantity } = item;
+    const { productId, quantity } = item;
     const queryString =
       `UPDATE products
-       SET quantity = quantity ${queryAction} ${requiredQuantity}
+       SET quantity = quantity ${queryAction} ${quantity}
        WHERE id = '${productId}';`
 
     const res = await DAL.updateInventory(queryString);
     if (!res) {
       throw new RequestError('Response error', STATUS_CODES.INTERNAL_SERVER_ERROR);
     }
-
   }
+  
   return STATUS_CODES.OK;
 };
-
-
-
-
-
 
