@@ -7,7 +7,7 @@ import Router from './routes/Router.tsx'
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
-    <Router />
+      <Router />
     </BrowserRouter>
   </React.StrictMode>,
 )
