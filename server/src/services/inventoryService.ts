@@ -32,7 +32,9 @@ export const getProductByIdService = async (id: string) => {
 
 export const addNewProductService = async (newProduct: Omit<AdminProduct, "id">) => {
     
-    const res: AdminProduct = await addNewProductDal(newProduct)
+    const product: AdminProduct[] = await addNewProductDal(newProduct);
+    
+    const res = convertToAdminProduct(product[0])
     if (!res) {
         throw new RequestError('failed to fatch data', STATUS_CODES.INTERNAL_SERVER_ERROR);
     } else {
@@ -71,7 +73,7 @@ export const deleteProductByIdService = async (id: string) => {
 }
 
 
-function convertToAdminProduct(source: any): AdminProduct {
+function convertToAdminProduct(source: any): AdminProduct {    
     const adminProduct: AdminProduct = {
       id: source.id,
       name: source.name,

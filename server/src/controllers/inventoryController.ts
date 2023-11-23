@@ -20,7 +20,7 @@ export const getProductByIdController = asyncHandler( async (req: Request , res:
 
 export const addNewProductController = asyncHandler( async (req: Request , res: Response) => {
 
-    const newProduct: AdminProduct = await addNewProductService(req.body);
+    const newProduct = await addNewProductService(req.body);
     res.json(newProduct)
     
 })

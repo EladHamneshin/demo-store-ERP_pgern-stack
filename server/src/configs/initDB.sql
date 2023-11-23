@@ -3,7 +3,8 @@ CREATE TABLE
     IF NOT EXISTS coordinates (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         lat FLOAT NOT NULL,
-        lng FLOAT NOT NULL
+        lng FLOAT NOT NULL,
+        UNIQUE(lat,lng)
     );
 
 CREATE TABLE
@@ -51,7 +52,7 @@ CREATE TABLE
 CREATE TABLE
     IF NOT EXISTS tags (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-        name VARCHAR(255) NOT NULL
+        name VARCHAR(255) NOT NULL UNIQUE
     );
 
 CREATE TABLE
@@ -323,3 +324,4 @@ VALUES ( (
                 lat = 40.7128
         )
     );
+
