@@ -2,6 +2,9 @@ import { AdminProduct } from '../types/Product';
 import query from '../utils/qearyDB';
 import { v4 as uuidv4 } from 'uuid';
 
+export const dalAllData = async (searchParam: string | undefined) => {
+  const allData = { k: 'all data will come later' }; /// change after to: await...
+  return allData;
 
 export const getAllProductsDal = async () => {
 

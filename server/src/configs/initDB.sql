@@ -1,4 +1,3 @@
--- Active: 1694592686543@@127.0.0.1@5432@demo_store
 CREATE TABLE
     IF NOT EXISTS coordinates (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -53,7 +52,13 @@ CREATE TABLE
     IF NOT EXISTS tags (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         name VARCHAR(255) NOT NULL UNIQUE
-    );
+
+CREATE TABLE 
+  IF NOT EXISTS users (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL
+  );
 
 CREATE TABLE
     IF NOT EXISTS tag_values (
@@ -124,7 +129,6 @@ VALUES (
         0,
         500,
         'ivan electronics'
-        
     ), (
         'Lenovo IdeaPad 3',
         500,
@@ -325,3 +329,4 @@ VALUES ( (
         )
     );
 
+DROP TABLE product_tags;

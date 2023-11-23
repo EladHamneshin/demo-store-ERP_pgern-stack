@@ -38,3 +38,4 @@ export const deleteProductByIdController = asyncHandler( async (req: Request , r
     res.json(deletedProduct)
     
 })
+
