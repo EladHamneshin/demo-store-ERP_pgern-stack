@@ -45,3 +45,7 @@ export type UpdateBody = {
   }[]
   action: string;
 } 
+
+export interface ProductsArr {
+  [productId: string]: number;
+};

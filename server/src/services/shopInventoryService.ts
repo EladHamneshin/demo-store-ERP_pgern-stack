@@ -4,7 +4,7 @@ import RequestError from '../types/errors/RequestError';
 import STATUS_CODES from '../utils/StatusCodes';
 import { getAllDataQuery } from '../types/SQLqueries';
 import {validate} from 'uuid';
-// import { object } from 'joi';
+import { ProductsArr } from '../types/Product';
 
 export const getAllData = async (searchParam: string | undefined, categoryParam: string | undefined) => {
   if (categoryParam !== undefined) {
@@ -74,25 +74,22 @@ export const checkUpdateRequest = async (req: Request) => {
 
   // בדיקה שהפעולה חוקית 
   if (action !== 'buy' && action !== 'return') {
-    throw new RequestError(`${action}: invalid action`, STATUS_CODES.BAD_REQUEST);
+    throw new RequestError(`${action}: invalid action`, STATUS_CODES.BAD_REQUEST, );
   }
-  interface ProductsArr {
-    [productId: string]: number;
-  };
 
   let errorProductsArr: ProductsArr[] = [];
   let successProductsArr: ProductsArr[] = [];
 
   // לולאה על פריטי הבקשה
   for (const item of items) {
-    const { productId, requiredQuantity } = item;    
+    const { productId, quantity } = item;    
 
     // בבקשה productid בדיקה שיש 
     if (!productId || !validate(productId)) {
       throw new RequestError('no such product id', STATUS_CODES.BAD_REQUEST);
     }
     // בדיקה שהכמות הנדרשת חוקית
-    if (requiredQuantity === undefined || requiredQuantity <= 0) {
+    if (quantity === undefined || quantity <= 0) {
       throw new RequestError('invalid quantity', STATUS_CODES.BAD_REQUEST);
     }
 
@@ -101,12 +98,13 @@ export const checkUpdateRequest = async (req: Request) => {
     select quantity from products 
     where id = '${productId}'`;
 
-    const prodQuantity = await DAL.checkQuantity(checkQuery);
-    if (prodQuantity < requiredQuantity && action === 'buy') {
-      errorProductsArr.push({[productId]: prodQuantity});
+    const existsQuantity = await DAL.checkQuantity(checkQuery);
+
+    if (existsQuantity < quantity && action === 'buy') {
+      errorProductsArr.push({[productId]: existsQuantity});
     }
-    else if (prodQuantity >= requiredQuantity) {
-      successProductsArr.push({[productId]: prodQuantity});
+    else if (existsQuantity >= quantity && action === 'buy') {
+      successProductsArr.push({[productId]: existsQuantity});
     }
   }
   return ([errorProductsArr, successProductsArr])
@@ -115,23 +113,29 @@ export const checkUpdateRequest = async (req: Request) => {
 export const updateInventory = async (req: Request) => {
   const { items, action } = req.body;
   const [errorProductsArr, successProductsArr] = await checkUpdateRequest(req);
+  // const formattedErrorProducts = errorProductsArr.map(product => {
+  //   const key = Object.keys(product)[0]; 
+  //   const value = product[key]; 
+  //   return `{${key}: ${value}}`;
+  // }).join(', ');
   
   // בדיקה אם אין מספיק כמות בחלק מהמוצרים
   if (errorProductsArr.length > 0 && successProductsArr.length > 0) {
-    const formattedErrorProducts = errorProductsArr.map(product => {
-      const key = Object.keys(product)[0]; 
-      const value = product[key]; 
-      return `{${key}: ${value}}`;
-    }).join(', ');
 
     throw new RequestError(
-      `not enough in stock; here's the products id which don't have enough quantity: [${formattedErrorProducts}]`,
+      `some products not in stock;`,
      STATUS_CODES.BAD_REQUEST)
   }
-  // בדיקה אם מספיק כמות בכל המוצרים
+  // בדיקה אם אין מספיק כמות בכל המוצרים
   else if (errorProductsArr.length > 0) {
-    throw new RequestError('all products not in stock',STATUS_CODES.BAD_REQUEST)
+    throw new RequestError(
+      `all products not in stock;`,
+      STATUS_CODES.BAD_REQUEST)
   }
+  //   throw new RequestError(
+  //     `all products not in stock; the products quantity: ${formattedErrorProducts}`,
+  //     STATUS_CODES.BAD_REQUEST)
+  // }
   
   const queryAction = action === 'buy' ? '-' : '+';
 
