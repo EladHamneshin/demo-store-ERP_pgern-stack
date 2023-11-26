@@ -17,12 +17,14 @@ import Logout from '@mui/icons-material/Logout';
 import SearchField from './SearchField';
 import usersAPI from '../api/userAPI.ts';
 import ROUTES from '../routes/routes.ts';
-import { toastError, toastSuccess } from '../utils/toastUtils.ts';
+import { toastError } from '../utils/toastUtils.ts';
+import { useAppSelector } from '../utils/store/hooks.ts';
 
 
 const AppBar = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
+  const {email} = useAppSelector((state) => state.email);
 
   const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -37,7 +39,6 @@ const AppBar = () => {
     try {
       await usersAPI.logoutUser();
       navigate(ROUTES.LOGIN);
-      toastSuccess('User logged out successfully');
     } catch (err) {
       toastError((err as Error).message);
     }
@@ -85,7 +86,7 @@ const AppBar = () => {
               onClose={handleCloseUserMenu}
             >
               <MenuItem key={'email'} disabled>
-                <Typography>test</Typography>
+                <Typography>{email}</Typography>
               </MenuItem>
               <MenuItem key={'logOut'} onClick={handleLogout}>
                 <ListItemIcon>
