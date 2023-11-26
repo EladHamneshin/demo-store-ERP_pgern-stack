@@ -8,33 +8,36 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Copyright } from '../Copyright';
-import { useAppDispatch } from '../../utils/store/hooks';
-import { saveEmail } from '../../utils/store/emailSlice';
-import userAPI from '../../api/userAPI';
+import { Copyright } from '../../Copyright';
+import { useAppDispatch } from '../../../utils/store/hooks';
+import { saveEmail } from '../../../utils/store/emailSlice';
+import userAPI from '../../../api/userAPI';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import { toastError } from '../../../utils/toastUtils';
 
 const defaultTheme = createTheme();
 
 export default function Login() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
-
-  
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const formEmail = data.get('email')!.toString();
-    const password = data.get('passowrd')!.toString();
+    const password = data.get('password')!.toString();
     try {
       const {email} = await userAPI.loginUser(formEmail, password);
-      dispatch(saveEmail(email!)) 
-    } catch(error) {
-      console.error(error);
-    }
+      dispatch(saveEmail(email!));
+      navigate('/');
 
+    } catch(error) {      
+      console.error(error);
+      toastError((error as Error).message);
+    }
   };
 
-  
   return (
     <>
      <ThemeProvider theme={defaultTheme}>
@@ -63,6 +66,7 @@ export default function Login() {
                         </Link>
                     </Grid>
                 </Grid>
+                <ToastContainer />
               </Box>    
             </Box>
             <Copyright sx={{ mt: 8, mb: 4 }} />
