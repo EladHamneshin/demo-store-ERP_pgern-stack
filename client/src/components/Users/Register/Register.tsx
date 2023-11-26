@@ -12,8 +12,6 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Copyright } from '../../Copyright';
 import userAPI from '../../../api/userAPI';
-import { toastSuccess } from '../../../utils/toastUtils';
-import { ToastContainer } from 'react-toastify';
 
 const defaultTheme = createTheme();
 
