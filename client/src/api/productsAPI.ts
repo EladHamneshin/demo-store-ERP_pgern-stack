@@ -1,7 +1,7 @@
 import { Product, AdminProduct, ProductsArr, UpdateBody } from "../types/Product";
 import handleApiRes from "./apiResHandler";
 
-const apiUri = import.meta.env.VITE_BASE_URL;
+const apiUri = import.meta.env.VITE_BASE_URI;
 
 async function getAllProducts(): Promise<Product[]> {
   const response = await fetch(`${apiUri}/api/inventory`);
@@ -13,12 +13,12 @@ async function getProduct(pid: string): Promise<Product> {
   return await handleApiRes(response);
 }
 
-async function updateProduct(pid: string): Promise<Product> {
-  const response = await fetch(`${apiUri}/api/inventory/${pid}`, {method: 'PUT'});
+async function updateProduct(product: Product, pid: string): Promise<Product> {
+  const response = await fetch(`${apiUri}/api/inventory/${pid}`, {method: 'PUT', body: JSON.stringify(product)});
   return await handleApiRes(response);
 }
 
-async function deleteProduct(pid: string): Promise<Product> {
+async function deleteProduct(pid: string): Promise<Object> {
   const response = await fetch(`${apiUri}/api/inventory/${pid}`, {method: 'DELETE'});
   return await handleApiRes(response);
 }
