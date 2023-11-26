@@ -11,7 +11,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Copyright } from '../Copyright';
 import { useAppDispatch } from '../../utils/store/hooks';
 import { saveEmail } from '../../utils/store/emailSlice';
-import userApi from '../../api/userAPI';
+// import userApi from '../../api/userAPI';
 
 const defaultTheme = createTheme();
 
@@ -23,10 +23,10 @@ export default function Login() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    const formEmail = data.get('email')?.toString();
-    const password = data.get('passowrd')?.toString();
+    const formEmail = data.get('email')!.toString();
+    const password = data.get('passowrd')!.toString();
     try {
-      const {id, email} = await userApi.loginUser(formEmail, password);
+      // const {id, email} = await userApi.loginUser(formEmail, password);
       dispatch(saveEmail(formEmail!)) 
     } catch(error) {
       console.error(error);

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function LoginField() {
   const navigate = useNavigate();
+  const [firstBlock, setFirstBlock] = useState(false);
   const [isEmailError, setEmailError] = useState(false);
   const [isPasswordError, setPasswordError] = useState(false);
 
@@ -19,9 +20,6 @@ export default function LoginField() {
     if (isValidEmail(event.target.value)) {
       setEmailError(false);
     }
-    else   if (!isValidEmail(event.target.value)) {
-      setEmailError(true);
-    }
   }
   const handlePasswordBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     if (!isValidPassword(event.target.value)) {
@@ -32,13 +30,10 @@ export default function LoginField() {
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (isValidPassword(event.target.value)) {
       setPasswordError(false);
+      setFirstBlock(true);
     }
   }
-  const checkErrors = () => {
-    if (isEmailError === false && isPasswordError === false) navigate('/');
-    else navigate('');
-  }
-
+  
   return (
     <>
       <TextField
@@ -74,7 +69,8 @@ export default function LoginField() {
         fullWidth
         variant="contained"
         sx={{ mt: 3, mb: 2 }}
-        onClick={checkErrors}
+        onClick={() => navigate('/')}
+        disabled={firstBlock=== false || (isEmailError === true || isPasswordError === true)}
       >
         Sign In
       </Button>
