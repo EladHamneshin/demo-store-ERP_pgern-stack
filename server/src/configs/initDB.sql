@@ -3,14 +3,15 @@ CREATE TABLE
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         lat FLOAT NOT NULL,
         lng FLOAT NOT NULL,
-        UNIQUE(lat,lng)
+        UNIQUE(lat, lng)
     );
 
 CREATE TABLE
     IF NOT EXISTS categories (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         name VARCHAR(255) NOT NULL,
-        clicked INT NOT NULL
+        clicked INT NOT NULL,
+        UNIQUE(name)
     );
 
 CREATE TABLE
@@ -36,7 +37,8 @@ CREATE TABLE
         costPrice INT NOT NULL,
         supplier VARCHAR NOT NULL,
         FOREIGN KEY (category) REFERENCES categories(id),
-        FOREIGN KEY (image) REFERENCES images(id)
+        FOREIGN KEY (image) REFERENCES images(id),
+        UNIQUE(name)
     );
 
 CREATE TABLE
@@ -52,13 +54,14 @@ CREATE TABLE
     IF NOT EXISTS tags (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         name VARCHAR(255) NOT NULL UNIQUE
+    );
 
-CREATE TABLE 
-  IF NOT EXISTS users (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    email VARCHAR(255) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL
-  );
+CREATE TABLE
+    IF NOT EXISTS users (
+        id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+        email VARCHAR(255) UNIQUE NOT NULL,
+        password VARCHAR(255) NOT NULL
+    );
 
 CREATE TABLE
     IF NOT EXISTS tag_values (
@@ -107,7 +110,7 @@ INSERT INTO
         rating,
         clicked,
         costPrice,
-        supplier 
+        supplier
     )
 VALUES (
         'Samsung Galaxy S21',
@@ -328,5 +331,3 @@ VALUES ( (
                 lat = 40.7128
         )
     );
-
-DROP TABLE product_tags;
