@@ -11,7 +11,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Copyright } from '../Copyright';
 import { useAppDispatch } from '../../utils/store/hooks';
 import { saveEmail } from '../../utils/store/emailSlice';
-// import userApi from '../../api/userAPI';
+import userAPI from '../../api/userAPI';
 
 const defaultTheme = createTheme();
 
@@ -26,8 +26,8 @@ export default function Login() {
     const formEmail = data.get('email')!.toString();
     const password = data.get('passowrd')!.toString();
     try {
-      // const {id, email} = await userApi.loginUser(formEmail, password);
-      dispatch(saveEmail(formEmail!)) 
+      const {email} = await userAPI.loginUser(formEmail, password);
+      dispatch(saveEmail(email)) 
     } catch(error) {
       console.error(error);
     }
