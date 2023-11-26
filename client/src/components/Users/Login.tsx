@@ -27,7 +27,7 @@ export default function Login() {
     const password = data.get('passowrd')!.toString();
     try {
       const {email} = await userAPI.loginUser(formEmail, password);
-      dispatch(saveEmail(email)) 
+      dispatch(saveEmail(email!)) 
     } catch(error) {
       console.error(error);
     }
