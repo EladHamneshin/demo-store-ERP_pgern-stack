@@ -1,7 +1,7 @@
 import { Product, AdminProduct, ProductsArr, UpdateBody } from "../types/Product";
 import handleApiRes from "./apiResHandler";
 
-const apiUri = process.env.BASE_URL;
+const apiUri = import.meta.env.VITE_BASE_URL;
 
 async function getAllProducts(): Promise<Product[]> {
   const response = await fetch(`${apiUri}/api/inventory`);
