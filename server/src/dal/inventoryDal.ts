@@ -15,11 +15,6 @@ export const getProductByIdDal = async (id: string) => {
     return rows;
 };
 
-
-
-
-
-
 export const addNewProductDal = async (newProduct: Omit<AdminProduct, "id">) => {
     // Insert image
     const imageRes = await query(`INSERT INTO images (url, alt) VALUES ('${newProduct.image.url}', '${newProduct.image.alt}') returning *;`);
@@ -70,18 +65,17 @@ export const addNewProductDal = async (newProduct: Omit<AdminProduct, "id">) => 
 };
 
 
-
-
-
-
 export const updateProductByIdDal = async (partsOfProductToUpdate: Partial<AdminProduct>, id: string) => {
     console.log(partsOfProductToUpdate, id);
     return adminProducts[0];
 }
 
 export const deleteProductByIdDal = async (id: string) => {
-    console.log(id);
-    return adminProducts[0]
+    const {rows: imageId}: any = await query(`select image from products where id = '${id}'`);
+    const {rows}: any = await query(`delete from product_coordinates where product = '${id}';
+    delete from product_tags where product = '${id}';
+    delete from products where id = '${id}' returning * ;`);
+    await query(`delete from images where id = '${imageId[0].image}'`);
 }
 
 

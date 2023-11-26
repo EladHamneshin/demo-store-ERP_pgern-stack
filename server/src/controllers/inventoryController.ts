@@ -34,7 +34,7 @@ export const updateProductByIdController = asyncHandler( async (req: Request , r
 
 export const deleteProductByIdController = asyncHandler( async (req: Request , res: Response) => {
 
-    const deletedProduct: AdminProduct = await deleteProductByIdService(req.params.id);
+    const deletedProduct = await deleteProductByIdService(req.params.id);
     res.json(deletedProduct)
     
 })
