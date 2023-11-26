@@ -59,17 +59,17 @@ export const updateProductByIdService = async (partsOfProductToUpdate: Partial<A
 
 export const deleteProductByIdService = async (id: string) => {
     
-    const product: AdminProduct = await getProductByIdDal(id);
-    if (!product.id){
-        throw new RequestError(`product with '${id}' id does not exist`, STATUS_CODES.BAD_REQUEST);
-    }
+    // const product: AdminProduct = await getProductByIdDal(id);
+    // if (!product.id){
+    //     throw new RequestError(`product with '${id}' id does not exist`, STATUS_CODES.BAD_REQUEST);
+    // }
 
-    const deletedProduct: AdminProduct = await deleteProductByIdDal(id);
-    if (!deletedProduct) {
-        throw new RequestError('failed to fatch data', STATUS_CODES.INTERNAL_SERVER_ERROR);
-    } else {
-        return deletedProduct;
-    };
+    const deletedProduct = await deleteProductByIdDal(id);
+    // if (!deletedProduct) {
+    //     throw new RequestError('failed to fatch data', STATUS_CODES.INTERNAL_SERVER_ERROR);
+    // } else {
+    //     return deletedProduct;
+    // };
 }
 
 
