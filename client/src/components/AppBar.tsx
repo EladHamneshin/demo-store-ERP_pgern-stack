@@ -15,8 +15,9 @@ import StorefrontIcon from '@mui/icons-material/Storefront';
 import { useNavigate } from 'react-router-dom';
 import Logout from '@mui/icons-material/Logout';
 import SearchField from './SearchField';
-// import ROUTES from '../routes/routes.ts';
-// import { toastError, toastSuccess } from '../utils/toastUtils.ts';
+import usersAPI from '../api/userAPI.ts';
+import ROUTES from '../routes/routes.ts';
+import { toastError, toastSuccess } from '../utils/toastUtils.ts';
 
 
 const AppBar = () => {
@@ -33,13 +34,13 @@ const AppBar = () => {
 
   const handleLogout = async () => {
     handleCloseUserMenu();
-    // try {
-    //   await logoutAPI();
-    //   navigate(ROUTES.LOGIN);
-    //   toastSuccess('User logged out successfully');
-    // } catch (err) {
-    //   toastError((err as Error).message);
-    // }
+    try {
+      await usersAPI.logoutUser();
+      navigate(ROUTES.LOGIN);
+      toastSuccess('User logged out successfully');
+    } catch (err) {
+      toastError((err as Error).message);
+    }
   };
 
   return (
