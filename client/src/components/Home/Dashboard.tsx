@@ -1,6 +1,6 @@
 import productsAPI from '../../api/productsAPI';
 import { useEffect, useState } from 'react';
-import { AdminProduct } from '../../types/Product';
+import { Product } from '../../types/Product';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridRowParams, GridToolbar } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
@@ -10,6 +10,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import AddProduct from './addProduct/AddProduct';
 
 const columns: GridColDef[] = [
   {
@@ -53,10 +54,16 @@ const columns: GridColDef[] = [
 
 export default function HomeDashboard() {
   const navigate = useNavigate();
-  const [productsArr, setProductsArr] = useState<AdminProduct[]>([]);
+  const [productsArr, setProductsArr] = useState<Product[]>([]);
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
   useEffect(() => {
     const getData = async () => {
-      const allProducts: AdminProduct[] = await productsAPI.getAllProducts();
+      const allProducts: Product[] = await productsAPI.getAllProducts();
       setProductsArr(allProducts);
     }
     getData()
@@ -71,13 +78,10 @@ export default function HomeDashboard() {
         costPrice: product.costPrice,
         salePrice: product.salePrice,
         quantity: product.quantity,
-        // description: <div>'hay'</div>
         description: product.description
       }
     )
   })
-
-
 
   const handleClick = (params: GridRowParams) => {
     navigate(`/product/${params.row.id}`)
@@ -85,11 +89,8 @@ export default function HomeDashboard() {
 
   return (
     <Box sx={{ height: 400, width: '100%' }}>
-      {/* <Typography variant="h4" component="h2">
-        Products
-      </Typography> */}
       <br></br>
-      <Button variant="contained">
+      <Button variant="contained" onClick={() => handleClickOpen()}>
         Add product
       </Button>
       <DataGrid
@@ -122,6 +123,7 @@ export default function HomeDashboard() {
           }
         }}
       />
+      <AddProduct/>
     </Box>
   );
 }

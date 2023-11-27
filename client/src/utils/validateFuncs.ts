@@ -7,6 +7,3 @@ function isValidPassword(password: string) {
 }
 
 export { isValidEmail, isValidPassword };
-
-
-
