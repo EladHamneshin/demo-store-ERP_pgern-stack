@@ -26,7 +26,7 @@ export const addNewProductDal = async (
   // Insert product
   const res = await query(`
         INSERT INTO products (name, price, quantity, description, image, category, discount, rating, clicked, costPrice, supplier)
-        VALUES ('${newProduct.name}', ${newProduct.salePrice}, ${newProduct.quantity}, '${newProduct.description}', '${imageRes?.rows[0].id}', '${newProduct.category}', ${newProduct.discountPercentage}, ${newProduct.rating}, ${newProduct.clicked}, ${newProduct.costPrice}, '${newProduct.supplier}')
+        VALUES ('${newProduct.name}', ${newProduct.saleprice}, ${newProduct.quantity}, '${newProduct.description}', '${imageRes?.rows[0].id}', '${newProduct.category}', ${newProduct.discount}, ${newProduct.rating}, ${newProduct.clicked}, ${newProduct.costPrice}, '${newProduct.supplier}')
         returning *;
     `);
 
@@ -94,10 +94,10 @@ export const updateProductByIdDal = async (
   const { rows: updatedProduct }: any = await query(`UPDATE products
     SET
         name = '${partsOfProductToUpdate.name || 'name'}',
-        price = ${partsOfProductToUpdate.salePrice || 'price'},
+        price = ${partsOfProductToUpdate.saleprice || 'price'},
         quantity = ${partsOfProductToUpdate.quantity || 'quantity'},
         description = '${partsOfProductToUpdate.description || 'description'}',
-        discount = ${partsOfProductToUpdate.discountPercentage || 'discount'},
+        discount = ${partsOfProductToUpdate.discount || 'discount'},
         rating = ${partsOfProductToUpdate.rating || 'rating'},
         clicked = ${partsOfProductToUpdate.clicked || 'clicked'},
         isforsale = ${partsOfProductToUpdate.isForSale || 'isforsale'},
@@ -194,11 +194,11 @@ const adminProducts: AdminProduct[] = [
   {
     id: '1',
     name: 'Product 1',
-    salePrice: 50,
+    saleprice: 50,
     quantity: 10,
     description: 'This is product 1 description.',
     category: 'Electronics',
-    discountPercentage: 10,
+    discount: 10,
     rating: 4.5,
     clicked: 100,
     image: { url: 'image1.jpg', alt: 'Product 1 Image' },
@@ -211,11 +211,11 @@ const adminProducts: AdminProduct[] = [
   {
     id: '2',
     name: 'Product 2',
-    salePrice: 75,
+    saleprice: 75,
     quantity: 20,
     description: 'This is product 2 description.',
     category: 'Clothing',
-    discountPercentage: 15,
+    discount: 15,
     rating: 4.2,
     clicked: 150,
     image: { url: 'image2.jpg', alt: 'Product 2 Image' },
@@ -228,11 +228,11 @@ const adminProducts: AdminProduct[] = [
   {
     id: '3',
     name: 'Product 3',
-    salePrice: 90,
+    saleprice: 90,
     quantity: 15,
     description: 'This is product 3 description.',
     category: 'Home and Kitchen',
-    discountPercentage: 20,
+    discount: 20,
     rating: 4.8,
     clicked: 200,
     image: { url: 'image3.jpg', alt: 'Product 3 Image' },

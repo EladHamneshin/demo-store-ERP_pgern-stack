@@ -97,11 +97,11 @@ function convertToAdminProduct(source: any): AdminProduct {
   const adminProduct: AdminProduct = {
     id: source.id,
     name: source.name,
-    salePrice: source.saleprice,
+    saleprice: source.saleprice,
     quantity: source.quantity,
     description: source.description,
     category: source.category,
-    discountPercentage: source.discountpercentage,
+    discount: source.discountpercentage,
     rating: source.rating,
     clicked: source.click,
     image: { url: source.image_url, alt: source.image_alt },
@@ -120,8 +120,8 @@ function updateProduct(original: SqlProduct, updates: Partial<AdminProduct>) {
   updates.name
     ? (updatedProduct.name = updates.name)
     : (updatedProduct.name = original.name);
-  updates.salePrice
-    ? (updatedProduct.salePrice = updates.salePrice)
+  updates.saleprice
+    ? (updatedProduct.salePrice = updates.saleprice)
     : (updatedProduct.salePrice = original.salePrice);
   updates.quantity
     ? (updatedProduct.quantity = updates.quantity)
@@ -132,8 +132,8 @@ function updateProduct(original: SqlProduct, updates: Partial<AdminProduct>) {
   updates.category
     ? (updatedProduct.category = updates.category)
     : (updatedProduct.category = original.category);
-  updates.discountPercentage
-    ? (updatedProduct.discountPercentage = updates.discountPercentage)
+  updates.discount
+    ? (updatedProduct.discountPercentage = updates.discount)
     : (updatedProduct.discountPercentage = original.discountPercentage);
   updates.rating
     ? (updatedProduct.rating = updates.rating)
