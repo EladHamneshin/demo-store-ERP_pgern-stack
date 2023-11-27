@@ -1,6 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
 import App from '../App';
 import ROUTES from './routes';
+import HomePage from '../pages/HomePage';
+import LoginPage from '../pages/LoginPage';
+import ProductPage from '../pages/ProductPage';
+import RegisterPage from '../pages/RegisterPage';
+import NotFoundPage from '../pages/NotFoundPage';
 
 const Router = () => {
   return (
@@ -11,7 +16,7 @@ const Router = () => {
         <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
         <Route path={ROUTES.PRODUCT} element={<ProductPage />} />
       </Route>
-      <Route path={ROUTES.DEFAULT} element={<NotFoundPage />} />
+      <Route path={ROUTES.DEFAULT} element={<NotFoundPage />} /> 
     </Routes>
   );
 };
