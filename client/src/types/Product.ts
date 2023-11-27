@@ -33,10 +33,6 @@ export interface AdminProduct {
   supplier: string;
 }
 
-// export interface ProductToUpdate {
-//   productId: string;
-//   requiredQuantity: number;
-// };
 
 export type UpdateBody = {
   Products: {
@@ -49,3 +45,5 @@ export type UpdateBody = {
 export interface ProductsArr {
   [productId: string]: number;
 };
+
+

@@ -17,7 +17,7 @@ import Logout from '@mui/icons-material/Logout';
 import SearchField from './SearchField';
 import usersAPI from '../api/userAPI.ts';
 import ROUTES from '../routes/routes.ts';
-import { toastError } from '../utils/toastUtils.ts';
+import { toastError } from '../utils/Toastify/toastUtils.ts';
 import { useAppSelector } from '../utils/store/hooks.ts';
 
 

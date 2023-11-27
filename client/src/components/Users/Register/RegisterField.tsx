@@ -3,7 +3,7 @@ import { isValidEmail, isValidPassword } from "../../../utils/validateFuncs";
 import { useState } from 'react';
 import { Button } from '@mui/material';
 import { ToastContainer } from 'react-toastify';
-import { toastError } from '../../../utils/toastUtils';
+import { toastError } from '../../../utils/Toastify/toastUtils';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function RegisterField() {
