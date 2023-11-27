@@ -1,7 +1,7 @@
 import RequestError from '../types/errors/RequestError';
 import STATUS_CODES from '../utils/StatusCodes';
 import { addNewProductDal, deleteProductByIdDal, getAllProductsDal, getProductByIdDal, updateProductByIdDal } from '../dal/inventoryDal'
-import { AdminProduct } from '../types/Product';
+import { AdminProduct, SqlProduct } from '../types/Product';
 
 export const getAllProductsService = async () => {
 
@@ -44,12 +44,14 @@ export const addNewProductService = async (newProduct: Omit<AdminProduct, "id">)
 
 export const updateProductByIdService = async (partsOfProductToUpdate: Partial<AdminProduct>, id: string) => {
     
-    const product: AdminProduct = await getProductByIdDal(id);
-    if (!product.id){
-        throw new RequestError(`product with '${id}' id does not exist`, STATUS_CODES.BAD_REQUEST);
-    }
+    // const product: AdminProduct[] = await getProductByIdDal(id);
+    // if (!product.id){
+    //     throw new RequestError(`product with '${id}' id does not exist`, STATUS_CODES.BAD_REQUEST);
+    // }
 
-    const updatedProduct: AdminProduct = await updateProductByIdDal(partsOfProductToUpdate, id)
+    const rawProduct = await updateProductByIdDal(partsOfProductToUpdate, id);
+    const updatedProduct = convertToAdminProduct(rawProduct[0]);
+
     if (!updatedProduct) {
         throw new RequestError('failed to fatch data', STATUS_CODES.INTERNAL_SERVER_ERROR);
     } else {
@@ -93,4 +95,24 @@ function convertToAdminProduct(source: any): AdminProduct {
     };
   
     return adminProduct;
-  }
+}
+
+function updateProduct(original: SqlProduct, updates: Partial<AdminProduct>){
+    let updatedProduct = original;
+    updates.name? updatedProduct.name = updates.name : updatedProduct.name = original.name;
+    updates.salePrice? updatedProduct.salePrice = updates.salePrice : updatedProduct.salePrice = original.salePrice;
+    updates.quantity? updatedProduct.quantity = updates.quantity : updatedProduct.quantity = original.quantity;
+    updates.description? updatedProduct.description = updates.description : updatedProduct.description = original.description;
+    updates.category? updatedProduct.category = updates.category : updatedProduct.category = original.category;
+    updates.discountPercentage? updatedProduct.discountPercentage = updates.discountPercentage : updatedProduct.discountPercentage = original.discountPercentage;
+    updates.rating? updatedProduct.rating = updates.rating : updatedProduct.rating = original.rating;
+    updates.click? updatedProduct.click = updates.click : updatedProduct.click = original.click;
+    updates.image?.url? updatedProduct.image_url = updates.image.url : updatedProduct.image_url = original.image_url;
+    updates.image?.alt? updatedProduct.image_alt = updates.image.alt : updatedProduct.image_alt = original.image_alt;
+    updates.coordinate?.latitude? updatedProduct.latitude = updates.coordinate.latitude : updatedProduct.latitude = original.latitude;
+    updates.coordinate?.longitude? updatedProduct.longitude = updates.coordinate.longitude : updatedProduct.longitude = original.longitude;
+    updates.tags? updatedProduct.tags = updates.tags : updatedProduct.tags = original.tags;
+    updates.isForSale? updatedProduct.isForSale = updates.isForSale : updatedProduct.isForSale = original.isForSale;
+    updates.costPrice? updatedProduct.costPrice = updates.costPrice : updatedProduct.costPrice = original.costPrice;
+    updates.supplier? updatedProduct.supplier = updates.supplier : updatedProduct.supplier = original.supplier;
+}
