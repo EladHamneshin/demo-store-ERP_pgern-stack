@@ -12,6 +12,10 @@ export default function HomePage() {
     }
   }, []);
   return (
-    <div>HomePage</div>
-  )
-}
+    <div>
+      {/* Your component JSX */}
+    </div>
+  );
+};
+
+export default MyComponent;

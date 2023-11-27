@@ -3,6 +3,7 @@ const ROUTES = {
     LOGIN: '/login',
     REGISTER: '/register',
     PRODUCT: '/product/:pid',
+    EDIT_PRODUCT: '/product/:pid',
     DEFAULT: '*'
 };
 
