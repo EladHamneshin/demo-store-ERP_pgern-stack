@@ -5,6 +5,7 @@ import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import RemoveCircleRoundedIcon from '@mui/icons-material/RemoveCircleRounded';
 import { useNavigate, useParams } from "react-router-dom";
 import productsAPI from "../api/productsAPI";
+import { useAppSelector } from '../utils/store/hooks';
 // import {Product} from "../types/Product.ts";
 // import StoreMap from "../components/StoreMap.tsx";
 // import cartsAPI from "../api/cartsAPI.ts";
@@ -40,6 +41,8 @@ interface IProduct {
 }
 
 const ProductPage = () => {
+  const { email } = useAppSelector((state) => state.email);
+  const navigate = useNavigate();
   const renderDetailRow = (label: string, value: string | number) => (
     <Grid container item xs={12}>
       <Grid item xs={4}>
@@ -50,7 +53,6 @@ const ProductPage = () => {
       </Grid>
     </Grid>
   );
-  const navigate = useNavigate();
   const [product, setProduct] = useState<null | IProduct>(null);
   // const [quantity, setQuantity] = useState<number>(1);
   // const context = useContext(UserContext)!;
@@ -69,6 +71,9 @@ const ProductPage = () => {
 
   //get the product after the page is rendered
   useEffect(() => {
+    if (email === '') {
+      navigate('/login');
+    }
     getProduct(pid!);
   }, []);
 

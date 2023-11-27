@@ -68,7 +68,8 @@ CREATE TABLE
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         name VARCHAR(255) NOT NULL,
         tag UUID NOT NULL,
-        FOREIGN KEY (tag) REFERENCES tags(id)
+        FOREIGN KEY (tag) REFERENCES tags(id),
+        UNIQUE(name, tag)
     );
 
 CREATE TABLE
@@ -77,7 +78,8 @@ CREATE TABLE
         product UUID NOT NULL,
         tag_and_value_id UUID NOT NULL,
         FOREIGN KEY (product) REFERENCES products(id),
-        FOREIGN KEY (tag_and_value_id) REFERENCES tag_values(id)
+        FOREIGN KEY (tag_and_value_id) REFERENCES tag_values(id),
+        UNIQUE(product, tag_and_value_id)
     );
 
 INSERT INTO coordinates (lat, lng) values (40.7128, -74.0060);

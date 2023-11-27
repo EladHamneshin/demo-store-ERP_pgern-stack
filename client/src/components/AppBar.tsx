@@ -15,13 +15,18 @@ import StorefrontIcon from '@mui/icons-material/Storefront';
 import { useNavigate } from 'react-router-dom';
 import Logout from '@mui/icons-material/Logout';
 import SearchField from './SearchField';
-// import ROUTES from '../routes/routes.ts';
-// import { toastError, toastSuccess } from '../utils/toastUtils.ts';
+import usersAPI from '../api/userAPI.ts';
+import ROUTES from '../routes/routes.ts';
+import { toastError } from '../utils/toastUtils.ts';
+import { useAppSelector, useAppDispatch } from '../utils/store/hooks.ts';
+import { saveEmail } from '../utils/store/emailSlice.ts';
 
 
 const AppBar = () => {
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
+  const {email} = useAppSelector((state) => state.email);
+  const dispatch = useAppDispatch();
 
   const handleOpenUserMenu = (event: MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -33,13 +38,13 @@ const AppBar = () => {
 
   const handleLogout = async () => {
     handleCloseUserMenu();
-    // try {
-    //   await logoutAPI();
-    //   navigate(ROUTES.LOGIN);
-    //   toastSuccess('User logged out successfully');
-    // } catch (err) {
-    //   toastError((err as Error).message);
-    // }
+    try {
+      await usersAPI.logoutUser();
+      dispatch(saveEmail(''));
+      navigate(ROUTES.LOGIN);
+    } catch (err) {
+      toastError((err as Error).message);
+    }
   };
 
   return (
@@ -61,7 +66,7 @@ const AppBar = () => {
           <SearchField />
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Box sx={{ flexGrow: 0 }}>
+          {email && <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar src="" />
@@ -84,7 +89,7 @@ const AppBar = () => {
               onClose={handleCloseUserMenu}
             >
               <MenuItem key={'email'} disabled>
-                <Typography>test</Typography>
+                <Typography>{email}</Typography>
               </MenuItem>
               <MenuItem key={'logOut'} onClick={handleLogout}>
                 <ListItemIcon>
@@ -93,7 +98,7 @@ const AppBar = () => {
                 Logout
               </MenuItem>
             </Menu>
-          </Box>
+          </Box>}
         </Box>
       </Toolbar>
     </MUIAppBar>

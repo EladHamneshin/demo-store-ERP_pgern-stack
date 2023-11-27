@@ -1,33 +1,16 @@
-import React, { useEffect } from 'react';
-import productsAPI from '../api/productsAPI'
+import { useEffect } from "react";
+import { useAppSelector } from "../utils/store/hooks"
+import { useNavigate } from "react-router-dom";
 
-interface MyComponentProps {
-  apiUrl: string;
-}
+export default function HomePage() {
+  const {email} = useAppSelector((state) => state.email);
+  const navigate = useNavigate();
 
-const MyComponent = () => {
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await productsAPI.getProduct('06025089-c459-4eea-8fae-22d00df4c9ae')
-        console.log(response, 'Product');
-        
-        const data = await productsAPI.deleteProduct('06025089-c459-4eea-8fae-22d00df4c9ae')
-        // const response = await userAPI.loginUser('yt7756321@gmail.com', 'sSomething23@$hrsec')
-        // const myCookieValue = document.cookie.split(';').find(cookie => cookie.includes('jwt'));
-        // setData(response);
-        // Cookies.set('jwt', myCookieValue!)
-        console.log(data, 'delete');
-
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    // Call the fetchData function when the component mounts
-    fetchData();
+    if (email === "") {
+      navigate("/login");
+    }
   }, []);
-
   return (
     <div>
       {/* Your component JSX */}

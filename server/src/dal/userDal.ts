@@ -1,8 +1,8 @@
-import query from "../utils/qearyDB";
-import User from "../types/User";
+import query from '../utils/queryDB';
+import User from '../types/User';
 
 export const addUser = async (user: User) => {
-  const {email, password} = user;
+  const { email, password } = user;
   const insert = await query(`
   insert into users (email, password)
   values('${email}', '${password}')
@@ -10,9 +10,9 @@ export const addUser = async (user: User) => {
   `);
   const result = insert?.rows[0];
   console.log(insert);
-  
+
   return result;
-}
+};
 
 export const getUser = async (userId: string) => {
   const getUser = await query(`
@@ -20,7 +20,7 @@ export const getUser = async (userId: string) => {
   where id = '${userId}'
   `);
   return getUser?.rows[0];
-}
+};
 
 export const getUserByEmail = async (email: string) => {
   const getUser = await query(`
@@ -28,4 +28,4 @@ export const getUserByEmail = async (email: string) => {
   where email = '${email}'
   `);
   return getUser?.rows[0];
-}
+};

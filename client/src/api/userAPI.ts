@@ -33,6 +33,7 @@ async function register(email: string, password: string): Promise<UserInfo> {
     },
     body: JSON.stringify({ email, password }),
   });
+  
   return await handleApiRes(response);
 }
 
