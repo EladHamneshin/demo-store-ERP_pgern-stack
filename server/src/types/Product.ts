@@ -15,7 +15,7 @@ export interface Product {
   };
 }
 
-export interface AdminProduct extends Product{
+export interface AdminProduct extends Product {
   isForSale: boolean;
   costPrice: number;
   supplier: string;
@@ -31,3 +31,4 @@ export type UpdateBody = {
 
 export interface ProductsArr {
   [productId: string]: number;
+}
