@@ -31,24 +31,3 @@ export type UpdateBody = {
 
 export interface ProductsArr {
   [productId: string]: number;
-}
-
-export interface SqlProduct {
-  id: string;
-  name: string;
-  salePrice: number;
-  quantity: number;
-  description: string;
-  category: string;
-  discountPercentage: number;
-  rating: number;
-  click: number;
-  image_url: string;
-  image_alt: string;
-  longitude: number;
-  latitude: number;
-  tags: { [key: string]: string };
-  isForSale: boolean;
-  costPrice: number;
-  supplier: string;
-}

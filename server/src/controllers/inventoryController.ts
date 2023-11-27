@@ -6,7 +6,7 @@ import { AdminProduct } from '../types/Product';
 
 export const getAllProductsController = asyncHandler( async (req: Request , res: Response) => {
     
-    const allproducts: AdminProduct[] |void[] = await getAllProductsService();
+    const allproducts: AdminProduct[] = await getAllProductsService();
     res.json(allproducts);
 
 })
@@ -20,7 +20,7 @@ export const getProductByIdController = asyncHandler( async (req: Request , res:
 
 export const addNewProductController = asyncHandler( async (req: Request , res: Response) => {
 
-    const newProduct = await addNewProductService(req.body);
+    const newProduct: AdminProduct = await addNewProductService(req.body);
     res.json(newProduct)
     
 })
