@@ -3,7 +3,7 @@ import { addNewProductController, deleteProductByIdController, getAllProductsCon
 import { authHandler } from '../middlewares/authMiddleware';
 
 const inventoryRouter = express.Router();
-inventoryRouter.use(authHandler);
+// inventoryRouter.use(authHandler);
 
 inventoryRouter.get('/', getAllProductsController);
 inventoryRouter.get('/:id', getProductByIdController);
