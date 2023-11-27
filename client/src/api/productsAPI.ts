@@ -9,7 +9,7 @@ async function getAllProducts(): Promise<Product[]> {
 }
 
 async function getProduct(pid: string): Promise<Product> {
-  const response = await fetch(`${apiUri}/api/inventory/${pid}`);
+  const response = await fetch(`${apiUri}/api/inventory/${pid}`, {credentials: 'include'});
   return await handleApiRes(response);
 }
 
