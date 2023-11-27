@@ -6,6 +6,7 @@ import RemoveCircleRoundedIcon from '@mui/icons-material/RemoveCircleRounded';
 import { useNavigate, useParams } from "react-router-dom";
 import productsAPI from "../api/productsAPI";
 import { useAppSelector } from '../utils/store/hooks';
+import { Product } from "../types/Product";
 // import {Product} from "../types/Product.ts";
 // import StoreMap from "../components/StoreMap.tsx";
 // import cartsAPI from "../api/cartsAPI.ts";
@@ -53,7 +54,7 @@ const ProductPage = () => {
       </Grid>
     </Grid>
   );
-  const [product, setProduct] = useState<null | IProduct>(null);
+  const [product, setProduct] = useState<null | Product>(null);
   // const [quantity, setQuantity] = useState<number>(1);
   // const context = useContext(UserContext)!;
   // const { userInfo, setProductsInCart} = context
@@ -62,7 +63,7 @@ const ProductPage = () => {
   //handle get product by id from server
   const getProduct = async (pid: string) => {
     try {
-      const product = await productsAPI.getProduct('84447cac-4bd3-441b-a7fc-2e5b82ab520e');
+      const product = await productsAPI.getProduct(pid);
       setProduct(product);
     } catch (error) {
       console.error('Failed to fetch');

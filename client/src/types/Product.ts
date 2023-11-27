@@ -16,6 +16,9 @@ export interface Product {
     longitude: number;
     latitude: number
   };
+  tags: {
+    [key: string]: string;
+  };
   costPrice: number;
   isForSale: boolean;
   supplier: string;
