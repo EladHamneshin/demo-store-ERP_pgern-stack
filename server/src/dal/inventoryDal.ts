@@ -1,6 +1,5 @@
 import { AdminProduct } from '../types/Product';
-import query from '../utils/qearyDB';
-
+import query from '../utils/queryDB';
 
 export const getAllProductsDal = async () => {
 
@@ -44,58 +43,76 @@ export const getProductByIdDal = async (id: string) => {
     return rows[0];
 };
 
-export const addNewProductDal = async (newProduct: Omit<AdminProduct, "id">) => {
-    // Insert image
-    const imageRes = await query(`INSERT INTO images (url, alt) VALUES ('${newProduct.image.url}', '${newProduct.image.alt}') returning *;`);
-    
-    // Insert product
-    const res = await query(`
+export const addNewProductDal = async (
+  newProduct: Omit<AdminProduct, 'id'>
+) => {
+  // Insert image
+  const imageRes = await query(
+    `INSERT INTO images (url, alt) VALUES ('${newProduct.image.url}', '${newProduct.image.alt}') returning *;`
+  );
+
+  // Insert product
+  const res = await query(`
         INSERT INTO products (name, price, quantity, description, image, category, discount, rating, clicked, costPrice, supplier)
         VALUES ('${newProduct.name}', ${newProduct.saleprice}, ${newProduct.quantity}, '${newProduct.description}', '${imageRes?.rows[0].id}', '${newProduct.category}', ${newProduct.discount}, ${newProduct.rating}, ${newProduct.clicked}, ${newProduct.costPrice}, '${newProduct.supplier}')
         returning *;
     `);
 
-    const productId = res?.rows[0].id;
+  const productId = res?.rows[0].id;
 
-    // Insert tags
-    for (const key in newProduct.tags) {
-        const tagRes = await query(`INSERT INTO tags (name) VALUES ('${key}') ON CONFLICT (name) DO NOTHING returning *;`);
-        let tagId = " ";
-        if (tagRes?.rows[0]) {
-            tagId = tagRes.rows[0].id;
-        } else {
-            const idQuery = await query(`select id from tags where name = '${key}'`);
-            tagId = idQuery?.rows[0].id;
-        }
-         
-        const tagValueRes = await query(`INSERT INTO tag_values (name, tag) VALUES ('${newProduct.tags[key]}', '${tagId}') ON CONFLICT (name, tag) DO NOTHING returning *;`);
-        let tagValueId = " ";
-        if (tagValueRes?.rows[0]) {
-            tagValueId = tagValueRes?.rows[0].id;
-        } else {
-            const idQuery = await query(`select id from tag_values where name = '${newProduct.tags[key]}'`);
-            tagValueId = idQuery?.rows[0].id;
-        }
-
-        await query(`INSERT INTO product_tags (product, tag_and_value_id) VALUES ('${productId}', '${tagValueId}') returning *;`);
-    }
-
-    // Insert coordinates
-    const coordinatesRes = await query(`INSERT INTO coordinates (lat, lng) VALUES (${newProduct.coordinate.latitude}, ${newProduct.coordinate.longitude}) ON CONFLICT DO NOTHING returning *;`);
-    let coordinatesId = " ";
-    if (coordinatesRes?.rows[0]) {
-        coordinatesId = coordinatesRes.rows[0].id;
+  // Insert tags
+  for (const key in newProduct.tags) {
+    const tagRes = await query(
+      `INSERT INTO tags (name) VALUES ('${key}') ON CONFLICT (name) DO NOTHING returning *;`
+    );
+    let tagId = ' ';
+    if (tagRes?.rows[0]) {
+      tagId = tagRes.rows[0].id;
     } else {
-        const idQuery = await query(`select id from coordinates where lat = ${newProduct.coordinate.latitude} and lng = ${newProduct.coordinate.longitude};`);
-        coordinatesId = idQuery?.rows[0].id;
+      const idQuery = await query(`select id from tags where name = '${key}'`);
+      tagId = idQuery?.rows[0].id;
     }
 
-     await query(`INSERT INTO product_coordinates (product, coordinates) VALUES ('${productId}', '${coordinatesId}') returning *;`);
-    
-    // Get the product by ID
-    const product = await getProductByIdDal(productId);
-    
-    return product;
+    const tagValueRes = await query(
+      `INSERT INTO tag_values (name, tag) VALUES ('${newProduct.tags[key]}', '${tagId}') ON CONFLICT (name, tag) DO NOTHING returning *;`
+    );
+    let tagValueId = ' ';
+    if (tagValueRes?.rows[0]) {
+      tagValueId = tagValueRes?.rows[0].id;
+    } else {
+      const idQuery = await query(
+        `select id from tag_values where name = '${newProduct.tags[key]}'`
+      );
+      tagValueId = idQuery?.rows[0].id;
+    }
+
+    await query(
+      `INSERT INTO product_tags (product, tag_and_value_id) VALUES ('${productId}', '${tagValueId}') returning *;`
+    );
+  }
+
+  // Insert coordinates
+  const coordinatesRes = await query(
+    `INSERT INTO coordinates (lat, lng) VALUES (${newProduct.coordinate.latitude}, ${newProduct.coordinate.longitude}) ON CONFLICT DO NOTHING returning *;`
+  );
+  let coordinatesId = ' ';
+  if (coordinatesRes?.rows[0]) {
+    coordinatesId = coordinatesRes.rows[0].id;
+  } else {
+    const idQuery = await query(
+      `select id from coordinates where lat = ${newProduct.coordinate.latitude} and lng = ${newProduct.coordinate.longitude};`
+    );
+    coordinatesId = idQuery?.rows[0].id;
+  }
+
+  await query(
+    `INSERT INTO product_coordinates (product, coordinates) VALUES ('${productId}', '${coordinatesId}') returning *;`
+  );
+
+  // Get the product by ID
+  const product = await getProductByIdDal(productId);
+
+  return product;
 };
 
 export const updateProductByIdDal = async (partsOfProductToUpdate: Partial<AdminProduct>, id: string) => {
@@ -113,66 +130,80 @@ export const updateProductByIdDal = async (partsOfProductToUpdate: Partial<Admin
         costprice = ${partsOfProductToUpdate.costPrice || 'costprice'},
         supplier = '${partsOfProductToUpdate.supplier || 'supplier'}'
 
-    WHERE id = '${id}';  ` );
+    WHERE id = '${id}';  `);
 
-    if (partsOfProductToUpdate.coordinate) {
+  if (partsOfProductToUpdate.coordinate) {
+    const coordinatesRes = await query(
+      `INSERT INTO coordinates (lat, lng) VALUES (${partsOfProductToUpdate.coordinate.latitude}, ${partsOfProductToUpdate.coordinate.longitude}) ON CONFLICT DO NOTHING returning *;`
+    );
+    let coordinatesId = ' ';
+    if (coordinatesRes?.rows[0]) {
+      coordinatesId = coordinatesRes.rows[0].id;
+    } else {
+      const idQuery = await query(
+        `select id from coordinates where lat = ${partsOfProductToUpdate.coordinate.latitude} and lng = ${partsOfProductToUpdate.coordinate.longitude};`
+      );
+      coordinatesId = idQuery?.rows[0].id;
+    }
 
-        const coordinatesRes = await query(`INSERT INTO coordinates (lat, lng) VALUES (${partsOfProductToUpdate.coordinate.latitude}, ${partsOfProductToUpdate.coordinate.longitude}) ON CONFLICT DO NOTHING returning *;`);
-        let coordinatesId = " ";
-        if (coordinatesRes?.rows[0]) {
-            coordinatesId = coordinatesRes.rows[0].id;
-        } else {
-            const idQuery = await query(`select id from coordinates where lat = ${partsOfProductToUpdate.coordinate.latitude} and lng = ${partsOfProductToUpdate.coordinate.longitude};`);
-            coordinatesId = idQuery?.rows[0].id;
-        };
-        
-        const {rows: updatedCoordinate}: any = await query(`UPDATE product_coordinates
+    const { rows: updatedCoordinate }: any =
+      await query(`UPDATE product_coordinates
         SET 
             coordinates = '${coordinatesId}'
         WHERE product = '${id}'
-        `)
+        `);
+  }
 
+  if (partsOfProductToUpdate.tags) {
+    for (const key in partsOfProductToUpdate.tags) {
+      const tagRes = await query(
+        `INSERT INTO tags (name) VALUES ('${key}') ON CONFLICT (name) DO NOTHING returning *;`
+      );
+      let tagId = ' ';
+      if (tagRes?.rows[0]) {
+        tagId = tagRes.rows[0].id;
+      } else {
+        const idQuery = await query(
+          `select id from tags where name = '${key}'`
+        );
+        tagId = idQuery?.rows[0].id;
+      }
+
+      const tagValueRes = await query(
+        `INSERT INTO tag_values (name, tag) VALUES ('${partsOfProductToUpdate.tags[key]}', '${tagId}') ON CONFLICT (name, tag) DO NOTHING returning *;`
+      );
+      let tagValueId = ' ';
+      if (tagValueRes?.rows[0]) {
+        tagValueId = tagValueRes?.rows[0].id;
+      } else {
+        const idQuery = await query(
+          `select id from tag_values where name = '${partsOfProductToUpdate.tags[key]}'`
+        );
+        tagValueId = idQuery?.rows[0].id;
+      }
+
+      await query(
+        `INSERT INTO product_tags (product, tag_and_value_id) VALUES ('${id}', '${tagValueId}') ON CONFLICT (product, tag_and_value_id) DO NOTHING returning *;`
+      );
     }
+  }
 
-    if (partsOfProductToUpdate.tags) {
-        for (const key in partsOfProductToUpdate.tags) {
-            const tagRes = await query(`INSERT INTO tags (name) VALUES ('${key}') ON CONFLICT (name) DO NOTHING returning *;`);
-            let tagId = " ";
-            if (tagRes?.rows[0]) {
-                tagId = tagRes.rows[0].id;
-            } else {
-                const idQuery = await query(`select id from tags where name = '${key}'`);
-                tagId = idQuery?.rows[0].id;
-            }
-             
-            const tagValueRes = await query(`INSERT INTO tag_values (name, tag) VALUES ('${partsOfProductToUpdate.tags[key]}', '${tagId}') ON CONFLICT (name, tag) DO NOTHING returning *;`);
-            let tagValueId = " ";
-            if (tagValueRes?.rows[0]) {
-                tagValueId = tagValueRes?.rows[0].id;
-            } else {
-                const idQuery = await query(`select id from tag_values where name = '${partsOfProductToUpdate.tags[key]}'`);
-                tagValueId = idQuery?.rows[0].id;
-            }
-    
-            await query(`INSERT INTO product_tags (product, tag_and_value_id) VALUES ('${id}', '${tagValueId}') ON CONFLICT (product, tag_and_value_id) DO NOTHING returning *;`);
-        }
-    
-    }
-
-    if (partsOfProductToUpdate.image) {
-        const {rows: imageId}: any = await query(`select image from products where id = '${id}'`);
-        const {rows: updatedImage}: any = await query(`UPDATE images
+  if (partsOfProductToUpdate.image) {
+    const { rows: imageId }: any = await query(
+      `select image from products where id = '${id}'`
+    );
+    const { rows: updatedImage }: any = await query(`UPDATE images
         SET 
             url = '${partsOfProductToUpdate.image.url}',
             alt = '${partsOfProductToUpdate.image.alt}'
         WHERE id = '${imageId[0].image}'
-        `)
-    } 
+        `);
+  }
 
-    const product = await getProductByIdDal(id);
-    
-    return product;
-}
+  const product = await getProductByIdDal(id);
+
+  return product;
+};
 
 export const deleteProductByIdDal = async (id: string) => {
     const {rows: imageId} = await query(`select image from products where id = '${id}'`);

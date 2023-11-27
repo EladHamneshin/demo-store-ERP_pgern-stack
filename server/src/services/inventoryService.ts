@@ -48,12 +48,19 @@ export const updateProductByIdService = async (partsOfProductToUpdate: Partial<A
 
     const updatedProduct = await updateProductByIdDal(partsOfProductToUpdate, id);
 
-    if (!updatedProduct) {
-        throw new RequestError('failed to fatch data', STATUS_CODES.INTERNAL_SERVER_ERROR);
-    } else {
-        return updatedProduct;
-    };
-}
+
+  const rawProduct = await updateProductByIdDal(partsOfProductToUpdate, id);
+  const updatedProduct = convertToAdminProduct(rawProduct[0]);
+
+  if (!updatedProduct) {
+    throw new RequestError(
+      'failed to fetch data',
+      STATUS_CODES.INTERNAL_SERVER_ERROR
+    );
+  } else {
+    return updatedProduct;
+  }
+};
 
 export const deleteProductByIdService = async (id: string) => {
     
@@ -65,4 +72,5 @@ export const deleteProductByIdService = async (id: string) => {
 
     await deleteProductByIdDal(id);
     
+
 }

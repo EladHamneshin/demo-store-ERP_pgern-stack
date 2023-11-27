@@ -1,4 +1,4 @@
-import query from "../utils/qearyDB";
+import query from '../utils/queryDB';
 
 const getCategories = async () => {
   const sql = `
@@ -8,4 +8,4 @@ const getCategories = async () => {
   return rows;
 };
 
-export default {getCategories}
+export default { getCategories };
