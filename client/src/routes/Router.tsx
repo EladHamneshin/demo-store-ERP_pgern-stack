@@ -15,6 +15,7 @@ const Router = () => {
         <Route path={ROUTES.LOGIN} element={<LoginPage />} />
         <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
         <Route path={ROUTES.PRODUCT} element={<ProductPage />} />
+        {/* <Route path={ROUTES.EDIT_PRODUCT} element={<EditProductPage />} /> */}
       </Route>
       <Route path={ROUTES.DEFAULT} element={<NotFoundPage />} /> 
     </Routes>
