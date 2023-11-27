@@ -14,7 +14,7 @@ import { saveEmail } from '../../../utils/store/emailSlice';
 import userAPI from '../../../api/userAPI';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { toastError } from '../../../utils/toastUtils';
+import { toastError } from '../../../utils/Toastify/toastUtils';
 
 const defaultTheme = createTheme();
 

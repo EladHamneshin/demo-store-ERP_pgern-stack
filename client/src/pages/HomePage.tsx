@@ -1,3 +1,4 @@
+import Dashboard from "../components/Home/Dashboard"
 import { useEffect } from "react";
 import { useAppSelector } from "../utils/store/hooks"
 import { useNavigate } from "react-router-dom";
@@ -12,10 +13,8 @@ export default function HomePage() {
     }
   }, []);
   return (
-    <div>
-      {/* Your component JSX */}
-    </div>
-  );
-};
-
-export default MyComponent;
+    <>
+    <Dashboard/>
+    </>
+  )
+}

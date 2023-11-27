@@ -19,7 +19,4 @@ export interface Product {
   costPrice: number;
   isForSale: boolean;
   supplier: string;
-  tags: {
-    [key: string]: string
-  };
 }
