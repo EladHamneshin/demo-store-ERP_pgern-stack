@@ -20,4 +20,3 @@ export const connectDB = async () => {
 
   return client;
 };
-
