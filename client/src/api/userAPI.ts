@@ -11,12 +11,16 @@ async function loginUser(email: string, password: string): Promise<UserInfo> {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
+    credentials: 'same-origin'
   });
   return await handleApiRes(response);
 }
 
 async function logoutUser(): Promise<{ message: string }> {
-  const response = await fetch(`${apiUri}/api/user/auth/logout`, { method: "POST" });
+  const response = await fetch(`${apiUri}/api/user/auth/logout`, {
+    method: "POST",
+    credentials: 'same-origin'
+  });
   return await handleApiRes(response);
 }
 
@@ -32,6 +36,7 @@ async function register(email: string, password: string): Promise<UserInfo> {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
+    credentials: 'same-origin'
   });
   
   return await handleApiRes(response);

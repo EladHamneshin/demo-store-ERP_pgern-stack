@@ -1,4 +1,4 @@
-import { Product } from "../types/Product";
+import Product from "../types/Product";
 import handleApiRes from "./apiResHandler";
 
 const apiUri = import.meta.env.VITE_BASE_URI;
@@ -9,7 +9,7 @@ async function getAllProducts(): Promise<Product[]> {
 }
 
 async function getProduct(pid: string): Promise<Product> {
-  const response = await fetch(`${apiUri}/api/inventory/${pid}`);
+  const response = await fetch(`${apiUri}/api/inventory/${pid}`, {credentials: 'same-origin'});
   return await handleApiRes(response);
 }
 
