@@ -46,7 +46,7 @@ const columns: GridColDef[] = [
 ];
 
 
-export default function HomeDashboard(isUpdated: any, setIsUpdated: any) {
+export default function HomeDashboard() {
   const navigate = useNavigate();
   const [productsArr, setProductsArr] = useState<Product[]>([]);
 
@@ -58,7 +58,7 @@ export default function HomeDashboard(isUpdated: any, setIsUpdated: any) {
       setProductsArr(allProducts);
     }
     getData()
-  }, [isUpdated]);
+  }, []);
 
   const rows = productsArr.map((product) => {
     
@@ -84,7 +84,7 @@ export default function HomeDashboard(isUpdated: any, setIsUpdated: any) {
   return (
     <Box sx={{ height: 400, width: '100%' }}>
       <br></br>
-      <AddProduct isUpdated={isUpdated} setIsUpdated={setIsUpdated} />
+      <AddProduct />
       <DataGrid
         rows={rows}
         columns={columns}

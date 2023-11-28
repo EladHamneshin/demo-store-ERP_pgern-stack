@@ -10,11 +10,16 @@ import { Product } from '../../../types/Product';
 import { Box, Checkbox, FormControlLabel } from '@mui/material';
 import productsAPI from '../../../api/productsAPI';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
-export default function AddProduct(isUpdated: any, setIsUpdated: any ) {
+export default function AddProduct() {
   const navigate = useNavigate();
-  const [open, setOpen] = React.useState(false);
-  const [isForSale, setForSale] = React.useState(true);
+  const [open, setOpen] = useState(false);
+  const [isForSale, setForSale] = useState(true);
+
+  const handleSale = () => {
+    setForSale(!isForSale)
+  }
 
   const handleOpen = () => {
     setOpen(true);
@@ -24,21 +29,15 @@ export default function AddProduct(isUpdated: any, setIsUpdated: any ) {
     setOpen(false);
   };
 
-  const changeIsUpdated = () => {
-    if (isUpdated) setIsUpdated(false);
-    else setIsUpdated(true)
-  }
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-
     const formProduct: Omit<Product, 'id'> = {
       name: data.get('name')!.toString(),
       saleprice: parseInt(data.get('salePrice')!.toString()),
       quantity: parseInt(data.get('quantity')!.toString()),
       description: data.get('description')!.toString(),
-      category: data.get('category')!.toString(),
+      category: data.get("categorySelect")!.toString(),
       discount: parseInt(data.get('discountPercentage')!.toString()),
       rating: 0,
       clicked: 0,
@@ -53,12 +52,10 @@ export default function AddProduct(isUpdated: any, setIsUpdated: any ) {
       tags: {
         "brand": data.get('tags')!.toString() 
       },
-      costprice: parseInt(data.get('costPrice')!.toString()),
+      costPrice: parseInt(data.get('costPrice')!.toString()),
       isForSale: isForSale,
       supplier: data.get('supplier')!.toString()
-    }
-    console.log('is for sale:',formProduct.isForSale);
-    
+    }    
 
     try {
       const newProduct = await productsAPI.addnewProduct(formProduct);
@@ -68,9 +65,7 @@ export default function AddProduct(isUpdated: any, setIsUpdated: any ) {
 
     } catch (error) {
       console.error(error);
-      // toastError((error as Error).message);
     }
-
   };
 
   return (
@@ -86,22 +81,20 @@ export default function AddProduct(isUpdated: any, setIsUpdated: any ) {
               Fill all this fields and press submit to add new product. 
             </DialogContentText>
             <AddProductBody />
-            <FormControlLabel required control={<Checkbox checked />} label="Is For Sale" />
-
+            <FormControlLabel
+             required 
+             onClick={handleSale}
+             control={<Checkbox defaultChecked />} 
+             label="Is For Sale"
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-            <Button type='submit' onClick={() => {
-              handleClose();
-              changeIsUpdated()
-              }} 
+            <Button type='submit' onClick={handleClose} 
               >Add</Button>
           </DialogActions>
         </Box>
       </Dialog>
-
     </>
-
   );
 }
-

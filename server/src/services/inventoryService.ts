@@ -39,15 +39,21 @@ export const getProductByIdService = async (id: string) => {
 export const addNewProductService = async (
   newProduct: Omit<AdminProduct, 'id'>
 ) => {
+  console.log('0');
+  
   const product: AdminProduct = await addNewProductDal(newProduct);
-
+  console.log('1');
+  
   if (!product) {
+    console.log('2');
+
     throw new RequestError(
       'failed to add product',
       STATUS_CODES.INTERNAL_SERVER_ERROR
     );
   } else {
-    
+    console.log('3');
+
     return product;
   }
 };

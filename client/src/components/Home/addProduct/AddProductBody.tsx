@@ -1,8 +1,9 @@
 import TextField from '@mui/material/TextField';
-import { Checkbox, FormControlLabel, Switch } from '@mui/material';
-import SelectCategory from './SelectCategory';
 import { useState } from 'react';
 import { isEmpty } from '../../../utils/validateFuncs';
+import SelectCategory from './SelectCategory';
+import { Box, Typography } from '@mui/material';
+
 
 export default function AddProductBody() {
     const [isError, setError] = useState(false);
@@ -27,9 +28,7 @@ export default function AddProductBody() {
                 label="Product name"
                 autoFocus
             />
-
-            <SelectCategory/>
-
+            <SelectCategory />
             <TextField
                 name="costPrice"
                 margin="normal"
@@ -99,7 +98,7 @@ export default function AddProductBody() {
                 autoFocus
             // error={isEmailError}
             />
-            
+
             <TextField
                 name="imageUrl"
                 margin="normal"
@@ -108,7 +107,7 @@ export default function AddProductBody() {
                 label="image url"
                 autoFocus
             // error={isEmailError}
-
+            sx={{marginRight: '30px'}}
             />
 
             <TextField
@@ -130,6 +129,8 @@ export default function AddProductBody() {
                 label="longitude"
                 autoFocus
             // error={isEmailError}
+            sx={{marginRight: '30px'}}
+
             />
 
             <TextField
