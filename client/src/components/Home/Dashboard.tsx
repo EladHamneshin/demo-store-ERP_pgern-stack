@@ -1,6 +1,6 @@
 import productsAPI from '../../api/productsAPI';
 import { useEffect, useState } from 'react';
-import { AdminProduct } from '../../types/Product';
+import {Product} from '../../types/Product';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridRowParams, GridToolbar } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
@@ -53,10 +53,10 @@ const columns: GridColDef[] = [
 
 export default function HomeDashboard() {
   const navigate = useNavigate();
-  const [productsArr, setProductsArr] = useState<AdminProduct[]>([]);
+  const [productsArr, setProductsArr] = useState<Product[]>([]);
   useEffect(() => {
     const getData = async () => {
-      const allProducts: AdminProduct[] = await productsAPI.getAllProducts();
+      const allProducts: Product[] = await productsAPI.getAllProducts();
       setProductsArr(allProducts);
     }
     getData()
