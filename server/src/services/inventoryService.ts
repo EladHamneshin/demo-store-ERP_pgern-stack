@@ -47,6 +47,7 @@ export const addNewProductService = async (
       STATUS_CODES.INTERNAL_SERVER_ERROR
     );
   } else {
+    
     return product;
   }
 };

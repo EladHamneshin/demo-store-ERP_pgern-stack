@@ -57,7 +57,6 @@ export const getProductById = async (productId: string) => {
     where id = '${productId}'`;
 
   const [product] = await DAL.getProductById(queryString);
-  console.log(product);
   
   if (product === null || product === undefined) {
     throw new RequestError('Product not found', STATUS_CODES.NOT_FOUND);

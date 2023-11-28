@@ -7,6 +7,8 @@ import { AdminProduct } from '../types/Product';
 export const getAllProductsController = asyncHandler( async (req: Request , res: Response) => {
     
     const allproducts: AdminProduct[] = await getAllProductsService();
+    console.log('allproducts: ',allproducts);
+    
     res.json(allproducts);
 
 })
@@ -19,7 +21,8 @@ export const getProductByIdController = asyncHandler( async (req: Request , res:
 })
 
 export const addNewProductController = asyncHandler( async (req: Request , res: Response) => {
-
+    console.log('body:',req.body);
+    console.log('name:',req.body.name);
     const newProduct: AdminProduct = await addNewProductService(req.body);
     res.json(newProduct)
     

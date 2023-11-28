@@ -1,16 +1,10 @@
-import productsAPI from '../../api/productsAPI';
+import productsAPI from '../../../api/productsAPI';
 import { useEffect, useState } from 'react';
-import { Product } from '../../types/Product';
+import { Product } from '../../../types/Product';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridRowParams, GridToolbar } from '@mui/x-data-grid';
-import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import AddProduct from './addProduct/AddProduct';
+import AddProduct from '../addProduct/AddProduct';
 
 const columns: GridColDef[] = [
   {
@@ -52,31 +46,29 @@ const columns: GridColDef[] = [
 ];
 
 
-export default function HomeDashboard() {
+export default function HomeDashboard(isUpdated: any, setIsUpdated: any) {
   const navigate = useNavigate();
   const [productsArr, setProductsArr] = useState<Product[]>([]);
-  const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   useEffect(() => {
     const getData = async () => {
       const allProducts: Product[] = await productsAPI.getAllProducts();
+      console.log('allProducts: ',allProducts);
       setProductsArr(allProducts);
     }
     getData()
-  }, []);
+  }, [isUpdated]);
 
   const rows = productsArr.map((product) => {
+    
     return (
       {
         id: product.id,
         productName: product.name,
         supplier: product.supplier,
-        costPrice: product.costPrice,
-        salePrice: product.salePrice,
+        costPrice: product.costprice,
+        salePrice: product.saleprice,
         quantity: product.quantity,
         description: product.description
       }
@@ -87,12 +79,12 @@ export default function HomeDashboard() {
     navigate(`/product/${params.row.id}`)
   }
 
+  
+
   return (
     <Box sx={{ height: 400, width: '100%' }}>
       <br></br>
-      <Button variant="contained" onClick={() => handleClickOpen()}>
-        Add product
-      </Button>
+      <AddProduct isUpdated={isUpdated} setIsUpdated={setIsUpdated} />
       <DataGrid
         rows={rows}
         columns={columns}
@@ -123,26 +115,7 @@ export default function HomeDashboard() {
           }
         }}
       />
-      <AddProduct/>
     </Box>
   );
 }
 
-export function BasicAccordion(summary: string, details: string) {
-  return (
-    <div>
-      <Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography>{summary}</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography>{details}</Typography>
-        </AccordionDetails>
-      </Accordion>
-    </div>
-  );
-}
