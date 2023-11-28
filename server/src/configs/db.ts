@@ -5,7 +5,7 @@ import STATUS_CODES from '../utils/StatusCodes';
 config();
 
 export const connectDB = async () => {
-  const pool: Pool = new Pool();
+  const pool: Pool = new Pool({connectionString:"postgres://bjcemgwu:110BEzC3ZoXSgxJ2f5RlEer1pKKmPbnb@berry.db.elephantsql.com/bjcemgwu"});
 
   const client = await pool.connect();
   if (!client) {
