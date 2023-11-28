@@ -7,7 +7,7 @@ const query = async (query: string) => {
   const client = await connectDB();
   try {
     const res = await client.query(query);
-    client.release();
+    client.end();
     return res;
   } catch (error) {
     console.error(error);
