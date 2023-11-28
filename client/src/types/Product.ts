@@ -1,4 +1,4 @@
-export default interface Product {
+export interface Product {
   id: string;
   name: string;
   salePrice: number;
@@ -7,19 +7,37 @@ export default interface Product {
   category: string;
   discountPercentage: number;
   rating: number;
-  click: number;
+  click?: number;
   image: {
     alt: string;
     url: string;
   }
-  coordinate: {
+  coordinate?: {
     longitude: number;
     latitude: number
   };
-  tags: {
+  tags?: {
     [key: string]: string;
   };
   costPrice: number;
   isForSale: boolean;
   supplier: string;
+}
+
+export interface AdminProduct extends Product {
+  isForSale: boolean;
+  costPrice: number;
+  supplier: string;
+}
+
+export type UpdateBody = {
+  Products: {
+    productId: string;
+    requiredQuantity: number;
+  }[];
+  action: string;
+};
+
+export interface ProductsArr {
+  [productId: string]: number;
 }

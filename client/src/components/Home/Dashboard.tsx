@@ -1,6 +1,6 @@
 import productsAPI from '../../api/productsAPI';
 import { useEffect, useState } from 'react';
-import Product from '../../types/Product';
+import {Product} from '../../types/Product';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridRowParams, GridToolbar } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
