@@ -4,9 +4,9 @@
   "description": "",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "tsc && node .",
+    "dev": "nodemon",
     "pro": "tsc -w && nodemon dist/server.js",
-    "start": "nodemon",
+    "start": "node .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
   },
