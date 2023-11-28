@@ -1,4 +1,4 @@
-export interface Product {
+export default interface Product {
   id: string;
   name: string;
   salePrice: number;
@@ -16,10 +16,10 @@ export interface Product {
     longitude: number;
     latitude: number
   };
+  tags: {
+    [key: string]: string;
+  };
   costPrice: number;
   isForSale: boolean;
   supplier: string;
-  tags: {
-    [key: string]: string
-  };
 }
