@@ -4,9 +4,9 @@
   "description": "",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "tsc && node .",
-    "pro": "tsc -w && nodemon dist/server.js",
-    "start": "nodemon",
+    "dev": "tsc -w && nodemon dist/server.js",
+    "pro": "nodemon",
+    "start": "node .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
   },
@@ -24,7 +24,8 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "pg": "^8.11.3",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "vitest": "^0.34.6"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

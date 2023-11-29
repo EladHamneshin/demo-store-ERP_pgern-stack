@@ -13,7 +13,7 @@ const userValidation = (user: User) => {
       }),
     password: Joi.string()
       .required()
-      .pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=.{7,20}$)/)
+      .pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!.])(?=.{7,20}$)/)
       .messages({
         'string.empty': `user "password" cannot be an empty field`,
         'any.required': `user "password" is a required field`,
