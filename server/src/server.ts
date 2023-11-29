@@ -7,7 +7,8 @@ import { notFound, errorHandler } from './middlewares/errorsMiddleware';
 import shopCategoriesRouter from './routes/categoriesRouter';
 import inventoryRouter from './routes/inventoryRouts';
 import shopInventoryRouter from './routes/shopInventoryRouts';
-import userRoutes from './routes/userRoutes'
+import userRoutes from './routes/userRoutes';
+import { connectDB } from "./configs/db";
 
 const app = express();
 
@@ -30,6 +31,12 @@ app.use(errorHandler);
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => {
-  console.log(`server is running at port ${port}`);
-});
+const start = async () => {
+  await connectDB();
+  console.log('Connecting to database successfully');
+  app.listen(port, () => {
+    console.log(`server is running at port ${port}`);
+  });
+}
+start()
+
