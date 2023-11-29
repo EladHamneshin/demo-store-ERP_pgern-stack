@@ -53,15 +53,16 @@ export const getProductById = async (productId: string) => {
   }
 
   let queryString = `
-    select * from products
-    where id = '${productId}'`;
+    ${getAllDataQuery}
+    where id = '${productId}'
+    GROUP BY p.id, c.name, i.url, i.alt, c2.lng, c2.lat`;
 
   const [product] = await DAL.getProductById(queryString);
   
   if (product === null || product === undefined) {
     throw new RequestError('Product not found', STATUS_CODES.NOT_FOUND);
   }
-  return product;
+  return product.name;
 };
 
 

@@ -50,7 +50,7 @@ export default function AddProduct() {
         latitude: parseInt(data.get('latitude')!.toString())
       },
       tags: {
-        "brand": data.get('tags')!.toString() 
+        [data.get('tagName')!.toString()] : data.get('tagValue')!.toString() 
       },
       costPrice: parseInt(data.get('costPrice')!.toString()),
       isForSale: isForSale,
@@ -89,9 +89,14 @@ export default function AddProduct() {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button type='submit' onClick={handleClose} 
-              >Add</Button>
+            <Button onClick={handleClose}>Cancel</Button>            
+            <Button 
+              type='submit' 
+              // disabled={full}
+              onClick={handleClose} 
+              >
+                Add
+              </Button>
           </DialogActions>
         </Box>
       </Dialog>

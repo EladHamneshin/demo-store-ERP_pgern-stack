@@ -1,25 +1,56 @@
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
-import { isEmpty } from '../../../utils/validateFuncs';
 import SelectCategory from './SelectCategory';
-import { Box, Typography } from '@mui/material';
-
+import CostSaleFields from './CostSaleFields';
+import ImgCoorFields from './ImgCoorFields';
 
 export default function AddProductBody() {
-    const [isError, setError] = useState(false);
+    const [nameError, setNameError] = useState(false);
+    const [descriptionError, setDescriptionError] = useState(false);
+    const [supplyError, setSupplyError] = useState(false);
+    const [tagNameError, setTagNameError] = useState(false);
+    const [tagValError, setTagValError] = useState(false);
 
-    const handleFieldBlur = (event: React.FocusEvent<HTMLInputElement>) => {
-        if (!isEmpty(event.target.value)) setError(true);
+    const handleNamelBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+        if (event.target.value !== "") setNameError(false)
+    }
+    const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.value === "") setNameError(true)
     }
 
-    // const handleFieldChange = (event: React.FocusEvent<HTMLInputElement>) => {
-    //     if (isEmpty(event.target.value)) setError(false);
-    // }
-    
+    const handleDescriptionlBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+        if (event.target.value !== "") setDescriptionError(false)
+    }
+    const handleDescriptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.value === "") setDescriptionError(true)
+    }
+
+    const handleSupplyBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+        if (event.target.value !== "") setSupplyError(false)
+    }
+    const handleSupplyChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.value === "") setSupplyError(true)
+    }
+
+    const TagNameBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+        if (event.target.value !== "") setTagNameError(false)
+    }
+    const TagNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.value === "") setTagNameError(true)
+    }
+
+    const TagValueBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+        if (event.target.value !== "") setTagValError(false)
+    }
+    const TagValueChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.value === "") setTagValError(true)
+    }
+
     return (
         <>
-
             <TextField
+                onBlur={handleNamelBlur}
+                onChange={handleNameChange}
                 name="name"
                 margin="normal"
                 required
@@ -27,45 +58,16 @@ export default function AddProductBody() {
                 id="name"
                 label="Product name"
                 autoFocus
+                error={nameError}
+                helperText={nameError ? 'Required field' : ''}
             />
+
             <SelectCategory />
-            <TextField
-                name="costPrice"
-                margin="normal"
-                required
-                fullWidth
-                type='number'
-                id="costPrice"
-                label="Cost price"
-                autoFocus
-            // error={isEmailError}
-            />
+            <CostSaleFields />
 
             <TextField
-                name="salePrice"
-                margin="normal"
-                required
-                fullWidth
-                type='number'
-                id="salePrice"
-                label="Sale price"
-                autoFocus
-            // error={isEmailError}
-            />
-
-            <TextField
-                name="quantity"
-                margin="normal"
-                required
-                fullWidth
-                type='number'
-                id="quantity"
-                label="quantity"
-                autoFocus
-            // error={isEmailError}
-            />
-
-            <TextField
+                onBlur={handleDescriptionlBlur}
+                onChange={handleDescriptionChange}
                 name="description"
                 margin="normal"
                 required
@@ -73,22 +75,13 @@ export default function AddProductBody() {
                 id="description"
                 label="description"
                 autoFocus
-            // error={isEmailError}
+                error={descriptionError}
+                helperText={descriptionError ? 'Required field' : ''}
             />
 
             <TextField
-                name="discountPercentage"
-                margin="normal"
-                required
-                fullWidth
-                type='number'
-                id="discountPercentage"
-                label="Discount Percentage"
-                autoFocus
-            // error={isEmailError}
-            />
-
-            <TextField
+                onBlur={handleSupplyBlur}
+                onChange={handleSupplyChange}
                 name="supplier"
                 margin="normal"
                 required
@@ -96,64 +89,37 @@ export default function AddProductBody() {
                 id="supplier"
                 label="supplier"
                 autoFocus
-            // error={isEmailError}
+                error={supplyError}
+                helperText={supplyError ? 'Required field' : ''}
+            />
+            <ImgCoorFields />
+
+            <TextField
+                onBlur={TagNameBlur}
+                onChange={TagNameChange}
+                name="tagName"
+                margin="normal"
+                required
+                id="tagName"
+                label="Tag name"
+                autoFocus
+                error={tagNameError}
+                helperText={tagNameError ? 'Required field' : ''}
+                sx={{ marginRight: '30px' }}
             />
 
             <TextField
-                name="imageUrl"
+                onBlur={TagValueBlur}
+                onChange={TagValueChange}
+                name="tagValue"
                 margin="normal"
                 required
-                id="imageUrl"
-                label="image url"
+                id="tagValue"
+                label="Tag value"
                 autoFocus
-            // error={isEmailError}
-            sx={{marginRight: '30px'}}
+                error={tagValError}
+                helperText={tagValError ? 'Required field' : ''}
             />
-
-            <TextField
-                name="imageAlt"
-                margin="normal"
-                required
-                id="imageAlt"
-                label="Image alt"
-                autoFocus
-            // error={isEmailError}
-            />
-
-            <TextField
-                name="longitude"
-                margin="normal"
-                required
-                type='number'
-                id="longitude"
-                label="longitude"
-                autoFocus
-            // error={isEmailError}
-            sx={{marginRight: '30px'}}
-
-            />
-
-            <TextField
-                name="latitude"
-                margin="normal"
-                required
-                type='number'
-                id="latitude"
-                label="latitude"
-                autoFocus
-            // error={isEmailError}
-            />
-
-            <TextField
-                name="tags"
-                margin="normal"
-                required
-                fullWidth
-                id="tags"
-                label="Tags"
-                autoFocus
-            // error={isEmailError}
-            />   
         </>
     )
 }
