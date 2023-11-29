@@ -50,11 +50,9 @@ export default function HomeDashboard() {
   const navigate = useNavigate();
   const [productsArr, setProductsArr] = useState<Product[]>([]);
 
-
   useEffect(() => {
     const getData = async () => {
       const allProducts: Product[] = await productsAPI.getAllProducts();
-      console.log('allProducts: ',allProducts);
       setProductsArr(allProducts);
     }
     getData()
@@ -67,7 +65,7 @@ export default function HomeDashboard() {
         id: product.id,
         productName: product.name,
         supplier: product.supplier,
-        costPrice: product.costprice,
+        costPrice: product.costPrice,
         salePrice: product.saleprice,
         quantity: product.quantity,
         description: product.description

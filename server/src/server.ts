@@ -27,7 +27,7 @@ app.use('/api/shopInventory/categories', shopCategoriesRouter);
 app.use('/api/user', userRoutes);
 app.use('/api/shopInventory', shopInventoryRouter);
 app.use('/api/inventory', inventoryRouter);
-
+app.use('api', express.Router().get('/', (req, res) => {res.status(200);}))
 app.use(notFound);
 app.use(errorHandler);
 
