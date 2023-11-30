@@ -8,7 +8,7 @@
     "pro": "nodemon",
     "start": "node .",
     "test": "jest",
-    "build": "tsc"
+    "build": "npm install && tsc"
   },
   "keywords": [],
   "author": "",
