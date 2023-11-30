@@ -7,7 +7,8 @@ import { notFound, errorHandler } from './middlewares/errorsMiddleware';
 import shopCategoriesRouter from './routes/categoriesRouter';
 import inventoryRouter from './routes/inventoryRouts';
 import shopInventoryRouter from './routes/shopInventoryRouts';
-import userRoutes from './routes/userRoutes'
+import userRoutes from './routes/userRoutes';
+import { connectDB } from "./configs/db";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+app.use('api', express.Router().get('/', (req, res) => {res.status(200);}))
 app.use('/api/shopInventory/categories', shopCategoriesRouter);
 app.use('/api/user', userRoutes);
 app.use('/api/shopInventory', shopInventoryRouter);
@@ -33,6 +35,12 @@ app.use(errorHandler);
 
 const port = process.env.PORT || 5000;
 
-app.listen(port, () => {
-  console.log(`server is running at port ${port}`);
-});
+const start = async () => {
+  await connectDB();
+  console.log('Connecting to database successfully');
+  app.listen(port, () => {
+    console.log(`server is running at port ${port}`);
+  });
+}
+start()
+

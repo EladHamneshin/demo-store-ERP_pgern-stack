@@ -4,6 +4,7 @@ import RequestError from '../types/errors/RequestError';
 import STATUS_CODES from '../utils/StatusCodes';
 config();
 
+
 export const connectDB = async () => {
   const client: Client = new Client();
 
@@ -15,6 +16,5 @@ export const connectDB = async () => {
       STATUS_CODES.INTERNAL_SERVER_ERROR
     );
   }
-
   return client;
 };
