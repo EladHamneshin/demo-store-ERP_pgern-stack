@@ -1,4 +1,4 @@
-import Dashboard from "../components/Home/Dashboard"
+import Dashboard from "../components/Home/dashboard/Dashboard"
 import { useEffect } from "react";
 import { useAppSelector } from "../utils/store/hooks"
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,9 @@ export default function HomePage() {
       navigate("/login");
     }
   }, []);
+
+  
+  
   return (
     <>
     <Dashboard/>

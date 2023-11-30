@@ -14,7 +14,7 @@ import { Delete, Edit } from '@mui/icons-material';
 import { useNavigate, useParams } from "react-router-dom";
 import productsAPI from "../api/productsAPI";
 import { useAppSelector } from '../utils/store/hooks';
-import Product from "../types/Product";
+import {Product} from "../types/Product";
 // import EditProduct from '../components/EditProduct';
 
 const ProductPage = () => {
@@ -135,8 +135,8 @@ const ProductPage = () => {
 
                     {/* Stock Location Details */}
                     {renderTitle('Stock Location Details')}
-                    {renderDetailRow('Longitude', product.coordinate.longitude)}
-                    {renderDetailRow('Latitude', product.coordinate.latitude)}
+                    {renderDetailRow('Longitude', product.coordinate!.longitude)}
+                    {renderDetailRow('Latitude', product.coordinate!.latitude)}
                   </Grid>
 
                   {/* Right Side - Picture */}

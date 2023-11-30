@@ -1,7 +1,7 @@
 import cors from 'cors';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
-import express from 'express';
+import express, { NextFunction } from 'express';
 import cookieParser from 'cookie-parser';
 import { notFound, errorHandler } from './middlewares/errorsMiddleware';
 import shopCategoriesRouter from './routes/categoriesRouter';
@@ -16,6 +16,10 @@ dotenv.config();
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
+// app.use((req, res, next) => {
+//   console.log('middleware body:', req.body);
+//   next();
+// });
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
@@ -23,7 +27,7 @@ app.use('/api/shopInventory/categories', shopCategoriesRouter);
 app.use('/api/user', userRoutes);
 app.use('/api/shopInventory', shopInventoryRouter);
 app.use('/api/inventory', inventoryRouter);
-
+app.use('api', express.Router().get('/', (req, res) => {res.status(200);}))
 app.use(notFound);
 app.use(errorHandler);
 
