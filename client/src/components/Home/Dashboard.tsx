@@ -10,6 +10,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ROUTES from '../../routes/routes';
 
 const columns: GridColDef[] = [
   {
@@ -78,11 +79,10 @@ export default function HomeDashboard() {
   })
 
 
-
   const handleClick = (params: GridRowParams) => {
-    navigate(`/product/${params.row.id}`)
-  }
-
+    navigate(`/erp/product/${params.row.id}`);
+  };
+  
   return (
     <Box sx={{ height: 400, width: '100%' }}>
       {/* <Typography variant="h4" component="h2">

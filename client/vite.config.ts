@@ -7,9 +7,10 @@ import { env } from 'process'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: '/erp',
   server: {
     proxy: {   
-      '/api': {
+      '/erp/api': {
         target: env.VITE_BASE_URI,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),

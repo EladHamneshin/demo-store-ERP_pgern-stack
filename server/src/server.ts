@@ -20,12 +20,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use('api', express.Router().get('/', (req, res) => {res.status(200);}))
-app.use('/api/shopInventory/categories', shopCategoriesRouter);
-app.use('/api/user', userRoutes);
-app.use('/api/shopInventory', shopInventoryRouter);
-app.use('/api/inventory', inventoryRouter);
-app.use('api', express.Router().get('/', (req, res) => {res.status(200);}))
+app.use('/erp/api', express.Router().get('/', (req, res) => {res.status(200);}))
+app.use('/erp/api/shopInventory/categories', shopCategoriesRouter);
+app.use('/erp/api/user', userRoutes);
+app.use('/erp/api/shopInventory', shopInventoryRouter);
+app.use('/erp/api/inventory', inventoryRouter);
 app.use(notFound);
 app.use(errorHandler);
 
