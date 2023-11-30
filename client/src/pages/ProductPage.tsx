@@ -82,7 +82,7 @@ const ProductPage = () => {
   const onDelete = async () => {
     /// delete the product
     await productsAPI.deleteProduct(pid!)
-    navigate(`/HomePage`);
+    navigate(`/erp/HomePage`);
   };
 
   //When the product is loaded then show the component

@@ -74,7 +74,7 @@ export default function HomeDashboard() {
   })
 
   const handleClick = (params: GridRowParams) => {
-    navigate(`/product/${params.row.id}`)
+    navigate(`/erp/product/${params.row.id}`)
   }
 
   
