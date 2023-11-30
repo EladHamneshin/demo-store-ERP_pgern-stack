@@ -1,10 +1,10 @@
 const ROUTES = {
     //add /erp
-    HOME: '/',
-    LOGIN: '/login',
-    REGISTER: '/register',
-    PRODUCT: '/product/:pid',
-    EDIT_PRODUCT: '/product/:pid',
+    HOME: '/erp',
+    LOGIN: '/erp/login',
+    REGISTER: '/erp/register',
+    PRODUCT: '/erp/product/:pid',
+    EDIT_PRODUCT: '/erp/product/:pid',
     DEFAULT: '*'
 };
 
