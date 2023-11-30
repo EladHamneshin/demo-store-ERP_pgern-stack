@@ -30,7 +30,7 @@ export default function Login() {
     try {
       const {email} = await userAPI.loginUser(formEmail, password);
       dispatch(saveEmail(email!));
-      navigate('/');
+      navigate('/erp');
 
     } catch(error) {      
       console.error(error);
@@ -61,7 +61,7 @@ export default function Login() {
                 <LoginField />                
                 <Grid container>
                     <Grid item>
-                        <Link href='/register' variant="body2">
+                        <Link href='/erp/register' variant="body2">
                         {"Don't have an account? Sign Up"}
                         </Link>
                     </Grid>

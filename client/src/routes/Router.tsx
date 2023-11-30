@@ -10,7 +10,6 @@ import NotFoundPage from '../pages/NotFoundPage';
 const Router = () => {
   return (
     <Routes>
-      {/* add erp */}
       <Route path={'/'} element={<App />}>
         <Route index={true} path={ROUTES.HOME} element={<HomePage />} />
         <Route path={ROUTES.LOGIN} element={<LoginPage />} />

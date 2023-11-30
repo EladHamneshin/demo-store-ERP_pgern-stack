@@ -51,7 +51,7 @@ const AppBar = () => {
     <MUIAppBar position="static" color='primary'>
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/erp')}
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
