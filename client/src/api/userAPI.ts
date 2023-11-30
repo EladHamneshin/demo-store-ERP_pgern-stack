@@ -5,14 +5,13 @@ const apiUri = import.meta.env.VITE_BASE_URI;
 
 
 async function loginUser(email: string, password: string): Promise<UserInfo> {
-  const response = await fetch(`${apiUri}/api/user/auth/login`, {
+  const response = await fetch(`${apiUri}api/user/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
-    credentials: 'same-origin'
-  });
+  });  
   return await handleApiRes(response);
 }
 

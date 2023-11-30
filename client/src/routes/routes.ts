@@ -1,4 +1,5 @@
 const ROUTES = {
+    //add /erp
     HOME: '/',
     LOGIN: '/login',
     REGISTER: '/register',

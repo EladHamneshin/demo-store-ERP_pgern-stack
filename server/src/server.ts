@@ -24,6 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+//add erp
 app.use('api', express.Router().get('/', (req, res) => {res.status(200);}))
 app.use('/api/shopInventory/categories', shopCategoriesRouter);
 app.use('/api/user', userRoutes);
