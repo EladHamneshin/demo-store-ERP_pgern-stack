@@ -46,6 +46,7 @@ export const getProductByIdDal = async (id: string) => {
 export const addNewProductDal = async (
   newProduct: Omit<AdminProduct, 'id'>
 ) => {
+  
   // Insert image
   const imageRes = await query(
     `INSERT INTO images (url, alt) VALUES ('${newProduct.image.url}', '${newProduct.image.alt}') returning *;`
@@ -72,6 +73,7 @@ export const addNewProductDal = async (
       const idQuery = await query(`select id from tags where name = '${key}'`);
       tagId = idQuery?.rows[0].id;
     }
+    console.log('d');
 
     const tagValueRes = await query(
       `INSERT INTO tag_values (name, tag) VALUES ('${newProduct.tags[key]}', '${tagId}') ON CONFLICT (name, tag) DO NOTHING returning *;`
@@ -85,16 +87,20 @@ export const addNewProductDal = async (
       );
       tagValueId = idQuery?.rows[0].id;
     }
+    console.log('e');
 
     await query(
       `INSERT INTO product_tags (product, tag_and_value_id) VALUES ('${productId}', '${tagValueId}') returning *;`
     );
   }
+  console.log('f');
 
   // Insert coordinates
   const coordinatesRes = await query(
     `INSERT INTO coordinates (lat, lng) VALUES (${newProduct.coordinate.latitude}, ${newProduct.coordinate.longitude}) ON CONFLICT DO NOTHING returning *;`
   );
+  console.log('g');
+
   let coordinatesId = ' ';
   if (coordinatesRes?.rows[0]) {
     coordinatesId = coordinatesRes.rows[0].id;
