@@ -4,9 +4,9 @@ import RequestError from '../types/errors/RequestError';
 import STATUS_CODES from '../utils/StatusCodes';
 config();
 
+export const client: Client = new Client();
 
 export const connectDB = async () => {
-  const client: Client = new Client();
 
   await client.connect();
 
