@@ -125,7 +125,7 @@ const ProductPage = () => {
                     {renderDetailRow('Id', product.id)}
                     {renderDetailRow('Name', product.name)}
                     {renderDetailRow('Category', product.category)}
-                    {renderDetailRow('Sale Price', `${product.salePrice}`)}
+                    {renderDetailRow('Sale Price', `${product.saleprice}`)}
 
                     {/* Supplier Details */}
                     {renderTitle('Supplier Details')}
