@@ -4,11 +4,9 @@ import RequestError from '../types/errors/RequestError';
 import STATUS_CODES from '../utils/StatusCodes';
 config();
 
-export const client: Client = new Client({
-  connectionString: "postgres://vtribdjj:APfzm0b6_f2F7s9-W_LaDWq2o7e01DrQ@surus.db.elephantsql.com/vtribdjj"
-});
 
 export const connectDB = async () => {
+  const client: Client = new Client();
 
   await client.connect();
 
