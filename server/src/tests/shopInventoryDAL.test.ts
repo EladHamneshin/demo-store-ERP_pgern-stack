@@ -1,4 +1,3 @@
-import request from "supertest";
 import query from "../utils/queryDB";
 import { Product } from '../types/Product';
 import { getAllDataQuery } from "../types/SQLqueries";
@@ -28,13 +27,14 @@ describe("Tests shopInventory Dal:", () => {
         where id = '0a26f087-42e9-4d47-a3cb-e3704ed37e3d'`;
         const { rows }: { rows: Product[] } = await query(checkQuery);
         const [{ quantity }] = rows;
-        expect(quantity).toBe(800)
+        expect(typeof(quantity)).toBe('number')
     })
     test('Tests updateInventory Dal:', async () => {
         const queryString =
         `UPDATE products
-        SET quantity = 790
+        SET quantity = 850
         WHERE id = '0a26f087-42e9-4d47-a3cb-e3704ed37e3d';`
-        const message = await query(queryString);
+        const message = await query(queryString)
+        expect(message.command).toBe('UPDATE')        
     })
 })

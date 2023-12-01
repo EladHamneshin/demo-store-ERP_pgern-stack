@@ -48,7 +48,7 @@ export const getProductById = async (productId: string) => {
   if (!validate(productId)) {
       throw new RequestError(
         'Invalid product ID format',
-        STATUS_CODES.NOT_FOUND);
+        STATUS_CODES.BAD_REQUEST);
   }
 
   let queryString = `

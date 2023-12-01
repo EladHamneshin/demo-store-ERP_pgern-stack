@@ -10,7 +10,7 @@ import shopInventoryRouter from './routes/shopInventoryRouts';
 import userRoutes from './routes/userRoutes';
 import { connectDB } from "./configs/db";
 
-const app = express();
+export const app = express();
 
 // APP CONFIGS
 dotenv.config();
