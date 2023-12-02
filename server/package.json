@@ -5,10 +5,11 @@
   "main": "dist/server.js",
   "scripts": {
     "test": "jest --coverage .",
-    "dev": "tsc && nodemon .",
+    "dev": "tsc -w && nodemon dist/server.js",
     "buildtest": "babel src -d dist",
     "build": "tsc",
-    "start": "node ."
+    "start": "node .", 
+    "pro": "nodemon"
   },
   "keywords": [],
   "author": "",
