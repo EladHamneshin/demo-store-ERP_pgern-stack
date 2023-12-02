@@ -57,7 +57,7 @@ describe('getProductById Tests:', () => {
     test('testing incorrect productId:', async () => {
         const prodId = "Phones";
         // const res = await Service.getProductById(prodId);   
-        const res = await request(app).get(`/api/shopInventory/${prodId}`)
+        const res = await request(app).get(`/erp/shopInventory/${prodId}`)
         // expect(res.body.error).toBeTruthy()
         expect(res.body.message).toBe("Invalid product ID format")
         expect(res.status).toBe(400)
@@ -75,7 +75,7 @@ describe('tests for updateInventory:', () => {
             "action": "buy"
         }
         const response = await request(app)
-            .post('/api/shopInventory/updateInventory')
+            .post('/erp/shopInventory/updateInventory')
             .send(body)
         expect(response.status).toBe(200)
     }) 
@@ -91,7 +91,7 @@ describe('tests for updateInventory:', () => {
             "action": "yambaluluShambalulu"
         }
         const response = await request(app)
-            .post('/api/shopInventory/updateInventory')
+            .post('/erp/shopInventory/updateInventory')
             .send(body)
         expect(response.status).toBe(400)
         expect(response.body.message).toBe("yambaluluShambalulu: invalid action")
