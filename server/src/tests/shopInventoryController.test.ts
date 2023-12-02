@@ -3,7 +3,6 @@ import * as Service from '../services/shopInventoryService';
 import { app } from '../server'
 
 
-
 describe('tests fot shopInventory controller getAllData: ', () => {
     test('testing if data is in array', async () => {
         const data = await Service.getAllData(undefined, undefined);
@@ -56,9 +55,7 @@ describe('getProductById Tests:', () => {
 
     test('testing incorrect productId:', async () => {
         const prodId = "Phones";
-        // const res = await Service.getProductById(prodId);   
         const res = await request(app).get(`/erp/shopInventory/${prodId}`)
-        // expect(res.body.error).toBeTruthy()
         expect(res.body.message).toBe("Invalid product ID format")
         expect(res.status).toBe(400)
     })
@@ -97,7 +94,4 @@ describe('tests for updateInventory:', () => {
         expect(response.body.message).toBe("yambaluluShambalulu: invalid action")
     })
 })
-
-
-
 
