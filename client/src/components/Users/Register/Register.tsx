@@ -53,7 +53,7 @@ export default function Register() {
             <RegisterField />
             <Grid container>
               <Grid item>
-                <Link href='/erp/login' variant="body2">
+                <Link href={ROUTES.LOGIN} variant="body2">
                   {"Back to login"}
                 </Link>
               </Grid>

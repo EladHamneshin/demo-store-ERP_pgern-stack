@@ -58,19 +58,19 @@ export default function Login() {
             <Typography component="h1" variant="h5">
               Sign in
             </Typography>
-            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-              <LoginField />
-              <Grid container>
-                <Grid item>
-                  <Link href='/erp/register' variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
+              <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                <LoginField />                
+                <Grid container>
+                    <Grid item>
+                        <Link href={ROUTES.REGISTER} variant="body2">
+                        {"Don't have an account? Sign Up"}
+                        </Link>
+                    </Grid>
                 </Grid>
-              </Grid>
-              <ToastContainer />
+                <ToastContainer />
+              </Box>    
             </Box>
-          </Box>
-          <Copyright sx={{ mt: 8, mb: 4 }} />
+            <Copyright sx={{ mt: 8, mb: 4 }} />
         </Container>
       </ThemeProvider>
     </>

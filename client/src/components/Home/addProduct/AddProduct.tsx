@@ -61,7 +61,7 @@ export default function AddProduct() {
       const newProduct = await productsAPI.addnewProduct(formProduct);
       console.log('newProduct:', newProduct);
       console.log('success!');
-      navigate(`/product/${newProduct.id}`);
+      navigate(`/erp/product/${newProduct.id}`);
 
     } catch (error) {
       console.error(error);

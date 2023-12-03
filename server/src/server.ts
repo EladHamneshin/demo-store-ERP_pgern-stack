@@ -10,7 +10,7 @@ import shopInventoryRouter from './routes/shopInventoryRouts';
 import userRoutes from './routes/userRoutes';
 import { connectDB } from "./configs/db";
 
-const app = express();
+export const app = express();
 
 // APP CONFIGS
 dotenv.config();
@@ -24,6 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+//add erp
 app.use('/erp/api', express.Router().get('/', (req, res) => {res.status(200);}))
 app.use('/erp/api/shopInventory/categories', shopCategoriesRouter);
 app.use('/erp/api/user', userRoutes);
