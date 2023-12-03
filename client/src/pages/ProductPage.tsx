@@ -82,7 +82,7 @@ const ProductPage = () => {
   const onDelete = async () => {
     /// delete the product
     await productsAPI.deleteProduct(pid!)
-    navigate(`/HomePage`);
+    navigate(`/erp/HomePage`);
   };
 
   //When the product is loaded then show the component
@@ -125,7 +125,7 @@ const ProductPage = () => {
                     {renderDetailRow('Id', product.id)}
                     {renderDetailRow('Name', product.name)}
                     {renderDetailRow('Category', product.category)}
-                    {renderDetailRow('Sale Price', `${product.salePrice}`)}
+                    {renderDetailRow('Sale Price', `${product.saleprice}`)}
 
                     {/* Supplier Details */}
                     {renderTitle('Supplier Details')}

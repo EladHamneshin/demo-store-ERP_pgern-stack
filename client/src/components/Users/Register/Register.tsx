@@ -24,7 +24,7 @@ export default function Register() {
     const password = data.get('password')!.toString();
     try {
       await userAPI.register(email, password)
-      navigate('/Login');
+      navigate('/erp/Login');
     } catch (error) {
       console.error(error);
     }
@@ -52,7 +52,7 @@ export default function Register() {
             <RegisterField />
             <Grid container>
               <Grid item>
-                <Link href='/login' variant="body2">
+                <Link href='/erp/login' variant="body2">
                   {"Back to login"}
                 </Link>
               </Grid>

@@ -4,10 +4,9 @@ import RequestError from '../types/errors/RequestError';
 import STATUS_CODES from '../utils/StatusCodes';
 config();
 
+
 export const connectDB = async () => {
-  const client: Client = new Client({
-    connectionString: "postgres://bjcemgwu:110BEzC3ZoXSgxJ2f5RlEer1pKKmPbnb@berry.db.elephantsql.com/bjcemgwu"
-  });
+  const client: Client = new Client();
 
   await client.connect();
 
@@ -17,6 +16,5 @@ export const connectDB = async () => {
       STATUS_CODES.INTERNAL_SERVER_ERROR
     );
   }
-
   return client;
 };

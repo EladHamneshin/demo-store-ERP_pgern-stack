@@ -9,12 +9,10 @@ export default function HomePage() {
 
   useEffect(() => {
     if (email === "") {
-      navigate("/login");
+      navigate("/erp/login");
     }
-  }, []);
+  }, []); 
 
-  
-  
   return (
     <>
     <Dashboard/>

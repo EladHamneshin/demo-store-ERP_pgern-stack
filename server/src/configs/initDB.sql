@@ -31,7 +31,7 @@ CREATE TABLE
         image UUID NOT NULL,
         category UUID NOT NULL,
         discount INT NOT NULL,
-        rating INT NOT NULL,
+        rating FLOAT NOT NULL,
         clicked INT NOT NULL,
         isForSale BOOLEAN DEFAULT true,
         costPrice INT NOT NULL,
