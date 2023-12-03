@@ -4,12 +4,12 @@
   "description": "",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "nodemon dist/server.js",
+    "dev": "tsc -w && nodemon dist/server.js",
     "pro": "nodemon",
     "start": "node .",
     "test": "jest --coverage .",
     "buildtest": "babel src -d dist",
-    "build": "tsc -w"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
