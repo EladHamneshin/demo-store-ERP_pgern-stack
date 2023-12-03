@@ -17,20 +17,16 @@ dotenv.config();
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
-// app.use((req, res, next) => {
-//   console.log('middleware body:', req.body);
-//   next();
-// });
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 //add erp
-app.use('/erp/', express.Router().get('/', (req, res) => {res.status(200);}))
-app.use('/erp/shopInventory/categories', shopCategoriesRouter);
-app.use('/erp/user', userRoutes);
-app.use('/erp/shopInventory', shopInventoryRouter);
-app.use('/erp/inventory', inventoryRouter);
-app.use('/erp/', express.Router().get('/', (req, res) => {res.status(200);}))
+app.use('/', express.Router().get('/', (req, res) => {res.status(200);}))
+app.use('/shopInventory/categories', shopCategoriesRouter);
+app.use('/user', userRoutes);
+app.use('/shopInventory', shopInventoryRouter);
+app.use('/inventory', inventoryRouter);
+app.use('/', express.Router().get('/', (req, res) => {res.status(200);}))
 app.use(notFound);
 app.use(errorHandler);
 

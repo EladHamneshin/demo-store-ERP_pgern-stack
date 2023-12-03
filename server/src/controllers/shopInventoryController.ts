@@ -22,7 +22,7 @@ export const getProductById = asyncHandler(
 
 export const updateInventory = asyncHandler(
   async (req: Request, res: Response) => {
-  const success = await Service.updateInventory(req);
+  const success = await Service.updateInventory(req.body);
   res.send(success)
   } 
 )
