@@ -3,7 +3,7 @@ import { Request, query } from 'express';
 import RequestError from '../types/errors/RequestError';
 import STATUS_CODES from '../utils/StatusCodes';
 import { getAllDataQuery } from '../types/SQLqueries';
-import {validate} from 'uuid';
+import validate from 'uuid-validate'
 import { ProductsArr } from '../types/Product';
 
 export const getAllData = async (searchParam: string | undefined, categoryParam: string | undefined) => {
@@ -44,17 +44,16 @@ export const getAllData = async (searchParam: string | undefined, categoryParam:
   }
 };
 
-
 export const getProductById = async (productId: string) => {
   if (!validate(productId)) {
       throw new RequestError(
         'Invalid product ID format',
-        STATUS_CODES.NOT_FOUND);
+        STATUS_CODES.BAD_REQUEST);
   }
 
   let queryString = `
     ${getAllDataQuery}
-    where id = '${productId}'
+    where p.id = '${productId}'
     GROUP BY p.id, c.name, i.url, i.alt, c2.lng, c2.lat`;
 
   const [product] = await DAL.getProductById(queryString);
@@ -62,7 +61,7 @@ export const getProductById = async (productId: string) => {
   if (product === null || product === undefined) {
     throw new RequestError('Product not found', STATUS_CODES.NOT_FOUND);
   }
-  return product.name;
+  return product;
 };
 
 

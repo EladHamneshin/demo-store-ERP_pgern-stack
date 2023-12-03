@@ -7,6 +7,7 @@ export const getAllData = asyncHandler(
     const searchParam = req.query.search?.toString();
     const categoryParam = req.query.category?.toString();
     const allData = await Service.getAllData(searchParam, categoryParam);
+    
     res.json(allData);
   }
 );

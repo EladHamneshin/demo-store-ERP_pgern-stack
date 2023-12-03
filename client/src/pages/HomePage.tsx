@@ -2,6 +2,7 @@ import Dashboard from "../components/Home/dashboard/Dashboard"
 import { useEffect } from "react";
 import { useAppSelector } from "../utils/store/hooks"
 import { useNavigate } from "react-router-dom";
+import ROUTES from "../routes/routes";
 
 export default function HomePage() {
   const {email} = useAppSelector((state) => state.email);
@@ -9,12 +10,10 @@ export default function HomePage() {
 
   useEffect(() => {
     if (email === "") {
-      navigate("/erp/login");
+      navigate(ROUTES.LOGIN);
     }
-  }, []);
+  }, []); 
 
-  
-  
   return (
     <>
     <Dashboard/>

@@ -1,3 +1,5 @@
+-- Active: 1694595215136@@127.0.0.1@5432@demo-store@public
+
 CREATE TABLE
     IF NOT EXISTS coordinates (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -82,7 +84,16 @@ CREATE TABLE
         UNIQUE(product, tag_and_value_id)
     );
 
-INSERT INTO coordinates (lat, lng) values (40.7128, -74.0060);
+INSERT INTO coordinates (lat, lng) VALUES
+    (40.7128, -74.0060),
+    (41.8781, -87.6298),
+    (34.0522, -118.2437),
+    (37.7749, -122.4194),
+    (51.5074, -0.1278),
+    (48.8566, 2.3522),
+    (35.6895, 139.6917),
+    (55.7558, 37.6176);
+
 
 INSERT INTO
     categories (name, clicked)
@@ -154,6 +165,126 @@ VALUES (
         0,
         250,
         'josh computing solutions'
+    ), (
+        'iPhone 12',
+        900,
+        600,
+        'Apple iPhone 12 | 256GB | Space Gray | Unlocked', (
+            SELECT id
+            FROM images
+            WHERE
+                alt = 'phone'
+        ), (
+            SELECT id
+            FROM categories
+            WHERE
+                name = 'Phones'
+        ),
+        0,
+        4.6,
+        0,
+        550,
+        'Apple Inc.'
+    ), (
+        'Google Pixel 5',
+        800,
+        450,
+        'Google Pixel 5 | 128GB | Just Black | Unlocked', (
+            SELECT id
+            FROM images
+            WHERE
+                alt = 'phone'
+        ), (
+            SELECT id
+            FROM categories
+            WHERE
+                name = 'Phones'
+        ),
+        0,
+        4.4,
+        0,
+        480,
+        'Google Technologies'
+    ), (
+        'OnePlus Nord 2',
+        600,
+        300,
+        'OnePlus Nord 2 5G | 128GB | Blue Haze | Unlocked', (
+            SELECT id
+            FROM images
+            WHERE
+                alt = 'phone'
+        ), (
+            SELECT id
+            FROM categories
+            WHERE
+                name = 'Phones'
+        ),
+        0,
+        4.7,
+        0,
+        480,
+        'OnePlus Ltd.'
+    ), (
+        'Dell Inspiron 14',
+        700,
+        400,
+        'Dell Inspiron 14 Laptop, 14.0 FHD 1920 x 1080 Display, Intel Core i5, 8GB RAM, 512GB SSD, Intel UHD Graphics, Windows 10, Silver', (
+            SELECT id
+            FROM images
+            WHERE
+                alt = 'computer'
+        ), (
+            SELECT id
+            FROM categories
+            WHERE
+                name = 'Computers'
+        ),
+        0,
+        4.5,
+        0,
+        600,
+        'Dell Technologies'
+    ), (
+        'HP Envy x360',
+        850,
+        350,
+        'HP Envy x360 Convertible Laptop, 13.3-inch FHD Touchscreen, AMD Ryzen 7, 16GB RAM, 512GB SSD, Windows 10, Nightfall Black', (
+            SELECT id
+            FROM images
+            WHERE
+                alt = 'computer'
+        ), (
+            SELECT id
+            FROM categories
+            WHERE
+                name = 'Computers'
+        ),
+        0,
+        4.8,
+        0,
+        720,
+        'HP Inc.'
+    ), (
+        'Acer Laptop 300',
+        1200,
+        200,
+        'Acer Predator Helios 300 Gaming Laptop, 15.6-inch FHD 144Hz Display, Intel i7, 16GB RAM, 512GB SSD, NVIDIA GeForce RTX 3060, Windows 10', (
+            SELECT id
+            FROM images
+            WHERE
+                alt = 'computer'
+        ), (
+            SELECT id
+            FROM categories
+            WHERE
+                name = 'Computers'
+        ),
+        0,
+        4.9,
+        0,
+        950,
+        'Acer Inc.'
     );
 
 INSERT INTO
@@ -202,6 +333,55 @@ VALUES (
         )
     ), (
         '128GB', (
+            SELECT id
+            FROM tags
+            WHERE
+                name = 'storage'
+        )
+    ), (
+        'iPhone', (
+            SELECT id
+            FROM tags
+            WHERE
+                name = 'brand'
+        )
+    ), (
+        'Google', (
+            SELECT id
+            FROM tags
+            WHERE
+                name = 'brand'
+        )
+    ), (
+        'OnePlus', (
+            SELECT id
+            FROM tags
+            WHERE
+                name = 'brand'
+        )
+    ), (
+        'Aluminum', (
+            SELECT id
+            FROM tags
+            WHERE
+                name = 'material'
+        )
+    ), (
+        'Blue', (
+            SELECT id
+            FROM tags
+            WHERE
+                name = 'color'
+        )
+    ), (
+        'Silver', (
+            SELECT id
+            FROM tags
+            WHERE
+                name = 'color'
+        )
+    ), (
+        '512GB', (
             SELECT id
             FROM tags
             WHERE
@@ -306,6 +486,94 @@ VALUES ( (
             WHERE
                 name = '256GB'
         )
+    ), ( (
+            SELECT id
+            FROM products
+            WHERE
+                name = 'iPhone 12'
+        ), (
+            SELECT id
+            FROM tag_values
+            WHERE
+                name = 'iPhone'
+        )
+    ), ( (
+            SELECT id
+            FROM products
+            WHERE
+                name = 'Google Pixel 5'
+        ), (
+            SELECT id
+            FROM tag_values
+            WHERE
+                name = 'Google'
+        )
+    ), ( (
+            SELECT id
+            FROM products
+            WHERE
+                name = 'OnePlus Nord 2'
+        ), (
+            SELECT id
+            FROM tag_values
+            WHERE
+                name = 'OnePlus'
+        )
+    ), ( (
+            SELECT id
+            FROM products
+            WHERE
+                name = 'Google Pixel 5'
+        ), (
+            SELECT id
+            FROM tag_values
+            WHERE
+                name = 'Aluminum'
+        )
+    ), ( (
+            SELECT id
+            FROM products
+            WHERE
+                name = 'OnePlus Nord 2'
+        ), (
+            SELECT id
+            FROM tag_values
+            WHERE
+                name = 'Blue'
+        )
+    ), ( (
+            SELECT id
+            FROM products
+            WHERE
+                name = 'Dell Inspiron 14'
+        ), (
+            SELECT id
+            FROM tag_values
+            WHERE
+                name = 'Aluminum'
+        )
+    ), ( (
+            SELECT id
+            FROM products
+            WHERE
+                name = 'HP Envy x360'
+        ), (
+            SELECT id
+            FROM tag_values
+            WHERE
+                name = 'Silver'
+        )
+    ), ( (
+            SELECT id
+            FROM products
+            WHERE
+                name = 'Acer Laptop 300'
+        ), (
+            SELECT id
+            FROM tag_values
+            WHERE
+                name = '256GB'
+        )
     );
 
 INSERT INTO
@@ -330,6 +598,72 @@ VALUES ( (
             SELECT id
             FROM coordinates
             WHERE
-                lat = 40.7128
+                lat = 41.8781
+        )
+    ), ( (
+            SELECT id
+            FROM products
+            WHERE
+                name = 'iPhone 12'
+        ), (
+            SELECT id
+            FROM coordinates
+            WHERE
+                lat = 34.0522
+        )
+    ), ( (
+            SELECT id
+            FROM products
+            WHERE
+                name = 'Google Pixel 5'
+        ), (
+            SELECT id
+            FROM coordinates
+            WHERE
+                lat = 37.7749
+        )
+    ), ( (
+            SELECT id
+            FROM products
+            WHERE
+                name = 'OnePlus Nord 2'
+        ), (
+            SELECT id
+            FROM coordinates
+            WHERE
+                lat = 51.5074
+        )
+    ), ( (
+            SELECT id
+            FROM products
+            WHERE
+                name = 'Dell Inspiron 14'
+        ), (
+            SELECT id
+            FROM coordinates
+            WHERE
+                lat = 48.8566
+        )
+    ), ( (
+            SELECT id
+            FROM products
+            WHERE
+                name = 'HP Envy x360'
+        ), (
+            SELECT id
+            FROM coordinates
+            WHERE
+                lat = 35.6895
+        )
+    ), ( (
+            SELECT id
+            FROM products
+            WHERE
+                name = 'Acer Laptop 300'
+        ), (
+            SELECT id
+            FROM coordinates
+            WHERE
+                lat = 55.7558
         )
     );
