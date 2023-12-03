@@ -80,7 +80,7 @@ export default function HomeDashboard() {
   
 
   return (
-    <Box sx={{ height: 400, width: '100%' }}>
+    <Box sx={{ height: 445, width: '100%' }}>
       <br></br>
       <AddProduct />
       <DataGrid

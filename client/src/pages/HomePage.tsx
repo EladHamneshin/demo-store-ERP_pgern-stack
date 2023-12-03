@@ -11,10 +11,8 @@ export default function HomePage() {
     if (email === "") {
       navigate("/erp/login");
     }
-  }, []);
+  }, []); 
 
-  
-  
   return (
     <>
     <Dashboard/>
