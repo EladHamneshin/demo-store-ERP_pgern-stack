@@ -12,6 +12,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Copyright } from '../../Copyright';
 import userAPI from '../../../api/userAPI';
+import ROUTES from '../../../routes/routes';
 
 const defaultTheme = createTheme();
 
@@ -24,7 +25,7 @@ export default function Register() {
     const password = data.get('password')!.toString();
     try {
       await userAPI.register(email, password)
-      navigate('/erp/Login');
+      navigate(ROUTES.LOGIN);
     } catch (error) {
       console.error(error);
     }
@@ -52,7 +53,7 @@ export default function Register() {
             <RegisterField />
             <Grid container>
               <Grid item>
-                <Link href='/erp/login' variant="body2">
+                <Link href={ROUTES.LOGIN} variant="body2">
                   {"Back to login"}
                 </Link>
               </Grid>

@@ -5,6 +5,7 @@ import { DatabaseError } from 'pg';
 
 const query = async (query: string) => {
   const client = await connectDB();
+  if (!client) throw new RequestError('could not connect to the database', STATUS_CODES.INTERNAL_SERVER_ERROR)
   try {
     const res = await client.query(query);
     client.end();
