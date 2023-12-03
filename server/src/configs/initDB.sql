@@ -84,7 +84,16 @@ CREATE TABLE
         UNIQUE(product, tag_and_value_id)
     );
 
-INSERT INTO coordinates (lat, lng) values (40.7128, -74.0060);
+INSERT INTO coordinates (lat, lng) VALUES
+    (40.7128, -74.0060),
+    (41.8781, -87.6298),
+    (34.0522, -118.2437),
+    (37.7749, -122.4194),
+    (51.5074, -0.1278),
+    (48.8566, 2.3522),
+    (35.6895, 139.6917),
+    (55.7558, 37.6176);
+
 
 INSERT INTO
     categories (name, clicked)
@@ -589,7 +598,7 @@ VALUES ( (
             SELECT id
             FROM coordinates
             WHERE
-                lat = 40.7128
+                lat = 41.8781
         )
     ), ( (
             SELECT id
@@ -600,7 +609,7 @@ VALUES ( (
             SELECT id
             FROM coordinates
             WHERE
-                lat = 40.7128
+                lat = 34.0522
         )
     ), ( (
             SELECT id
@@ -611,7 +620,7 @@ VALUES ( (
             SELECT id
             FROM coordinates
             WHERE
-                lat = 40.7128
+                lat = 37.7749
         )
     ), ( (
             SELECT id
@@ -622,7 +631,7 @@ VALUES ( (
             SELECT id
             FROM coordinates
             WHERE
-                lat = 40.7128
+                lat = 51.5074
         )
     ), ( (
             SELECT id
@@ -633,7 +642,7 @@ VALUES ( (
             SELECT id
             FROM coordinates
             WHERE
-                lat = 40.7128
+                lat = 48.8566
         )
     ), ( (
             SELECT id
@@ -644,7 +653,7 @@ VALUES ( (
             SELECT id
             FROM coordinates
             WHERE
-                lat = 40.7128
+                lat = 35.6895
         )
     ), ( (
             SELECT id
@@ -655,6 +664,6 @@ VALUES ( (
             SELECT id
             FROM coordinates
             WHERE
-                lat = 40.7128
+                lat = 55.7558
         )
     );
