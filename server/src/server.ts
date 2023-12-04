@@ -20,13 +20,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-//add erp
 app.use('/', express.Router().get('/', (req, res) => {res.status(200);}))
 app.use('/shopInventory/categories', shopCategoriesRouter);
 app.use('/user', userRoutes);
 app.use('/shopInventory', shopInventoryRouter);
 app.use('/inventory', inventoryRouter);
-app.use('/', express.Router().get('/', (req, res) => {res.status(200);}))
 app.use(notFound);
 app.use(errorHandler);
 
