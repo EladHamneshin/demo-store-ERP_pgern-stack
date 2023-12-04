@@ -15,6 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import productsAPI from "../api/productsAPI";
 import { useAppSelector } from '../utils/store/hooks';
 import {Product} from "../types/Product";
+import ROUTES from "../routes/routes";
 // import EditProduct from '../components/EditProduct';
 
 const ProductPage = () => {
@@ -24,6 +25,8 @@ const ProductPage = () => {
   const { email } = useAppSelector((state) => state.email);
   const navigate = useNavigate();
   const { pid } = useParams();
+  console.log(pid);
+  
   const [product, setProduct] = useState<null | Product>(null);
   const style = {
     position: 'absolute' as 'absolute',
@@ -67,7 +70,7 @@ const ProductPage = () => {
   //get the product after the page is rendered
   useEffect(() => {
     if (email === '') {
-      // navigate('/login');
+      navigate(ROUTES.LOGIN);
     }
     getProduct(pid!);
   }, []);
@@ -82,7 +85,7 @@ const ProductPage = () => {
   const onDelete = async () => {
     /// delete the product
     await productsAPI.deleteProduct(pid!)
-    navigate(`/HomePage`);
+    navigate(`/erp/HomePage`);
   };
 
   //When the product is loaded then show the component

@@ -74,13 +74,13 @@ export default function HomeDashboard() {
   })
 
   const handleClick = (params: GridRowParams) => {
-    navigate(`/product/${params.row.id}`)
+    navigate(`/erp/product/${params.row.id}`)
   }
 
   
 
   return (
-    <Box sx={{ height: 400, width: '100%' }}>
+    <Box sx={{ height: 445, width: '100%' }}>
       <br></br>
       <AddProduct />
       <DataGrid
