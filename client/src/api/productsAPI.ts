@@ -9,12 +9,12 @@ async function getAllProducts(): Promise<Product[]> {
 }
 
 async function getProduct(pid: string): Promise<Product> {
-  const response = await fetch(`${apiUri}/inventory/${pid}`, {credentials: 'same-origin'});
+  const response = await fetch(`${apiUri}/inventory/${pid}`);
   return await handleApiRes(response);
 }
 
 async function updateProduct(product: Product, pid: string): Promise<Product> {
-  const response = await fetch(`${apiUri}/inventory/${pid}`, {method: 'PUT', credentials: 'include',
+  const response = await fetch(`${apiUri}/inventory/${pid}`, {method: 'PUT',
   body: JSON.stringify(product)});
   return await handleApiRes(response);
 }
@@ -32,7 +32,6 @@ async function addnewProduct(product: Omit<Product, 'id'>): Promise<Product> {
     },
     body: JSON.stringify(product),
   });
-  console.log('2');
   return await handleApiRes(response);
 }
 
