@@ -48,6 +48,7 @@ export const addNewProductService = async (
     );
   }
   return product;
+  
 };
 
 export const updateProductByIdService = async (

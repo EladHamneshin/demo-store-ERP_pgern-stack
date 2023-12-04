@@ -3,8 +3,8 @@ import { Request, query } from 'express';
 import RequestError from '../types/errors/RequestError';
 import STATUS_CODES from '../utils/StatusCodes';
 import { getAllDataQuery } from '../types/SQLqueries';
-import validate from 'uuid-validate';
-import { ProductsArr } from '../types/Product';
+import validate from 'uuid-validate'
+import { ProductsArr, UpdateBody } from '../types/Product';
 
 export const getAllData = async (searchParam: string | undefined, categoryParam: string | undefined) => {
   if (categoryParam !== undefined) {
@@ -65,13 +65,13 @@ export const getProductById = async (productId: string) => {
 };
 
 
-export const checkUpdateRequest = async (req: Request) => {
+export const checkUpdateRequest = async (body: UpdateBody) => {
   // בדיקה שהבקשה מכילה גוף תקין
-  if (!req.body || !Array.isArray(req.body.items)) {
+  if (!body || !Array.isArray(body.items)) {
     throw new RequestError('Invalid request body', STATUS_CODES.BAD_REQUEST);
   }
 
-  const { items, action } = req.body;
+  const { items, action } = body;
 
   // בדיקה שהפעולה חוקית 
   if (action !== 'buy' && action !== 'return') {
@@ -111,9 +111,9 @@ export const checkUpdateRequest = async (req: Request) => {
   return ([errorProductsArr, successProductsArr])
 }
 
-export const updateInventory = async (req: Request) => {
-  const { items, action } = req.body;
-  const [errorProductsArr, successProductsArr] = await checkUpdateRequest(req);
+export const updateInventory = async (body: UpdateBody) => {
+  const { items, action } = body;
+  const [errorProductsArr, successProductsArr] = await checkUpdateRequest(body);
 
   // בדיקה אם אין מספיק כמות בחלק מהמוצרים
   if (errorProductsArr.length > 0 && successProductsArr.length > 0) {
@@ -134,10 +134,11 @@ export const updateInventory = async (req: Request) => {
   // עדכון המלאי
   for (const item of items) {
     const { productId, quantity } = item;
-    const queryString =
-      `UPDATE products
-       SET quantity = quantity ${queryAction} ${quantity}
-       WHERE id = '${productId}';`
+    const queryString =`
+      UPDATE products
+      SET quantity = quantity ${queryAction} ${quantity}
+      WHERE id = '${productId}';
+      `
 
     const res = await DAL.updateInventory(queryString);
     if (!res) {

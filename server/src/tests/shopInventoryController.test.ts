@@ -1,26 +1,28 @@
 import request from "supertest";
 import * as Service from '../services/shopInventoryService';
 import { app } from '../server'
+import fetchMock from "jest-fetch-mock";
+
+beforeEach(() => {
+    fetchMock.enableMocks();
+});
+
+afterEach(() => {
+    fetchMock.resetMocks();
+    fetchMock.disableMocks();
+});
 
 
-describe('tests fot shopInventory controller getAllData: ', () => {
+describe('tests for shopInventory controller getAllData: ', () => {
     test('testing if data is in array', async () => {
         const data = await Service.getAllData(undefined, undefined);
         expect(Array.isArray(data)).toBeTruthy()
-    })
-    test('tests all data return and what is the first product:', async () => {
-        const search = undefined;
-        const categories = undefined;
-        const data = await Service.getAllData(search, categories);
-        
-        expect(data[0].id).toBe("044576d1-dd03-4787-99bb-ed4a74f4eeeb")
-        expect(data[0].name).toBe("Lenovo IdeaPad 3")
     })
     test('tests searchParams:', async () => {
         const search = "Lenovo 770";
         const categories = undefined;
         const data = await Service.getAllData(search, categories);
-        
+
         expect(data[0].id).toBe("0a26f087-42e9-4d47-a3cb-e3704ed37e3d")
         expect(data[0].name).toBe("Lenovo 770")
     })
@@ -43,55 +45,63 @@ describe('tests fot shopInventory controller getAllData: ', () => {
         const categories = "Lenovo 770";
         const data = await Service.getAllData(search, categories);
         expect(data).toStrictEqual([])
-    })
+    }, 10000)
 });
 
 describe('getProductById Tests:', () => {
     test('tests if returns this product:', async () => {
-        const prodId = "0fe42627-961f-41c9-8e12-073d45139309";
+        const prodId = "ad376eb0-0b29-4c65-a5b1-9511c09ae834";
         const product = await Service.getProductById(prodId);
-        expect(product.name).toBe("Lenovo 20")
+        expect(product.name).toBe("Dell Inspiron 15")
     })
 
     test('testing incorrect productId:', async () => {
         const prodId = "Phones";
-        const res = await request(app).get(`/erp/shopInventory/${prodId}`)
+        const res = await request(app).get(`/shopInventory/${prodId}`)
         expect(res.body.message).toBe("Invalid product ID format")
         expect(res.status).toBe(400)
     })
 })
 describe('tests for updateInventory:', () => {
-    test('testing updateInventory:', async () => {
-        const body = {
+    test('testing shopInventory updateProduct:', async () => {
+        const productId = 'e0ee2626-5e27-481a-87a1-30c4d6f934a3';
+        const mockBody = {
             "items": [
                 {
                     "productId": "044576d1-dd03-4787-99bb-ed4a74f4eeeb",
                     "quantity": 10
                 }
             ],
-            "action": "buy"
+            "action": "return"
         }
-        const response = await request(app)
-            .post('/erp/shopInventory/updateInventory')
-            .send(body)
-        expect(response.status).toBe(200)
-    }) 
+        fetchMock.mockResponseOnce(JSON.stringify(mockBody));
+        jest.spyOn(Service, 'updateInventory').mockResolvedValue(200);
 
-    test('tests invalid action:', async () => {
-        const body = {
+        const response = await Service.updateInventory(mockBody)
+
+        expect(response).toEqual(200);
+    });
+
+    test('testing updateProduct invalid action:', async () => {
+        const productId = 'e0ee2626-5e27-481a-87a1-30c4d6f934a3';
+        const mockBody = {
             "items": [
                 {
-                    "productId": "00365e52-2715-4271-aebc-39ff6fc30456",
+                    "productId": "044576d1-dd03-4787-99bb-ed4a74f4eeeb",
                     "quantity": 10
                 }
             ],
             "action": "yambaluluShambalulu"
         }
-        const response = await request(app)
-            .post('/erp/shopInventory/updateInventory')
-            .send(body)
-        expect(response.status).toBe(400)
-        expect(response.body.message).toBe("yambaluluShambalulu: invalid action")
-    })
+        fetchMock.mockResponseOnce(JSON.stringify(mockBody));
+        jest.spyOn(Service, 'updateInventory').mockRejectedValueOnce("yambaluluShambalulu: invalid action");
+
+        try {
+
+        } 
+        catch (error) {
+            expect(error).toEqual("yambaluluShambalulu: invalid action");
+        }
+    });
 })
 

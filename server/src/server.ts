@@ -17,10 +17,6 @@ dotenv.config();
 app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
-// app.use((req, res, next) => {
-//   console.log('middleware body:', req.body);
-//   next();
-// });
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
