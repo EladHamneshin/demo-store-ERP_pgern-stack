@@ -22,9 +22,9 @@ export interface AdminProduct extends Product {
 }
 
 export type UpdateBody = {
-  Products: {
+  items: {
     productId: string;
-    requiredQuantity: number;
+    quantity: number;
   }[];
   action: string;
 };

@@ -7,15 +7,9 @@ export default ({ mode }) => {
     return defineConfig({
         plugins: [react()],
         server: {
-            port: 5173,
-            proxy: {
-                '/api': {
-                    target: process.env.VITE_BASE_URI,
-                    changeOrigin: true,
-                    secure: false
-                },
-            },
+            port: 5173
         },
+        base: "/erp",
         test: {
             globals: true,
             environment: "jsdom",
