@@ -46,15 +46,19 @@ export const getProductByIdDal = async (id: string) => {
 export const addNewProductDal = async (
   newProduct: Omit<AdminProduct, 'id'>
 ) => {
-  const category = await query(`
+  const insertCategory = await query(`
   INSERT INTO categories (name, clicked)
-  VALUES (${newProduct.category}, 0)
-  ON CONFLICT (name) DO NOTHING
-  returning id;
+  VALUES ('${newProduct.category}', 0)
+  ON CONFLICT (name) DO NOTHING;
   `);
-  console.log(category);
+  console.log('res', insertCategory);
   
-  // SELECT id FROM categories WHERE name = ${newProduct.category};
+  const selectCategory = await query(`
+  SELECT id FROM categories WHERE name = '${newProduct.category}';
+  `);
+  
+  const category = await selectCategory.rows[0].id
+  console.log('category:', category);
 
   // Insert image
   const imageRes = await query(`
