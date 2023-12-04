@@ -61,10 +61,10 @@ test('testing inventory addNewProduct:', async () => {
     }
     fetchMock.mockResponseOnce(JSON.stringify(mockBody));
 
-    jest.spyOn(Service, 'addNewProductService').mockResolvedValue(mockBody);  
+    jest.spyOn(Service, 'addNewProductService').mockResolvedValue(mockBody as AdminProduct);  
 
     const response = await Service.addNewProductService(mockBody);
-  
+    
     expect(response).toEqual(mockBody); 
 }, 30000);
 
@@ -95,7 +95,7 @@ test('testing inventory updateProduct:', async () => {
         "supplier": "ivan electronics"
     }
     fetchMock.mockResponseOnce(JSON.stringify(mockBody));
-    jest.spyOn(Service, 'updateProductByIdService').mockResolvedValue(mockBody);  
+    jest.spyOn(Service, 'updateProductByIdService').mockResolvedValue(mockBody as AdminProduct);  
 
     const response = await Service.updateProductByIdService(mockBody, productId)
   

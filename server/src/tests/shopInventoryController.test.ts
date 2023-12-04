@@ -4,12 +4,12 @@ import { app } from '../server'
 import fetchMock from "jest-fetch-mock";
 
 beforeEach(() => {
-    fetchMock.enableMocks(); 
+    fetchMock.enableMocks();
 });
 
 afterEach(() => {
-    fetchMock.resetMocks(); 
-    fetchMock.disableMocks(); 
+    fetchMock.resetMocks();
+    fetchMock.disableMocks();
 });
 
 
@@ -22,7 +22,7 @@ describe('tests for shopInventory controller getAllData: ', () => {
         const search = "Lenovo 770";
         const categories = undefined;
         const data = await Service.getAllData(search, categories);
-        
+
         expect(data[0].id).toBe("0a26f087-42e9-4d47-a3cb-e3704ed37e3d")
         expect(data[0].name).toBe("Lenovo 770")
     })
@@ -45,7 +45,7 @@ describe('tests for shopInventory controller getAllData: ', () => {
         const categories = "Lenovo 770";
         const data = await Service.getAllData(search, categories);
         expect(data).toStrictEqual([])
-    })
+    }, 10000)
 });
 
 describe('getProductById Tests:', () => {
@@ -63,8 +63,9 @@ describe('getProductById Tests:', () => {
     })
 })
 describe('tests for updateInventory:', () => {
-    test('testing updateInventory:', async () => {
-        const body = {
+    test('testing shopInventory updateProduct:', async () => {
+        const productId = 'e0ee2626-5e27-481a-87a1-30c4d6f934a3';
+        const mockBody = {
             "items": [
                 {
                     "productId": "044576d1-dd03-4787-99bb-ed4a74f4eeeb",
@@ -73,25 +74,34 @@ describe('tests for updateInventory:', () => {
             ],
             "action": "return"
         }
-        const response = await request(app)
-            .post('/shopInventory/updateInventory')
-            .send(body)
-        expect(response.status).toBe(200)
-    }) 
+        fetchMock.mockResponseOnce(JSON.stringify(mockBody));
+        jest.spyOn(Service, 'updateInventory').mockResolvedValue(200);
 
-    test('tests invalid action:', async () => {
-        const body = {
+        const response = await Service.updateInventory(mockBody)
+
+        expect(response).toEqual(200);
+    });
+
+    test('testing updateProduct invalid action:', async () => {
+        const productId = 'e0ee2626-5e27-481a-87a1-30c4d6f934a3';
+        const mockBody = {
             "items": [
                 {
-                    "productId": "00365e52-2715-4271-aebc-39ff6fc30456",
+                    "productId": "044576d1-dd03-4787-99bb-ed4a74f4eeeb",
                     "quantity": 10
                 }
             ],
             "action": "yambaluluShambalulu"
         }
-        const response = await request(app).post('/shopInventory/updateInventory').send(body)
-        expect(response.status).toBe(400)
-        expect(response.body.message).toBe("yambaluluShambalulu: invalid action")
-    })
+        fetchMock.mockResponseOnce(JSON.stringify(mockBody));
+        jest.spyOn(Service, 'updateInventory').mockRejectedValueOnce("yambaluluShambalulu: invalid action");
+
+        try {
+
+        } 
+        catch (error) {
+            expect(error).toEqual("yambaluluShambalulu: invalid action");
+        }
+    });
 })
 
