@@ -1,7 +1,7 @@
 import UserInfo from "../types/User";
 import handleApiRes from "./apiResHandler";
 
-const apiUri = import.meta.env.VITE_BASE_URI;
+const apiUri = import.meta.env.VITE_API_URI;
 
 
 async function loginUser(email: string, password: string): Promise<UserInfo> {
