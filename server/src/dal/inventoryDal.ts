@@ -46,16 +46,26 @@ export const getProductByIdDal = async (id: string) => {
 export const addNewProductDal = async (
   newProduct: Omit<AdminProduct, 'id'>
 ) => {
+  const category = await query(`
+  INSERT INTO categories (name, clicked)
+  VALUES (${newProduct.category}, 0)
+  ON CONFLICT (name) DO NOTHING
+  returning id;
+  `);
+  console.log(category);
   
+  // SELECT id FROM categories WHERE name = ${newProduct.category};
+
   // Insert image
-  const imageRes = await query(
-    `INSERT INTO images (url, alt) VALUES ('${newProduct.image.url}', '${newProduct.image.alt}') returning *;`
+  const imageRes = await query(`
+    INSERT INTO images (url, alt)
+    VALUES ('${newProduct.image.url}', '${newProduct.image.alt}') returning *;`
   );
 
   // Insert product
   const res = await query(`
         INSERT INTO products (name, price, quantity, description, image, category, discount, rating, clicked, costPrice, supplier)
-        VALUES ('${newProduct.name}', ${newProduct.saleprice}, ${newProduct.quantity}, '${newProduct.description}', '${imageRes?.rows[0].id}', '${newProduct.category}', ${newProduct.discount}, ${newProduct.rating}, ${newProduct.clicked}, ${newProduct.costPrice}, '${newProduct.supplier}')
+        VALUES ('${newProduct.name}', ${newProduct.saleprice}, ${newProduct.quantity}, '${newProduct.description}', '${imageRes?.rows[0].id}', '${category}', ${newProduct.discount}, ${newProduct.rating}, ${newProduct.clicked}, ${newProduct.costPrice}, '${newProduct.supplier}')
         returning *;
     `);
 

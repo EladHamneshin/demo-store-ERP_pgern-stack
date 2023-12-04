@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridRowParams, GridToolbar } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import AddProduct from '../addProduct/AddProduct';
+import ROUTES from '../../../routes/routes';
 
 const columns: GridColDef[] = [
   {
@@ -16,7 +17,7 @@ const columns: GridColDef[] = [
   {
     field: 'supplier',
     headerName: 'Supplier',
-    width: 200,
+    width: 140,
     editable: true,
   },
   {
@@ -59,7 +60,6 @@ export default function HomeDashboard() {
   }, []);
 
   const rows = productsArr.map((product) => {
-    
     return (
       {
         id: product.id,
@@ -74,13 +74,13 @@ export default function HomeDashboard() {
   })
 
   const handleClick = (params: GridRowParams) => {
-    navigate(`/erp/product/${params.row.id}`)
+    navigate(`${ROUTES.PRODUCT_ROUTE}/${params.row.id}`)
   }
 
   
 
   return (
-    <Box sx={{ height: 445, width: '100%' }}>
+    <Box sx={{ height: '100%', width: '100%' }}>
       <br></br>
       <AddProduct />
       <DataGrid
@@ -93,7 +93,7 @@ export default function HomeDashboard() {
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 5,
+              pageSize: 20,
             },
           },
         }}
