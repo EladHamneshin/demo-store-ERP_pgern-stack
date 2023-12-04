@@ -22,8 +22,9 @@ export default function SelectCategory() {
                     label="Category"
                     onChange={handleChange}
                 >
-                    <MenuItem value={'f1485671-82e2-4998-81d2-a57b43bc1d90'}>Phones</MenuItem>
-                    <MenuItem value={'4a90c012-9583-45b1-b818-8d0d31620876'}>Computers</MenuItem> 
+                    <MenuItem value={'c2f36898-84b4-4563-b2ca-47bc9a8fac5a'}>Phones</MenuItem>
+                    <MenuItem value={'be2b9b97-cf82-4acc-85ac-83c8b1f79da5'}>Computers</MenuItem> 
+                    <MenuItem value={'4dd06fee-d86c-421a-952c-8e3a71f34edd'}>Home Appliances</MenuItem> 
                 </Select>
             </FormControl>
         </>
