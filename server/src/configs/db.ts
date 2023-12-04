@@ -1,14 +1,14 @@
-import { Client } from 'pg';
+import { Client, Pool, PoolClient } from 'pg';
 import { config } from 'dotenv';
 import RequestError from '../types/errors/RequestError';
 import STATUS_CODES from '../utils/StatusCodes';
 config();
 
+const pool: Pool = new Pool();
 
 export const connectDB = async () => {
-  const client: Client = new Client();
 
-  await client.connect();
+  const client: PoolClient = await pool.connect();
 
   if (!client) {
     throw new RequestError(
