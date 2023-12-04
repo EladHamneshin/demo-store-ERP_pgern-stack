@@ -93,7 +93,7 @@ export default function HomeDashboard() {
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 5,
+              pageSize: 7,
             },
           },
         }}
