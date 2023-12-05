@@ -2,7 +2,7 @@ import productsAPI from '../../../api/productsAPI';
 import { useEffect, useState } from 'react';
 import { Product } from '../../../types/Product';
 import Box from '@mui/material/Box';
-import { DataGrid, GridColDef, GridRowParams, GridToolbar } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRowParams, GridToolbar} from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import AddProduct from '../addProduct/AddProduct';
 
@@ -78,7 +78,6 @@ export default function HomeDashboard() {
   }
 
   
-
   return (
     <Box sx={{ height: 445, width: '100%' }}>
       <br></br>
@@ -93,7 +92,7 @@ export default function HomeDashboard() {
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 7,
+              pageSize: 6,
             },
           },
         }}

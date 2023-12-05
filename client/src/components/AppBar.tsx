@@ -20,6 +20,7 @@ import ROUTES from '../routes/routes.ts';
 import { toastError } from '../utils/Toastify/toastUtils.ts';
 import { useAppSelector, useAppDispatch } from '../utils/store/hooks.ts';
 import { saveEmail } from '../utils/store/emailSlice.ts';
+import SearchTest2 from './SerchTest2.tsx';
 
 
 const AppBar = () => {
@@ -63,7 +64,8 @@ const AppBar = () => {
           <Typography variant="h6" component="div" sx={{ marginRight: 2 }}>
             Demo Store Inventory
           </Typography>
-          <SearchField />
+          {/* <SearchField /> */}
+          <SearchTest2/>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           {email && <Box sx={{ flexGrow: 0 }}>

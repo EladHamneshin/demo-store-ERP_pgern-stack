@@ -1,5 +1,5 @@
 import SearchIcon from '@mui/icons-material/Search';
-import { styled, alpha, InputBase } from '@mui/material';
+import { styled, alpha, InputBase} from '@mui/material';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -43,14 +43,14 @@ const Search = styled('div')(({ theme }) => ({
 
   export default function SearchField() {
     return (
-        <Search>
+      <Search>
         <SearchIconWrapper>
           <SearchIcon />
         </SearchIconWrapper>
         <StyledInputBase
           placeholder="Search…"
           inputProps={{ 'aria-label': 'search' }}
-        />
+        /> 
       </Search>
     )
 }

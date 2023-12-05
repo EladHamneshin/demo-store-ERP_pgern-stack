@@ -32,8 +32,7 @@ async function addnewProduct(product: Omit<Product, 'id'>): Promise<Product> {
     },
     body: JSON.stringify(product),
   });
-  console.log('2');
   return await handleApiRes(response);
 }
 
-export default { getAllProducts, getProduct, updateProduct, deleteProduct, addnewProduct }
+export default { getAllProducts, getProduct, updateProduct, deleteProduct, addnewProduct}

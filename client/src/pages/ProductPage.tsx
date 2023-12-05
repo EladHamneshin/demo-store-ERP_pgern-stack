@@ -25,7 +25,7 @@ const ProductPage = () => {
   const { email } = useAppSelector((state) => state.email);
   const navigate = useNavigate();
   const { pid } = useParams();
-  console.log(pid);
+  // console.log(pid);
   
   const [product, setProduct] = useState<null | Product>(null);
   const style = {
