@@ -21,6 +21,7 @@ async function logoutUser(): Promise<{ message: string }> {
   const response = await fetch(`${apiUri}/user/auth/logout`, {
     method: "POST"
   });
+  localStorage.setItem('erp_token','')
   return await handleApiRes(response);
 }
 
