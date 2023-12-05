@@ -96,7 +96,7 @@ export default function HomeDashboard() {
             },
           },
         }}
-        pageSizeOptions={[5]}
+        pageSizeOptions={[6]}
         disableRowSelectionOnClick
         disableColumnMenu
         sx={{

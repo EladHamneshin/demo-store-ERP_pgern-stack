@@ -1,10 +1,11 @@
 import SearchIcon from '@mui/icons-material/Search';
 import Autocomplete from '@mui/material/Autocomplete';
-import { styled, alpha, InputBase, TextField } from '@mui/material';
+import { styled, alpha, TextField,} from '@mui/material';
 import { useState, useEffect } from 'react';
 import productsAPI from '../api/productsAPI';
 import { Product } from '../types/Product';
 import { useNavigate } from 'react-router-dom';
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
