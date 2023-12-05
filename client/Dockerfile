@@ -2,7 +2,7 @@ FROM node:18-alpine as builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
-ENV VITE_BASE_URI=http://a3c83ed3f2ab943bbb0be8267211fdcf-906781797.eu-central-1.elb.amazonaws.com
+ENV VITE_API_URI=http://a3c83ed3f2ab943bbb0be8267211fdcf-906781797.eu-central-1.elb.amazonaws.com
 COPY . .
 RUN npm run build
 # Use an official Nginx image as the production environment

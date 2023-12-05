@@ -14,7 +14,7 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
   const { error } = userValidation(req.body);
   if (error)
     throw new RequestError(error.message, STATUS_CODES.BAD_REQUEST);
-  const token = req.cookies.jwt;
+  const token = req.headers.authorization;
 
   if (token) {
     if (!process.env.JWT_SECRET) {
@@ -45,11 +45,12 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const user = await authService.authUser(email, password);
 
-  generateToken(res, user.id);
+  const token_a = generateToken(user.id);
 
   res.json({
     id: user.id,
     email: user.email,
+    token: token_a
   });
 });
 
