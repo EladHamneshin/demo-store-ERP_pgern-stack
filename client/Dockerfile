@@ -4,7 +4,9 @@ WORKDIR /app
 COPY package*.json ./
 
 RUN npm install
-ENV VITE_API_URI=http://a3c83ed3f2ab943bbb0be8267211fdcf-906781797.eu-central-1.elb.amazonaws.com/erp/api
+
+ENV VITE_API_URI=http://ade0a9e8c300f48708e5fcdcf95a35a4-507123613.eu-central-1.elb.amazonaws.com/erp/api
+
 COPY . .
 RUN npm run build
 
