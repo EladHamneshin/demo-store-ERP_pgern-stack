@@ -29,8 +29,11 @@ export default function Login() {
     const formEmail = data.get('email')!.toString();
     const password = data.get('password')!.toString();
     try {
-      const { email } = await userAPI.loginUser(formEmail, password);
-      dispatch(saveEmail(email!));
+      const res = await userAPI.loginUser(formEmail, password);
+      console.log(res.token);
+      localStorage.setItem('erp_token', res.token!) 
+
+      dispatch(saveEmail(res.email!));
       navigate(ROUTES.HOME);
 
     } catch (error) {
