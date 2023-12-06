@@ -42,15 +42,13 @@ export const addNewProductService = async (
   
   const product: AdminProduct = await addNewProductDal(newProduct);
   if (!product) {
-
     throw new RequestError(
       'failed to add product',
       STATUS_CODES.INTERNAL_SERVER_ERROR
     );
-  } else {
-
-    return product;
   }
+  return product;
+  
 };
 
 export const updateProductByIdService = async (

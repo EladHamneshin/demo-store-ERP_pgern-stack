@@ -66,7 +66,7 @@ const AppBar = () => {
           <SearchField />
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          {email && <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar src="" />
@@ -98,7 +98,7 @@ const AppBar = () => {
                 Logout
               </MenuItem>
             </Menu>
-          </Box>}
+          </Box>
         </Box>
       </Toolbar>
     </MUIAppBar>
