@@ -32,7 +32,6 @@ type Props = {
 
 function UpdateProduct(props: Props) {
   const [product, setProduct] = React.useState(props.product)
-  const [initialProduct, setInitialProduct] = React.useState(props.product);
   const [name, setName] = React.useState(product.name);
   const [saleprice, setSalePrice] = React.useState(product.saleprice);
   const [quantity, setQuantity] = React.useState(product.quantity);
@@ -66,25 +65,25 @@ function UpdateProduct(props: Props) {
   React.useEffect(() => {
     if (!open) {
       // Reset the state to the initial values when the dialog is closed
-      setProduct(initialProduct);
-      setName(initialProduct.name);
-      setSalePrice(initialProduct.saleprice);
-      setQuantity(initialProduct.quantity);
-      setDescription(initialProduct.description);
-      setCategory(initialProduct.category);
-      setDiscount(initialProduct.discount);
-      setRating(initialProduct.rating);
-      setClick(initialProduct.clicked);
-      setUrl(initialProduct.image.url);
-      setAlt(initialProduct.image.alt);
-      setIsForSale(initialProduct.isForSale);
-      setLongitude(initialProduct.coordinate.longitude);
-      setLatitude(initialProduct.coordinate.latitude);
-      setCostPrice(initialProduct.costPrice);
-      setSupplier(initialProduct.supplier);
-      setTags({ ...initialProduct.tags });
+      setProduct(product);
+      setName(product.name);
+      setSalePrice(product.saleprice);
+      setQuantity(product.quantity);
+      setDescription(product.description);
+      setCategory(product.category);
+      setDiscount(product.discount);
+      setRating(product.rating);
+      setClick(product.clicked);
+      setUrl(product.image.url);
+      setAlt(product.image.alt);
+      setIsForSale(product.isForSale);
+      setLongitude(product.coordinate.longitude);
+      setLatitude(product.coordinate.latitude);
+      setCostPrice(product.costPrice);
+      setSupplier(product.supplier);
+      setTags({ ...product.tags });
     }
-  }, [open, initialProduct]);
+  }, [open, product]);
 
   const submitUpdates = async () => {
     const updatedProduct: Product = {
@@ -110,17 +109,14 @@ function UpdateProduct(props: Props) {
       tags: { ...tags },
       discount
     };
-    
-    setProduct(updatedProduct)
     try {
-      const req = await productsAPI.updateProduct(updatedProduct);
+      const req = await productsAPI.updateProduct(updatedProduct, product.id);
       console.log('ererer', req);
-      
       console.log('Updated Product');
+      navigate(`${ROUTES.PRODUCT_ROUTE}/${product.id}`)
     } catch (err) {
       console.log('failed to update Product');
     }
-    navigate(`${ROUTES.PRODUCT_ROUTE}/${product.id}`)
   };
 
   const updateTag = (oldKey: string, newKey: string, value: string) => {

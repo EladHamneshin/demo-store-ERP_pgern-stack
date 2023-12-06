@@ -14,6 +14,7 @@ import {Product} from "../types/Product";
 import ROUTES from "../routes/routes";
 import EditProduct from '../components/EditProduct';
 import DeleteProduct from "../components/DeleteProduct";
+import { useAppSelector } from "../utils/store/hooks";
 
 const ProductPage = () => {
   const { email } = useAppSelector((state) => state.email);
