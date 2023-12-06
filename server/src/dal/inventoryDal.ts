@@ -139,16 +139,16 @@ export const updateProductByIdDal = async (partsOfProductToUpdate: Partial<Admin
 
     const {rows: updatedProduct}: any = await query(`UPDATE products
     SET
-        name = '${partsOfProductToUpdate.name || 'name'}',
-        price = ${partsOfProductToUpdate.saleprice || 'price'},
-        quantity = ${partsOfProductToUpdate.quantity || 'quantity'},
-        description = '${partsOfProductToUpdate.description || 'description'}',
-        discount = ${partsOfProductToUpdate.discount || 'discount'},
-        rating = ${partsOfProductToUpdate.rating || 'rating'},
-        clicked = ${partsOfProductToUpdate.clicked || 'clicked'},
-        isforsale = ${partsOfProductToUpdate.isForSale || 'isforsale'},
-        costprice = ${partsOfProductToUpdate.costPrice || 'costprice'},
-        supplier = '${partsOfProductToUpdate.supplier || 'supplier'}'
+        name = '${partsOfProductToUpdate.name}',
+        price = ${partsOfProductToUpdate.saleprice},
+        quantity = ${partsOfProductToUpdate.quantity},
+        description = '${partsOfProductToUpdate.description}',
+        discount = ${partsOfProductToUpdate.discount},
+        rating = ${partsOfProductToUpdate.rating},
+        clicked = ${partsOfProductToUpdate.clicked},
+        isforsale = ${partsOfProductToUpdate.isForSale},
+        costprice = ${partsOfProductToUpdate.costPrice},
+        supplier = '${partsOfProductToUpdate.supplier}'
 
     WHERE id = '${id}';  `);
 
@@ -156,7 +156,7 @@ export const updateProductByIdDal = async (partsOfProductToUpdate: Partial<Admin
     const coordinatesRes = await query(
       `INSERT INTO coordinates (lat, lng) VALUES (${partsOfProductToUpdate.coordinate.latitude}, ${partsOfProductToUpdate.coordinate.longitude}) ON CONFLICT DO NOTHING returning *;`
     );
-    let coordinatesId = ' ';
+    let coordinatesId = '';
     if (coordinatesRes?.rows[0]) {
       coordinatesId = coordinatesRes.rows[0].id;
     } else {

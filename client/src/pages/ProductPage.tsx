@@ -99,7 +99,7 @@ const ProductPage = () => {
                     {/* Supplier Details */}
                     {renderTitle('Supplier Details')}
                     {renderDetailRow('Supplier', product.supplier)}
-                    {renderDetailRow('Cost Price', `${product.costprice}`)}
+                    {renderDetailRow('Cost Price', `${product.costPrice}`)}
                     {renderDetailRow('For Sale', product.isForSale ? 'Yes' : 'No')}
 
                     {/* Stock Location Details */}
