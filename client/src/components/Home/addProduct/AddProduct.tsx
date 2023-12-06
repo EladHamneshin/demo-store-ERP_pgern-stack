@@ -138,7 +138,7 @@ function AddProduct() {
   return (
     <>
       <Button variant="contained" color="primary" endIcon={<Add />} onClick={handleOpen}>
-        Add Product
+        Add New Product
       </Button>
       <ThemeProvider theme={defaultTheme}>
         <Dialog open={open} onClose={handleClose}>
@@ -151,7 +151,7 @@ function AddProduct() {
                 alignItems: 'center',
               }}
             >
-              <DialogTitle>Edit Product</DialogTitle>
+              <DialogTitle>Add New Product</DialogTitle>
               <DialogContent>
                 <TextField
                   margin="normal"
