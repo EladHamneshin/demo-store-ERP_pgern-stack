@@ -47,3 +47,9 @@ export type UpdateBody = {
 export interface ProductsArr {
   [productId: string]: number;
 }
+
+export interface AllCategories {
+  id: string,
+  name: string,
+  clicked: number
+}
