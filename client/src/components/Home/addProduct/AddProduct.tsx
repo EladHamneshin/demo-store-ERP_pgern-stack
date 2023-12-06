@@ -80,6 +80,7 @@ export default function AddProduct() {
             <DialogContentText>
               Fill all this fields and press submit to add new product. 
             </DialogContentText>
+            {/* <MainBody/>  */}
             <AddProductBody />
             <FormControlLabel
              required 

@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridRowParams, GridToolbar } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
 import AddProduct from '../addProduct/AddProduct';
+import AddProduct2 from '../addProduct/addProductBody2/AddProduct2';
 
 const columns: GridColDef[] = [
   {
@@ -83,6 +84,7 @@ export default function HomeDashboard() {
     <Box sx={{ height: 445, width: '100%' }}>
       <br></br>
       <AddProduct />
+      {/* <AddProduct2/> */}
       <DataGrid
         rows={rows}
         columns={columns}
