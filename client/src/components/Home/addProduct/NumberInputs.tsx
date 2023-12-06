@@ -1,12 +1,13 @@
 import { Grid, TextField } from "@mui/material";
 import { FC } from "react";
-import { NumberInputInterface } from "./NumberInputInterface";
+import { FieldInputInterface } from "../../../types/addProductInterfaces/FieldInputInterface";
 
-export const NumberInputs: FC<NumberInputInterface> = ({
+export const NumberInputs: FC<FieldInputInterface> = ({
   register,
   requiredValidate,
   errors,
 }) => {
+
   return (
     <Grid item xs={12}>
       <TextField

@@ -1,8 +1,9 @@
 import { Button } from "@mui/material";
 import { FC } from "react";
-import { SubmitButtonInterface } from "./SubmitButtonInterface";
+import { SubmitButtonInterface } from "../../../types/addProductInterfaces/SubmitButtonInterface";
 import { useNavigate } from "react-router-dom";
-import productsAPI from "../../../../api/productsAPI";
+import productsAPI from "../../../api/productsAPI";
+import { useAppSelector } from "../../../utils/store/hooks";
 
 const SubmitButton: FC<SubmitButtonInterface> = ({
   isValid,
@@ -10,13 +11,15 @@ const SubmitButton: FC<SubmitButtonInterface> = ({
   handle
 }) => {
   const navigate = useNavigate();
+  const categoryId = useAppSelector((state) => state.email.category);
+  const isForSale = useAppSelector((state) => state.email.forSale);
   const formProduct = {
     name: watch("name"),
-    category: watch("category"), // add watch to params!!!!
-    costPrice: watch("costPrice"),
-    saleprice: watch("salePrice"),
-    quantity: watch("quantity"),
-    discount: watch("discount"),
+    category: categoryId,
+    costPrice: parseInt(watch("costPrice")),
+    saleprice: parseInt(watch("salePrice")),
+    quantity: parseInt(watch("quantity")),
+    discount: parseInt(watch("discount")),
     description: watch("description"),
     rating: 0,
     clicked: 0,
@@ -25,23 +28,21 @@ const SubmitButton: FC<SubmitButtonInterface> = ({
       alt: watch('imgAlt')
     },
     coordinate: {
-      longitude: watch('longitude'),
-      latitude: watch('latitude')
+      longitude: parseInt(watch('longitude')),
+      latitude: parseInt(watch('latitude'))
     },
     tags: {
       [watch('tagName')]: watch('tagVal')
     },
-    // isForSale: isForSale, // fix!!!
+    isForSale: isForSale,
     supplier: watch('supplier')
   };
 
   const handleAddProduct = async () => {
     
     try {
-      // const newProduct = await productsAPI.addnewProduct(formProduct);
-      console.log('newProduct:', formProduct);
-      console.log('success!');
-      // navigate(`/erp/product/${newProduct.id}`);
+      const newProduct = await productsAPI.addnewProduct(formProduct);
+      navigate(`/erp/product/${newProduct.id}`);
       handle();
 
     } catch (error) {

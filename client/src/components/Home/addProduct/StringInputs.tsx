@@ -1,10 +1,10 @@
 import { Grid, TextField } from "@mui/material";
 import { FC } from "react";
-import { StringInputInterface } from "./StringInputInterface";
+import { FieldInputInterface } from "../../../types/addProductInterfaces/FieldInputInterface";
 
-export const NameInput: FC<StringInputInterface> = ({
+export const NameInput: FC<FieldInputInterface> = ({
   register,
-  nameValidate,
+  requiredValidate,
   errors,
 }) => {
   return (
@@ -16,7 +16,7 @@ export const NameInput: FC<StringInputInterface> = ({
         id="name"
         label="Product name"
         autoFocus
-        {...register("name", nameValidate)}
+        {...register("name", requiredValidate)}
         helperText={errors.name?.message?.toString()}
         error={errors.name ? true : false}
       />
@@ -24,9 +24,9 @@ export const NameInput: FC<StringInputInterface> = ({
   );
 };
 
-export const DescriptionInput: FC<StringInputInterface> = ({
+export const DescriptionInput: FC<FieldInputInterface> = ({
   register,
-  nameValidate,
+  requiredValidate,
   errors,
 }) => {
   return (
@@ -38,7 +38,7 @@ export const DescriptionInput: FC<StringInputInterface> = ({
         id="description"
         label="Description"
         autoFocus
-        {...register("description", nameValidate)}
+        {...register("description", requiredValidate)}
         helperText={errors.description?.message?.toString()}
         error={errors.description ? true : false}
       />
@@ -46,9 +46,9 @@ export const DescriptionInput: FC<StringInputInterface> = ({
   );
 };
 
-export const SupplierInput: FC<StringInputInterface> = ({
+export const SupplierInput: FC<FieldInputInterface> = ({
   register,
-  nameValidate,
+  requiredValidate,
   errors,
 }) => {
   return (
@@ -60,7 +60,7 @@ export const SupplierInput: FC<StringInputInterface> = ({
         id="supplier"
         label="Supplier"
         autoFocus
-        {...register("supplier", nameValidate)}
+        {...register("supplier", requiredValidate)}
         helperText={errors.supplier?.message?.toString()}
         error={errors.supplier ? true : false}
       />

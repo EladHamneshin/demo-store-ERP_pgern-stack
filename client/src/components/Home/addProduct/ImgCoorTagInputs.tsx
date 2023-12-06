@@ -1,8 +1,8 @@
 import { Grid, TextField } from "@mui/material";
 import { FC } from "react";
-import { NumberInputInterface } from "./NumberInputInterface";
+import { FieldInputInterface } from "../../../types/addProductInterfaces/FieldInputInterface";
 
-export const ImgCoorTagInputs: FC<NumberInputInterface> = ({
+export const ImgCoorTagInputs: FC<FieldInputInterface> = ({
   register,
   requiredValidate,
   errors,
@@ -36,6 +36,7 @@ export const ImgCoorTagInputs: FC<NumberInputInterface> = ({
       <TextField
         margin="normal"
         required
+        type="number"
         id="longitude"
         label="longitude"
         autoFocus
@@ -48,6 +49,7 @@ export const ImgCoorTagInputs: FC<NumberInputInterface> = ({
       <TextField
         margin="normal"
         required
+        type="number"
         id="latitude"
         label="latitude"
         autoFocus
@@ -80,8 +82,6 @@ export const ImgCoorTagInputs: FC<NumberInputInterface> = ({
         error={errors.tagVal ? true : false}
         sx={{ marginRight: '30px' }}
       />
-      
-
     </Grid>
   );
 };

@@ -3,15 +3,14 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Box, Checkbox, FormControlLabel } from '@mui/material';
+import { Box } from '@mui/material';
 import { useState } from 'react';
 import {MainBody} from './MainBody';
 import { FieldValues, useForm } from 'react-hook-form';
 import SubmitButton from './SubmitButton';
 
-export default function AddProduct2() {
+export default function AddProductComponent() {
   const [open, setOpen] = useState(false);
-  const [isForSale, setForSale] = useState(true);
   const {
     register,
     handleSubmit,
@@ -19,9 +18,6 @@ export default function AddProduct2() {
     formState: { errors, isValid },
   } = useForm({ mode: "onChange" });
 
-  const handleSale = () => {
-    setForSale(!isForSale)
-  }
 
   const handleOpen = () => {
     setOpen(true);
@@ -47,12 +43,6 @@ export default function AddProduct2() {
             <MainBody
               register={register}
               errors={errors}
-            />
-            <FormControlLabel
-              required
-              onClick={handleSale}
-              control={<Checkbox defaultChecked />}
-              label="Is For Sale"
             />
           </DialogContent>
           <DialogActions>

@@ -12,12 +12,7 @@ const nameValidate = {
     value: 2,
     message: "⚠ Must be at least two characters",
   },
-  pattern: {
-    value: /^[A-Za-z]+$/,
-    message: "⚠ Please enter correct values",
-  },
 };
-
 
 const requiredValidate = {
   required: "⚠ Required field",
