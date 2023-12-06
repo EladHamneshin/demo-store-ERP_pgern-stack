@@ -1,4 +1,4 @@
-import {Product} from "../types/Product";
+import {Product, Category} from "../types/Product";
 import handleApiRes from "./apiResHandler";
 
 const apiUri = import.meta.env.VITE_API_URI;
@@ -9,6 +9,11 @@ async function getAllProducts(): Promise<Product[]> {
       "authorization": JSON.stringify(localStorage.getItem('erp_token'))
     }
   });
+  return await handleApiRes(response);
+}
+
+async function getCategories(): Promise<Category[]> { 
+  const response = await fetch(`${apiUri}/shopInventory/categories`);
   return await handleApiRes(response);
 }
 
@@ -50,4 +55,4 @@ async function addnewProduct(product: Omit<Product, 'id'>): Promise<Product> {
   return await handleApiRes(response);
 }
 
-export default { getAllProducts, getProduct, updateProduct, deleteProduct, addnewProduct }
+export default { getAllProducts, getProduct, updateProduct, deleteProduct, addnewProduct, getCategories }

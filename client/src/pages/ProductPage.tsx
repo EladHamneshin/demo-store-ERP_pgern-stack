@@ -5,37 +5,21 @@ import {
   Card,
   CardMedia,
   CardContent,
-  Button,
   Box,
-  CircularProgress,
-  Modal
+  CircularProgress
 } from "@mui/material";
-import { Delete, Edit } from '@mui/icons-material';
 import { useNavigate, useParams } from "react-router-dom";
 import productsAPI from "../api/productsAPI";
 import {Product} from "../types/Product";
 import ROUTES from "../routes/routes";
-// import EditProduct from '../components/EditProduct';
+import EditProduct from '../components/EditProduct';
+import DeleteProduct from "../components/DeleteProduct";
 
 const ProductPage = () => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const navigate = useNavigate();
   const { pid } = useParams();
   
   const [product, setProduct] = useState<null | Product>(null);
-  const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
   const renderTitle = (title: string) => (
     <Typography variant="h6" style={{ background: '#f0f0f0', padding: '8px 0', marginBottom: '8px' }}>
       {title}
@@ -64,24 +48,11 @@ const ProductPage = () => {
 
   //get the product after the page is rendered
   useEffect(() => {
-    if (localStorage.getItem('erp_token') === "") {
+    if (!localStorage.getItem('erp_token')) {
       navigate(ROUTES.LOGIN);
     }
     getProduct(pid!);
   }, []);
-
-  //show modal component to edit product
-  const onEdit = () => {
-    /// modal component
-    handleOpen();
-  };
-
-  //Navigate the user to home page after click dalete product
-  const onDelete = async () => {
-    /// delete the product
-    await productsAPI.deleteProduct(pid!)
-    navigate(`/erp/HomePage`);
-  };
 
   //When the product is loaded then show the component
   return (
@@ -104,14 +75,12 @@ const ProductPage = () => {
                   <Grid item container justifyContent="flex-end" spacing={2}>
                     {/* Buttons */}
                     <Grid item>
-                      <Button variant="contained" color="primary" endIcon={<Edit />} onClick={onEdit}>
-                        Edit
-                      </Button>
+                      {/* edit button */}
+                      <EditProduct product={product}/>
                     </Grid>
                     <Grid item>
-                      <Button variant="contained" color="error" endIcon={<Delete />} onClick={onDelete}>
-                        Delete
-                      </Button>
+                      {/* delete button */}
+                      <DeleteProduct id={pid!}/>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -120,7 +89,7 @@ const ProductPage = () => {
                   <Grid item xs={8}>
                     {/* Primary Details */}
                     {renderTitle('Primary Details')}
-                    {renderDetailRow('Id', product.id)}
+                    {renderDetailRow('Id', product.id!)}
                     {renderDetailRow('Name', product.name)}
                     {renderDetailRow('Category', product.category)}
                     {renderDetailRow('Sale Price', `${product.saleprice}`)}
@@ -152,7 +121,7 @@ const ProductPage = () => {
                   </Grid>
                 </Grid>
               </CardContent>
-              <Modal
+              {/* <Modal
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
@@ -166,8 +135,8 @@ const ProductPage = () => {
                     Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
                   </Typography>
                 </Box>
-                {/* <EditProduct product={product}/> */}
-              </Modal>
+              </Modal> */}
+                  
             </Card>
           </>
         )
