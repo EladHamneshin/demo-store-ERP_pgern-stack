@@ -1,41 +1,30 @@
-import cors from 'cors';
-import dotenv from 'dotenv';
-import morgan from 'morgan';
-import express, { NextFunction } from 'express';
-import cookieParser from 'cookie-parser';
-import { notFound, errorHandler } from './middlewares/errorsMiddleware';
-import shopCategoriesRouter from './routes/categoriesRouter';
-import inventoryRouter from './routes/inventoryRouts';
-import shopInventoryRouter from './routes/shopInventoryRouts';
-import userRoutes from './routes/userRoutes';
-import { connectDB } from "./configs/db";
+const express = require('express');
+const { ApolloServer } = require('apollo-server-express');
+const { typeDefs, resolvers } = require('./schema');
+const { notFound, errorHandler } = require('./middlewares/errorsMiddleware');
+const { connectDB } =require ('./configs/db');
+const { dotenv } = require('dotenv');
 
-export const app = express();
-
-// APP CONFIGS
+const app = express();
 dotenv.config();
-app.use(cors());
-app.use(morgan('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 
-app.use('/', express.Router().get('/', (req, res) => {res.status(200);}))
-app.use('/shopInventory/categories', shopCategoriesRouter);
-app.use('/user', userRoutes);
-app.use('/shopInventory', shopInventoryRouter);
-app.use('/inventory', inventoryRouter);
-app.use(notFound);
-app.use(errorHandler);
-
-const port = process.env.PORT || 5000;
-
-const start = async () => {
-  await connectDB();
-  console.log('Connecting to database successfully');
-  app.listen(port, () => {
-    console.log(`server is running at port ${port}`);
+async function startApolloServer() {
+  await connectDB()
+  const server = new ApolloServer({
+    typeDefs,
+    resolvers,
   });
-}
-start()
+  await server.start();
 
+  server.applyMiddleware({ app });
+
+  app.use(notFound);
+  app.use(errorHandler);
+
+  const port = process.env.PORT || 4000;
+
+  await new Promise(resolve => app.listen(port, resolve));
+  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+  return { server, app };
+}
+export default app

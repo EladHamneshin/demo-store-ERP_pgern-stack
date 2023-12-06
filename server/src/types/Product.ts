@@ -32,3 +32,4 @@ export type UpdateBody = {
 export interface ProductsArr {
   [productId: string]: number;
 }
+
