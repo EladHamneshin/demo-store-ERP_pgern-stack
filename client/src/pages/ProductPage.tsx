@@ -14,10 +14,8 @@ import {Product} from "../types/Product";
 import ROUTES from "../routes/routes";
 import EditProduct from '../components/EditProduct';
 import DeleteProduct from "../components/DeleteProduct";
-import { useAppSelector } from "../utils/store/hooks";
 
 const ProductPage = () => {
-  const { email } = useAppSelector((state) => state.email);
   const navigate = useNavigate();
   const { pid } = useParams();
   
@@ -50,7 +48,7 @@ const ProductPage = () => {
 
   //get the product after the page is rendered
   useEffect(() => {
-    if (localStorage.getItem('erp_token') === "") {
+    if (!localStorage.getItem('erp_token')) {
       navigate(ROUTES.LOGIN);
     }
     getProduct(pid!);
@@ -91,7 +89,7 @@ const ProductPage = () => {
                   <Grid item xs={8}>
                     {/* Primary Details */}
                     {renderTitle('Primary Details')}
-                    {renderDetailRow('Id', product.id)}
+                    {renderDetailRow('Id', product.id!)}
                     {renderDetailRow('Name', product.name)}
                     {renderDetailRow('Category', product.category)}
                     {renderDetailRow('Sale Price', `${product.saleprice}`)}

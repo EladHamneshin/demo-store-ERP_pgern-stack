@@ -20,10 +20,10 @@ function DeleteProduct(props: Props) {
     try {
       // Delete the product
       await productsAPI.deleteProduct(props.id);
-      navigate(ROUTES.HOME);
     } catch (error) {
       console.error('Error deleting product:', error);
     } finally {
+      navigate(ROUTES.HOME);
       handleClose();
     }
   };

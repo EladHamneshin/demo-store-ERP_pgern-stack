@@ -4,13 +4,8 @@ import {
   Button,
   TextField,
   Container,
-  CssBaseline,
   Box,
-  Stack,
   Autocomplete,
-  InputLabel,
-  MenuItem,
-  Select,
   Switch,
   Dialog,
   DialogActions,
@@ -51,6 +46,7 @@ function UpdateProduct(props: Props) {
   const [categories, setCategories] = React.useState<Category[]>([{name: 'foo', id: '1', clicked: 0}, {name: 'bar', id: '2', clicked: 0}])
 
   const [open, setOpen] = React.useState(false); //for editing the product
+  const navigate = useNavigate();
   const handleOpen = async() => {
     const categories = await productsAPI.getCategories();
     console.log(categories);
@@ -60,7 +56,6 @@ function UpdateProduct(props: Props) {
   const handleClose = () => {
     setOpen(false);
   };
-  const navigate = useNavigate();
 
   React.useEffect(() => {
     if (!open) {
@@ -110,12 +105,14 @@ function UpdateProduct(props: Props) {
       discount
     };
     try {
-      const req = await productsAPI.updateProduct(updatedProduct, product.id);
+      const req = await productsAPI.updateProduct(updatedProduct, product.id!);
       console.log('ererer', req);
       console.log('Updated Product');
-      navigate(`${ROUTES.PRODUCT_ROUTE}/${product.id}`)
     } catch (err) {
       console.log('failed to update Product');
+    } finally {
+      navigate(`${ROUTES.PRODUCT_ROUTE}/${product.id}`)
+
     }
   };
 
@@ -200,7 +197,7 @@ function UpdateProduct(props: Props) {
                   value={category}
                   options={categories!.map((option) => option.name)}
                   renderInput={(params) => <TextField margin='normal' {...params} label="Category" />}
-                  onChange={(event, newValue) => {
+                  onChange={(_, newValue) => {
                     newValue ? setCategory(newValue): setCategory(category)
                   }}
                 />
