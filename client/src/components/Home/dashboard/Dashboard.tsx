@@ -93,11 +93,11 @@ export default function HomeDashboard() {
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 20,
+              pageSize: 10,
             },
           },
         }}
-        pageSizeOptions={[5]}
+        pageSizeOptions={[10]}
         disableRowSelectionOnClick
         disableColumnMenu
         sx={{
