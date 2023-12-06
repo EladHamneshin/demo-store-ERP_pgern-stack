@@ -5,7 +5,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Box, Checkbox, FormControlLabel } from '@mui/material';
 import { useState } from 'react';
-import MainBody from './MainBody';
+import {MainBody} from './MainBody';
 import { FieldValues, useForm } from 'react-hook-form';
 import SubmitButton from './SubmitButton';
 
@@ -31,12 +31,9 @@ export default function AddProduct2() {
     setOpen(false);
   };
 
-
   const onSubmit = (event: FieldValues) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);    
   };
-
 
   return (
     <>
@@ -47,7 +44,10 @@ export default function AddProduct2() {
         <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
           <DialogTitle>Add new product</DialogTitle>
           <DialogContent>
-            <MainBody />
+            <MainBody
+              register={register}
+              errors={errors}
+            />
             <FormControlLabel
               required
               onClick={handleSale}
@@ -58,9 +58,9 @@ export default function AddProduct2() {
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
             <SubmitButton
-            isValid={isValid}
-            watch={watch}
-            handle={handleClose}
+              isValid={isValid}
+              watch={watch}
+              handle={handleClose}
             />
           </DialogActions>
         </Box>

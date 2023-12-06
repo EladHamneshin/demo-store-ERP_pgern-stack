@@ -12,7 +12,7 @@ const SubmitButton: FC<SubmitButtonInterface> = ({
   const navigate = useNavigate();
   const formProduct = {
     name: watch("name"),
-    // category: watch("category"), // add watch to params!!!!
+    category: watch("category"), // add watch to params!!!!
     costPrice: watch("costPrice"),
     saleprice: watch("salePrice"),
     quantity: watch("quantity"),
@@ -21,15 +21,15 @@ const SubmitButton: FC<SubmitButtonInterface> = ({
     rating: 0,
     clicked: 0,
     image: {
-      url: watch('ImageUrl'),
-      alt: watch('ImageAlt')
+      url: watch('imgUrl'),
+      alt: watch('imgAlt')
     },
     coordinate: {
       longitude: watch('longitude'),
       latitude: watch('latitude')
     },
     tags: {
-      [watch('tagName')]: watch('tagValue')
+      [watch('tagName')]: watch('tagVal')
     },
     // isForSale: isForSale, // fix!!!
     supplier: watch('supplier')
@@ -53,7 +53,7 @@ const SubmitButton: FC<SubmitButtonInterface> = ({
     <>
       <Button
         type="submit"
-        disabled={!isValid}
+        // disabled={!isValid}
         onClick={handleAddProduct}
       >
         ADD

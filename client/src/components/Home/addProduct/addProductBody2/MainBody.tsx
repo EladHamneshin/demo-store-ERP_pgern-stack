@@ -1,15 +1,20 @@
-import SelectCategory from '../SelectCategory';
+import {SelectCategory} from '../SelectCategory';
 import { NameInput, DescriptionInput, SupplierInput } from './StringInputs';
 import { NumberInputs } from './NumberInputs';
 import { ImgCoorTagInputs } from './ImgCoorTagInputs';
-import { useForm } from 'react-hook-form';
+import { FieldErrors, FieldValues, UseFormRegister, useForm } from 'react-hook-form';
 import { nameValidate, requiredValidate } from '../../../../utils/validateFuncs';
+import { MainBodyInterface } from './mainBodyInterface';
+import { FC } from 'react';
 
-export default function MainBody() {
-  const {
-    register,
-    formState: { errors},
-  } = useForm({ mode: "onChange" });
+export const MainBody: FC<MainBodyInterface> = ({
+  register,
+  errors
+  }) => {
+  // const {
+  //   register,
+  //   formState: { errors},
+  // } = useForm({ mode: "onChange" });
 
   return (
     <>
@@ -18,7 +23,11 @@ export default function MainBody() {
         nameValidate={nameValidate}
         errors={errors}
         />
-      <SelectCategory/>
+      <SelectCategory
+      register={register}
+      nameValidate={nameValidate}
+      errors={errors}
+      />
       <NumberInputs
         register={register}
         requiredValidate={requiredValidate}

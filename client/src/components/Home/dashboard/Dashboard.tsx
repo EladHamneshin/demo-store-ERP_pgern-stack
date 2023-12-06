@@ -83,8 +83,8 @@ export default function HomeDashboard() {
   return (
     <Box sx={{ height: 445, width: '100%' }}>
       <br></br>
-      <AddProduct />
-      {/* <AddProduct2/> */}
+      {/* <AddProduct /> */}
+      <AddProduct2/>
       <DataGrid
         rows={rows}
         columns={columns}
