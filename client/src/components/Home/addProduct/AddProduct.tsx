@@ -50,12 +50,12 @@ export default function AddProduct() {
         latitude: parseInt(data.get('latitude')!.toString())
       },
       tags: {
-        [data.get('tagName')!.toString()] : data.get('tagValue')!.toString() 
+        [data.get('tagName')!.toString()]: data.get('tagValue')!.toString()
       },
-      costPrice: parseInt(data.get('costPrice')!.toString()),
+      costprice: parseInt(data.get('costPrice')!.toString()),
       isForSale: isForSale,
       supplier: data.get('supplier')!.toString()
-    }    
+    }
 
     try {
       const newProduct = await productsAPI.addnewProduct(formProduct);
@@ -78,25 +78,25 @@ export default function AddProduct() {
           <DialogTitle>Add new product</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Fill all this fields and press submit to add new product. 
+              Fill all this fields and press submit to add new product.
             </DialogContentText>
             <AddProductBody />
             <FormControlLabel
-             required 
-             onClick={handleSale}
-             control={<Checkbox defaultChecked />} 
-             label="Is For Sale"
+              required
+              onClick={handleSale}
+              control={<Checkbox defaultChecked />}
+              label="Is For Sale"
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>            
-            <Button 
-              type='submit' 
+            <Button onClick={handleClose}>Cancel</Button>
+            <Button
+              type='submit'
               // disabled={full}
-              onClick={handleClose} 
-              >
-                Add
-              </Button>
+              onClick={handleClose}
+            >
+              Add
+            </Button>
           </DialogActions>
         </Box>
       </Dialog>

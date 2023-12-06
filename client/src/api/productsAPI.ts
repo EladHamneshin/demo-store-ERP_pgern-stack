@@ -1,4 +1,4 @@
-import {Product} from "../types/Product";
+import {Product, Category} from "../types/Product";
 import handleApiRes from "./apiResHandler";
 
 const apiUri = import.meta.env.VITE_API_URI;
@@ -8,13 +8,18 @@ async function getAllProducts(): Promise<Product[]> {
   return await handleApiRes(response);
 }
 
+async function getCategories(): Promise<Category[]> { 
+  const response = await fetch(`${apiUri}/shopInventory/categories`);
+  return await handleApiRes(response);
+}
+
 async function getProduct(pid: string): Promise<Product> {
   const response = await fetch(`${apiUri}/inventory/${pid}`);
   return await handleApiRes(response);
 }
 
-async function updateProduct(product: Product, pid: string): Promise<Product> {
-  const response = await fetch(`${apiUri}/inventory/${pid}`, {method: 'PUT',
+async function updateProduct(product: Product): Promise<Product> {
+  const response = await fetch(`${apiUri}/inventory/${product.id}`, {method: 'PUT',
   body: JSON.stringify(product)});
   return await handleApiRes(response);
 }
@@ -35,4 +40,4 @@ async function addnewProduct(product: Omit<Product, 'id'>): Promise<Product> {
   return await handleApiRes(response);
 }
 
-export default { getAllProducts, getProduct, updateProduct, deleteProduct, addnewProduct }
+export default { getAllProducts, getProduct, updateProduct, deleteProduct, addnewProduct, getCategories }

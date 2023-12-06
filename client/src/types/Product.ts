@@ -12,11 +12,11 @@ export interface Product {
     alt: string;
     url: string;
   }
-  coordinate?: {
+  coordinate: {
     longitude: number;
     latitude: number
   };
-  tags?: {
+  tags: {
     [key: string]: string;
   };
   costPrice: number;
@@ -28,6 +28,12 @@ export interface AdminProduct extends Product {
   isForSale: boolean;
   costPrice: number;
   supplier: string;
+}
+
+export interface Category {
+  id: string,
+  name: string,
+  clicked: number,
 }
 
 export type UpdateBody = {
