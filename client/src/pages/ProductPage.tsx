@@ -23,7 +23,6 @@ const ProductPage = () => {
   const handleClose = () => setOpen(false);
   const navigate = useNavigate();
   const { pid } = useParams();
-  console.log(pid);
   
   const [product, setProduct] = useState<null | Product>(null);
   const style = {
@@ -56,8 +55,6 @@ const ProductPage = () => {
   //handle get product by id from server
   const getProduct = async (pid: string) => {
     try {
-      console.log(pid);
-
       const product = await productsAPI.getProduct(pid);
       setProduct(product);
     } catch (error) {
