@@ -27,12 +27,14 @@ async function getProduct(pid: string): Promise<Product> {
 }
 
 async function updateProduct(product: Product, pid: string): Promise<Product> {
+  
   const response = await fetch(`${apiUri}/inventory/${pid}`, {
     method: 'PUT',
     body: JSON.stringify(product),
     headers:{ 
-      "Content-Type": "application/json",
-      "authorization": JSON.stringify(localStorage.getItem('erp_token'))}
+      "authorization": JSON.stringify(localStorage.getItem('erp_token')),
+      "Content-Type": "application/json"
+    }
   });
   return await handleApiRes(response);
 }

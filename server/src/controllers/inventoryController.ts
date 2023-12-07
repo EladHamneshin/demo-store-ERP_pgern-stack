@@ -11,10 +11,9 @@ export const getAllProductsController = asyncHandler(async (req: Request, res: R
 })
 
 export const getProductByIdController = asyncHandler(async (req: Request, res: Response) => {
-
+  
   const product: AdminProduct = await getProductByIdService(req.params.id);
   res.json(product);
-
 })
 
 export const addNewProductController = asyncHandler(async (req: Request, res: Response) => {  

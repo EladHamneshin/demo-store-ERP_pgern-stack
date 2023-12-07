@@ -19,6 +19,13 @@ const ProductPage = () => {
   const navigate = useNavigate();
   const { pid } = useParams();
   
+  const [open, setOpen] = useState(false);
+  const openObj = {
+    open,
+    setOpen
+  }
+
+
   const [product, setProduct] = useState<null | Product>(null);
   const renderTitle = (title: string) => (
     <Typography variant="h6" style={{ background: '#f0f0f0', padding: '8px 0', marginBottom: '8px' }}>
@@ -41,7 +48,6 @@ const ProductPage = () => {
     try {
       const product = await productsAPI.getProduct(pid);
       setProduct(product);
-      console.log(product);
     } catch (error) {
       console.error('Failed to fetch', error);
     };
@@ -53,7 +59,7 @@ const ProductPage = () => {
       navigate(ROUTES.LOGIN);
     }
     getProduct(pid!);
-  }, []);
+  }, [open]);
 
   //When the product is loaded then show the component
   return (
@@ -77,7 +83,7 @@ const ProductPage = () => {
                     {/* Buttons */}
                     <Grid item>
                       {/* edit button */}
-                      <EditProduct product={product}/>
+                      <EditProduct product={product} openObj={openObj}/>
                     </Grid>
                     <Grid item>
                       {/* delete button */}
@@ -122,21 +128,6 @@ const ProductPage = () => {
                   </Grid>
                 </Grid>
               </CardContent>
-              {/* <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-              >
-                <Box sx={style}>
-                  <Typography id="modal-modal-title" variant="h6" component="h2">
-                    Text in a modal
-                  </Typography>
-                  <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                    Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                  </Typography>
-                </Box>
-              </Modal> */}
                   
             </Card>
           </>

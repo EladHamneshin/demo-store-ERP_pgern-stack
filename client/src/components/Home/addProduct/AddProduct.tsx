@@ -36,7 +36,7 @@ function AddProduct() {
   const [isForSale, setIsForSale] = React.useState(false);
   const [longitude, setLongitude] = React.useState(0);
   const [latitude, setLatitude] = React.useState(0);
-  const [costPrice, setCostPrice] = React.useState(0);
+  const [costprice, setCostPrice] = React.useState(0);
   const [supplier, setSupplier] = React.useState('');
   const [tags, setTags] = React.useState<{ [key: string]: string }>({'': ''});
   const [categories, setCategories] = React.useState<Category[]>([{name: 'foo', id: '1', clicked: 0}, {name: 'bar', id: '2', clicked: 0}])
@@ -84,7 +84,8 @@ function AddProduct() {
         latitude: latitude!,
         longitude: longitude!
       },
-      costPrice: costPrice!,
+
+      costPrice: costprice!,
       image: {
         alt: alt!,
         url: url!

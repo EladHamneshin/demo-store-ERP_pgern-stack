@@ -14,18 +14,21 @@ import {
 } from '@mui/material';
 import * as React from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom';
-import ROUTES from '../routes/routes';
 import productsAPI from '../api/productsAPI';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 type Props = {
-  product: Product
+  product: Product,
+  openObj: {
+    open: boolean,
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  }
 }
 
 function UpdateProduct(props: Props) {
+  const { open, setOpen } = props.openObj
   const [product, setProduct] = React.useState(props.product)
   const [name, setName] = React.useState(product.name);
   const [saleprice, setSalePrice] = React.useState(product.saleprice);
@@ -40,16 +43,13 @@ function UpdateProduct(props: Props) {
   const [isforsale, setIsForSale] = React.useState(product.isforsale);
   const [longitude, setLongitude] = React.useState(product.coordinate.longitude);
   const [latitude, setLatitude] = React.useState(product.coordinate.latitude);
-  const [costprice, setCostPrice] = React.useState(product.costPrice);
+  const [costPrice, setCostPrice] = React.useState(product.costPrice);
   const [supplier, setSupplier] = React.useState(product.supplier);
   const [tags, setTags] = React.useState({ ...product.tags });
   const [categories, setCategories] = React.useState<Category[]>([{name: 'foo', id: '1', clicked: 0}, {name: 'bar', id: '2', clicked: 0}])
 
-  const [open, setOpen] = React.useState(false); //for editing the product
-  const navigate = useNavigate();
   const handleOpen = async() => {
     const categories = await productsAPI.getCategories();
-    console.log(categories);
     
     setOpen(true);
     setCategories(categories)};
@@ -90,7 +90,7 @@ function UpdateProduct(props: Props) {
         latitude,
         longitude
       },
-      costPrice: costprice,
+      costPrice: costPrice,
       image: {
         alt,
         url
@@ -105,15 +105,11 @@ function UpdateProduct(props: Props) {
       discount
     };
     try {
-      const req = await productsAPI.updateProduct(updatedProduct, product.id!);
-      console.log('ererer', req);
-      console.log('Updated Product');
+      await productsAPI.updateProduct(updatedProduct, product.id!);
+      setOpen(false)
     } catch (err) {
       console.log('failed to update Product');
-    } finally {
-      navigate(`${ROUTES.PRODUCT_ROUTE}/${product.id}`)
-
-    }
+    } 
   };
 
   const updateTag = (oldKey: string, newKey: string, value: string) => {
@@ -260,7 +256,7 @@ function UpdateProduct(props: Props) {
                   margin="normal"
                   fullWidth
                   label="Cost Price"
-                  value={costprice}
+                  value={costPrice}
                   onChange={(e) => setCostPrice(Number(e.target.value))}
                 />
                 <TextField
