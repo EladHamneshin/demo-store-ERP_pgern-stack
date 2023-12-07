@@ -24,11 +24,6 @@ export interface Product {
   supplier: string;
 }
 
-export interface AdminProduct extends Product {
-  isForSale: boolean;
-  costPrice: number;
-  supplier: string;
-}
 
 export interface Category {
   id: string,

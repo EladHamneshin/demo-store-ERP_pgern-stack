@@ -30,7 +30,9 @@ async function updateProduct(product: Product, pid: string): Promise<Product> {
   const response = await fetch(`${apiUri}/inventory/${pid}`, {
     method: 'PUT',
     body: JSON.stringify(product),
-    headers:{ "authorization": JSON.stringify(localStorage.getItem('erp_token'))}
+    headers:{ 
+      "Content-Type": "application/json",
+      "authorization": JSON.stringify(localStorage.getItem('erp_token'))}
   });
   return await handleApiRes(response);
 }
@@ -52,6 +54,7 @@ async function addnewProduct(product: Omit<Product, 'id'>): Promise<Product> {
     },
     body: JSON.stringify(product),
   });
+
   return await handleApiRes(response);
 }
 

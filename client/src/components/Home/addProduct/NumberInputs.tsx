@@ -15,12 +15,12 @@ export const NumberInputs: FC<FieldInputInterface> = ({
         required
         fullWidth
         type="number"
-        id="costPrice"
+        id="costprice"
         label="Cost Price"
         autoFocus
-        {...register("costPrice", requiredValidate)}
-        helperText={errors.costPrice?.message?.toString()}
-        error={errors.costPrice ? true : false}
+        {...register("costprice", requiredValidate)}
+        helperText={errors.costprice?.message?.toString()}
+        error={errors.costprice ? true : false}
       />
 
       <TextField

@@ -4,6 +4,7 @@ import { SubmitButtonInterface } from "../../../types/addProductInterfaces/Submi
 import { useNavigate } from "react-router-dom";
 import productsAPI from "../../../api/productsAPI";
 import { useAppSelector } from "../../../utils/store/hooks";
+import { Product } from "../../../types/Product";
 
 const SubmitButton: FC<SubmitButtonInterface> = ({
   isValid,
@@ -13,10 +14,10 @@ const SubmitButton: FC<SubmitButtonInterface> = ({
   const navigate = useNavigate();
   const categoryId = useAppSelector((state) => state.email.category);
   const isForSale = useAppSelector((state) => state.email.forSale);
-  const formProduct = {
+  const formProduct: Omit<Product, 'id'> = {
     name: watch("name"),
     category: categoryId,
-    costPrice: parseInt(watch("costPrice")),
+    costPrice: parseInt(watch("costprice")),
     saleprice: parseInt(watch("salePrice")),
     quantity: parseInt(watch("quantity")),
     discount: parseInt(watch("discount")),
