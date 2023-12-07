@@ -35,14 +35,16 @@ const SubmitButton: FC<SubmitButtonInterface> = ({
     tags: {
       [watch('tagName')]: watch('tagVal')
     },
-    isForSale: isForSale,
+    isforsale: isForSale,
     supplier: watch('supplier')
   };
 
   const handleAddProduct = async () => {
+    console.log('form:',formProduct);
     
     try {
       const newProduct = await productsAPI.addnewProduct(formProduct);
+      console.log('newProduct:', newProduct);
       navigate(`/erp/product/${newProduct.id}`);
       handle();
 

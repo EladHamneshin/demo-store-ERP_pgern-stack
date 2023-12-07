@@ -26,7 +26,6 @@ export const getProductByIdService = async (id: string) => {
   const product: AdminProduct = await getProductByIdDal(id);
 
   if (!product) {
-    console.log(product);
     throw new RequestError(
       `product with '${id}' id does not exist`,
       STATUS_CODES.BAD_REQUEST
@@ -57,7 +56,6 @@ export const updateProductByIdService = async (
 ) => {
   const product: AdminProduct = await getProductByIdDal(id);
   if (!product) {
-    console.log(product);
     throw new RequestError(
       `product with '${id}' id does not exist`,
       STATUS_CODES.BAD_REQUEST

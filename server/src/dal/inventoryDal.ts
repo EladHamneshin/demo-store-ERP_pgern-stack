@@ -51,14 +51,12 @@ export const addNewProductDal = async (
   VALUES ('${newProduct.category}', 0)
   ON CONFLICT (name) DO NOTHING;
   `);
-  console.log('res', insertCategory);
   
   const selectCategory = await query(`
   SELECT id FROM categories WHERE name = '${newProduct.category}';
   `);
   
   const category = await selectCategory.rows[0].id
-  console.log('category:', category);
 
   // Insert image
   const imageRes = await query(`
@@ -69,7 +67,7 @@ export const addNewProductDal = async (
   // Insert product
   const res = await query(`
         INSERT INTO products (name, price, quantity, description, image, category, discount, rating, clicked, costPrice, supplier)
-        VALUES ('${newProduct.name}', ${newProduct.saleprice}, ${newProduct.quantity}, '${newProduct.description}', '${imageRes?.rows[0].id}', '${category}', ${newProduct.discount}, ${newProduct.rating}, ${newProduct.clicked}, ${newProduct.costPrice}, '${newProduct.supplier}')
+        VALUES ('${newProduct.name}', ${newProduct.saleprice}, ${newProduct.quantity}, '${newProduct.description}', '${imageRes?.rows[0].id}', '${category}', ${newProduct.discount}, ${newProduct.rating}, ${newProduct.clicked}, ${newProduct.costprice}, '${newProduct.supplier}')
         returning *;
     `);
 
@@ -87,7 +85,6 @@ export const addNewProductDal = async (
       const idQuery = await query(`select id from tags where name = '${key}'`);
       tagId = idQuery?.rows[0].id;
     }
-    console.log('d');
 
     const tagValueRes = await query(
       `INSERT INTO tag_values (name, tag) VALUES ('${newProduct.tags[key]}', '${tagId}') ON CONFLICT (name, tag) DO NOTHING returning *;`
@@ -101,19 +98,16 @@ export const addNewProductDal = async (
       );
       tagValueId = idQuery?.rows[0].id;
     }
-    console.log('e');
 
     await query(
       `INSERT INTO product_tags (product, tag_and_value_id) VALUES ('${productId}', '${tagValueId}') returning *;`
     );
   }
-  console.log('f');
 
   // Insert coordinates
   const coordinatesRes = await query(
     `INSERT INTO coordinates (lat, lng) VALUES (${newProduct.coordinate.latitude}, ${newProduct.coordinate.longitude}) ON CONFLICT DO NOTHING returning *;`
   );
-  console.log('g');
 
   let coordinatesId = ' ';
   if (coordinatesRes?.rows[0]) {
@@ -146,8 +140,8 @@ export const updateProductByIdDal = async (partsOfProductToUpdate: Partial<Admin
         discount = ${partsOfProductToUpdate.discount},
         rating = ${partsOfProductToUpdate.rating},
         clicked = ${partsOfProductToUpdate.clicked},
-        isforsale = ${partsOfProductToUpdate.isForSale},
-        costprice = ${partsOfProductToUpdate.costPrice},
+        isforsale = ${partsOfProductToUpdate.isforsale},
+        costprice = ${partsOfProductToUpdate.costprice},
         supplier = '${partsOfProductToUpdate.supplier}'
 
     WHERE id = '${id}';  `);

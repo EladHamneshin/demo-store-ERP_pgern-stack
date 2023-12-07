@@ -37,10 +37,10 @@ function UpdateProduct(props: Props) {
   const [clicked, setClick] = React.useState(product.clicked);
   const [url, setUrl] = React.useState(product.image.url);
   const [alt, setAlt] = React.useState(product.image.alt);
-  const [isForSale, setIsForSale] = React.useState(product.isforsale);
+  const [isforsale, setIsForSale] = React.useState(product.isforsale);
   const [longitude, setLongitude] = React.useState(product.coordinate.longitude);
   const [latitude, setLatitude] = React.useState(product.coordinate.latitude);
-  const [costPrice, setCostPrice] = React.useState(product.costprice);
+  const [costprice, setCostPrice] = React.useState(product.costPrice);
   const [supplier, setSupplier] = React.useState(product.supplier);
   const [tags, setTags] = React.useState({ ...product.tags });
   const [categories, setCategories] = React.useState<Category[]>([{name: 'foo', id: '1', clicked: 0}, {name: 'bar', id: '2', clicked: 0}])
@@ -74,7 +74,7 @@ function UpdateProduct(props: Props) {
       setIsForSale(product.isforsale);
       setLongitude(product.coordinate.longitude);
       setLatitude(product.coordinate.latitude);
-      setCostPrice(product.costprice);
+      setCostPrice(product.costPrice);
       setSupplier(product.supplier);
       setTags({ ...product.tags });
     }
@@ -90,13 +90,13 @@ function UpdateProduct(props: Props) {
         latitude,
         longitude
       },
-      costPrice,
+      costPrice: costprice,
       image: {
         alt,
         url
       },
       supplier,
-      isForSale,
+      isforsale: isforsale,
       name,
       quantity,
       rating,
@@ -260,7 +260,7 @@ function UpdateProduct(props: Props) {
                   margin="normal"
                   fullWidth
                   label="Cost Price"
-                  value={costPrice}
+                  value={costprice}
                   onChange={(e) => setCostPrice(Number(e.target.value))}
                 />
                 <TextField
@@ -291,7 +291,7 @@ function UpdateProduct(props: Props) {
                 <Button onClick={addNewTag}>Add Tag</Button>
                 <span>Is For Sale</span>
                 <Switch
-                  checked={isForSale}
+                  checked={isforsale}
                   onChange={isForSaleHandleChange}
                   inputProps={{ 'aria-label': 'controlled' }}
                 />
