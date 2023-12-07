@@ -51,6 +51,7 @@ export const MainBody: FC<MainBodyInterface> = ({
         requiredValidate={requiredValidate}
         errors={errors}
       />
+      <br></br>
       <Typography>Is For Sale</Typography>
       <Switch
         checked={forSale}

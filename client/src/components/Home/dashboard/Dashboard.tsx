@@ -67,7 +67,7 @@ export default function HomeDashboard() {
         id: product.id,
         productName: product.name,
         supplier: product.supplier,
-        costPrice: product.costPrice,
+        costPrice: product.costprice,
         salePrice: product.saleprice,
         quantity: product.quantity,
         description: product.description
@@ -84,7 +84,7 @@ export default function HomeDashboard() {
   return (
     <Box sx={{ height: '100%', width: '100%' }}>
       <br></br>
-      <AddProduct/>
+      <AddProductComponent/>
       <DataGrid
         rows={rows}
         columns={columns}

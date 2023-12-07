@@ -41,6 +41,7 @@ const ProductPage = () => {
     try {
       const product = await productsAPI.getProduct(pid);
       setProduct(product);
+      console.log(product);
     } catch (error) {
       console.error('Failed to fetch', error);
     };
@@ -97,8 +98,8 @@ const ProductPage = () => {
                     {/* Supplier Details */}
                     {renderTitle('Supplier Details')}
                     {renderDetailRow('Supplier', product.supplier)}
-                    {renderDetailRow('Cost Price', `${product.costPrice}`)}
-                    {renderDetailRow('For Sale', product.isForSale ? 'Yes' : 'No')}
+                    {renderDetailRow('Cost Price', `${product.costprice}`)}
+                    {renderDetailRow('For Sale', product.isforsale ? 'Yes' : 'No')}
 
                     {/* Stock Location Details */}
                     {renderTitle('Stock Location Details')}

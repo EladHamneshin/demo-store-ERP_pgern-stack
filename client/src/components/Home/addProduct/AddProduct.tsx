@@ -84,13 +84,13 @@ function AddProduct() {
         latitude: latitude!,
         longitude: longitude!
       },
-      costPrice: costPrice!,
+      costprice: costPrice!,
       image: {
         alt: alt!,
         url: url!
       },
       supplier: supplier!,
-      isForSale: isForSale!,
+      isforsale: isForSale!,
       name: name!,
       quantity: quantity!,
       rating: rating!,

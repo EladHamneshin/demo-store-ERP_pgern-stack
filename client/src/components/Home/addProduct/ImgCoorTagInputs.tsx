@@ -1,12 +1,34 @@
-import { Grid, TextField } from "@mui/material";
+import { Button, Grid, TextField } from "@mui/material";
 import { FC } from "react";
 import { FieldInputInterface } from "../../../types/addProductInterfaces/FieldInputInterface";
+import React from "react";
 
 export const ImgCoorTagInputs: FC<FieldInputInterface> = ({
   register,
   requiredValidate,
   errors,
 }) => {
+  const [tags, setTags] = React.useState<{ [key: string]: string }>({ '': '' });
+  const updateTag = (oldKey: string, newKey: string, value: string) => {
+    const updatedTags = { ...tags };
+    delete updatedTags[oldKey]; // Remove the old key
+    updatedTags[newKey] = value; // Add the new key
+    setTags(updatedTags);
+  };
+
+  const deleteTag = (key: string) => {
+    const updatedTags = { ...tags };
+    delete updatedTags[key]; // Remove the key
+    setTags(updatedTags);
+  }
+
+  const addNewTag = () => {
+    setTags((prevTags) => ({
+      ...prevTags,
+      '': '',
+    }));
+  };
+
   return (
     <Grid item xs={12}>
       <TextField
@@ -59,7 +81,7 @@ export const ImgCoorTagInputs: FC<FieldInputInterface> = ({
         sx={{ marginRight: '30px' }}
       />
 
-      <TextField
+      {/* <TextField
         margin="normal"
         required
         id="tagName"
@@ -80,8 +102,33 @@ export const ImgCoorTagInputs: FC<FieldInputInterface> = ({
         {...register("tagVal", requiredValidate)}
         helperText={errors.tagVal?.message?.toString()}
         error={errors.tagVal ? true : false}
-        sx={{ marginRight: '30px' }}
-      />
+      // sx={{ marginRight: '30px' }}
+      /> */}
+      {Object.keys(tags).map((key, index) => (
+        <div key={index} style={{ display: "flex" }}>
+          <TextField
+            margin="normal"
+            label="Tag Name"
+            id="tagName"
+            {...register("tagName", requiredValidate)}
+            // onChange={(e) => updateTag(key, e.target.value, tags[key])}
+            helperText={errors.tagName?.message?.toString()}
+            error={errors.tagName ? true : false}
+            sx={{ marginRight: '30px' }}
+          />
+          <TextField
+            margin="normal"
+            label="Tag Value"
+            id="tagVal"
+            {...register("tagVal", requiredValidate)}
+            // onChange={(e) => updateTag(key, key, e.target.value)}
+            helperText={errors.tagVal?.message?.toString()}
+            error={errors.tagVal ? true : false}
+          />
+          <Button onClick={() => deleteTag(key)}>Delete</Button>
+        </div>
+      ))}
+      <Button onClick={addNewTag}>Add Tag</Button>
     </Grid>
   );
 };

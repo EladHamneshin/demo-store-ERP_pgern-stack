@@ -63,7 +63,7 @@ const AppBar = () => {
           <Typography variant="h6" component="div" sx={{ marginRight: 2 }}>
             Demo Store Inventory
           </Typography>
-          <SearchField />
+          {/* <SearchField /> */}
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Box sx={{ flexGrow: 0 }}>

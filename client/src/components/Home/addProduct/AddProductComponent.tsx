@@ -8,6 +8,7 @@ import { useState } from 'react';
 import {MainBody} from './MainBody';
 import { FieldValues, useForm } from 'react-hook-form';
 import SubmitButton from './SubmitButton';
+import { Add } from '@mui/icons-material';
 
 export default function AddProductComponent() {
   const [open, setOpen] = useState(false);
@@ -33,8 +34,8 @@ export default function AddProductComponent() {
 
   return (
     <>
-      <Button variant="contained" onClick={handleOpen}>
-        Add product
+      <Button variant="contained" endIcon={<Add />} onClick={handleOpen}>
+        Add product 
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
