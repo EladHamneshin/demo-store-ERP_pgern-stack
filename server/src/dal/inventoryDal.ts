@@ -69,7 +69,7 @@ export const addNewProductDal = async (
   // Insert product
   const res = await query(`
         INSERT INTO products (name, price, quantity, description, image, category, discount, rating, clicked, costPrice, supplier)
-        VALUES ('${newProduct.name}', ${newProduct.saleprice}, ${newProduct.quantity}, '${newProduct.description}', '${imageRes?.rows[0].id}', '${category}', ${newProduct.discount}, ${newProduct.rating}, ${newProduct.clicked}, ${newProduct.costPrice}, '${newProduct.supplier}')
+        VALUES ('${newProduct.name}', ${newProduct.saleprice}, ${newProduct.quantity}, '${newProduct.description}', '${imageRes?.rows[0].id}', '${category}', ${newProduct.discount}, ${newProduct.rating}, ${newProduct.clicked}, ${newProduct.costprice}, '${newProduct.supplier}')
         returning *;
     `);
 
@@ -146,8 +146,8 @@ export const updateProductByIdDal = async (partsOfProductToUpdate: Partial<Admin
         discount = ${partsOfProductToUpdate.discount},
         rating = ${partsOfProductToUpdate.rating},
         clicked = ${partsOfProductToUpdate.clicked},
-        isforsale = ${partsOfProductToUpdate.isForSale},
-        costprice = ${partsOfProductToUpdate.costPrice},
+        isforsale = ${partsOfProductToUpdate.isforsale},
+        costprice = ${partsOfProductToUpdate.costprice},
         supplier = '${partsOfProductToUpdate.supplier}'
 
     WHERE id = '${id}';  `);

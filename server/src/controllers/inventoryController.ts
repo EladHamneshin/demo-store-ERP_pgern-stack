@@ -18,6 +18,8 @@ export const getProductByIdController = asyncHandler( async (req: Request , res:
 })
 
 export const addNewProductController = asyncHandler( async (req: Request , res: Response) => {
+    console.log(req.body);
+    
     const newProduct: AdminProduct = await addNewProductService(req.body);
 
     res.json(newProduct)

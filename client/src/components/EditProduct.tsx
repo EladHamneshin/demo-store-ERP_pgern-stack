@@ -14,18 +14,21 @@ import {
 } from '@mui/material';
 import * as React from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom';
-import ROUTES from '../routes/routes';
 import productsAPI from '../api/productsAPI';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 type Props = {
-  product: Product
+  product: Product,
+  openObj: {
+    open: boolean,
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  }
 }
 
 function UpdateProduct(props: Props) {
+  const { open, setOpen } = props.openObj
   const [product, setProduct] = React.useState(props.product)
   const [name, setName] = React.useState(product.name);
   const [saleprice, setSalePrice] = React.useState(product.saleprice);
@@ -37,19 +40,16 @@ function UpdateProduct(props: Props) {
   const [clicked, setClick] = React.useState(product.clicked);
   const [url, setUrl] = React.useState(product.image.url);
   const [alt, setAlt] = React.useState(product.image.alt);
-  const [isForSale, setIsForSale] = React.useState(product.isForSale);
+  const [isforsale, setIsForSale] = React.useState(product.isforsale);
   const [longitude, setLongitude] = React.useState(product.coordinate.longitude);
   const [latitude, setLatitude] = React.useState(product.coordinate.latitude);
-  const [costPrice, setCostPrice] = React.useState(product.costPrice);
+  const [costprice, setCostPrice] = React.useState(product.costprice);
   const [supplier, setSupplier] = React.useState(product.supplier);
   const [tags, setTags] = React.useState({ ...product.tags });
   const [categories, setCategories] = React.useState<Category[]>([{name: 'foo', id: '1', clicked: 0}, {name: 'bar', id: '2', clicked: 0}])
 
-  const [open, setOpen] = React.useState(false); //for editing the product
-  const navigate = useNavigate();
   const handleOpen = async() => {
     const categories = await productsAPI.getCategories();
-    console.log(categories);
     
     setOpen(true);
     setCategories(categories)};
@@ -71,10 +71,10 @@ function UpdateProduct(props: Props) {
       setClick(product.clicked);
       setUrl(product.image.url);
       setAlt(product.image.alt);
-      setIsForSale(product.isForSale);
+      setIsForSale(product.isforsale);
       setLongitude(product.coordinate.longitude);
       setLatitude(product.coordinate.latitude);
-      setCostPrice(product.costPrice);
+      setCostPrice(product.costprice);
       setSupplier(product.supplier);
       setTags({ ...product.tags });
     }
@@ -90,13 +90,13 @@ function UpdateProduct(props: Props) {
         latitude,
         longitude
       },
-      costPrice,
+      costprice,
       image: {
         alt,
         url
       },
       supplier,
-      isForSale,
+      isforsale,
       name,
       quantity,
       rating,
@@ -105,15 +105,11 @@ function UpdateProduct(props: Props) {
       discount
     };
     try {
-      const req = await productsAPI.updateProduct(updatedProduct, product.id!);
-      console.log('ererer', req);
-      console.log('Updated Product');
+      await productsAPI.updateProduct(updatedProduct, product.id!);
+      setOpen(false)
     } catch (err) {
       console.log('failed to update Product');
-    } finally {
-      navigate(`${ROUTES.PRODUCT_ROUTE}/${product.id}`)
-
-    }
+    } 
   };
 
   const updateTag = (oldKey: string, newKey: string, value: string) => {
@@ -260,7 +256,7 @@ function UpdateProduct(props: Props) {
                   margin="normal"
                   fullWidth
                   label="Cost Price"
-                  value={costPrice}
+                  value={costprice}
                   onChange={(e) => setCostPrice(Number(e.target.value))}
                 />
                 <TextField
@@ -291,7 +287,7 @@ function UpdateProduct(props: Props) {
                 <Button onClick={addNewTag}>Add Tag</Button>
                 <span>Is For Sale</span>
                 <Switch
-                  checked={isForSale}
+                  checked={isforsale}
                   onChange={isForSaleHandleChange}
                   inputProps={{ 'aria-label': 'controlled' }}
                 />
