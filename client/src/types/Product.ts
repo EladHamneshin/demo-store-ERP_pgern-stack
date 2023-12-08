@@ -48,3 +48,7 @@ export interface AllCategories {
   name: string,
   clicked: number
 }
+
+export interface Tags {
+  [key: string]: string;
+};

@@ -6,8 +6,8 @@ import { MainBodyInterface } from '../../../types/addProductInterfaces/mainBodyI
 import { FC } from 'react';
 import { CategoriesInput } from './CategoriesInput';
 import { Switch, Typography } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../../utils/store/hooks';
-import { changeForSale } from '../../../utils/store/emailSlice';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { changeForSale } from '../../../store/emailSlice';
 
 export const MainBody: FC<MainBodyInterface> = ({
   register,

@@ -3,8 +3,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import { FieldInputInterface } from '../../../types/addProductInterfaces/FieldInputInterface';
 import { FC, useEffect, useState } from 'react';
 import { AllCategories } from '../../../types/Product';
-import { useAppDispatch } from '../../../utils/store/hooks';
-import { saveCategory } from '../../../utils/store/emailSlice';
+import { useAppDispatch } from '../../../store/hooks';
+import { saveCategory } from '../../../store/emailSlice';
 
 export const CategoriesInput: FC<FieldInputInterface> = ({
   register,

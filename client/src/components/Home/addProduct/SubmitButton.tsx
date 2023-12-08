@@ -3,7 +3,7 @@ import { FC } from "react";
 import { SubmitButtonInterface } from "../../../types/addProductInterfaces/SubmitButtonInterface";
 import { useNavigate } from "react-router-dom";
 import productsAPI from "../../../api/productsAPI";
-import { useAppSelector } from "../../../utils/store/hooks";
+import { useAppSelector } from "../../../store/hooks";
 import { Product } from "../../../types/Product";
 
 const SubmitButton: FC<SubmitButtonInterface> = ({
@@ -14,6 +14,7 @@ const SubmitButton: FC<SubmitButtonInterface> = ({
   const navigate = useNavigate();
   const categoryId = useAppSelector((state) => state.email.category);
   const isForSale = useAppSelector((state) => state.email.forSale);
+  const Tags = useAppSelector((state) => state.tags.tags);
   const formProduct: Omit<Product, 'id'> = {
     name: watch("name"),
     category: categoryId,
@@ -32,9 +33,7 @@ const SubmitButton: FC<SubmitButtonInterface> = ({
       longitude: parseInt(watch('longitude')),
       latitude: parseInt(watch('latitude'))
     },
-    tags: {
-      [watch('tagName')]: watch('tagVal')
-    },
+    tags: Tags!,
     isforsale: isForSale,
     supplier: watch('supplier')
   };

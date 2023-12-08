@@ -2,18 +2,23 @@ import { Button, Grid, TextField } from "@mui/material";
 import { FC } from "react";
 import { FieldInputInterface } from "../../../types/addProductInterfaces/FieldInputInterface";
 import React from "react";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { saveTags } from "../../../store/tagSlice";
 
 export const ImgCoorTagInputs: FC<FieldInputInterface> = ({
   register,
   requiredValidate,
   errors,
 }) => {
+  const dispatch = useAppDispatch();
   const [tags, setTags] = React.useState<{ [key: string]: string }>({ '': '' });
+  
   const updateTag = (oldKey: string, newKey: string, value: string) => {
     const updatedTags = { ...tags };
     delete updatedTags[oldKey]; // Remove the old key
     updatedTags[newKey] = value; // Add the new key
     setTags(updatedTags);
+    dispatch(saveTags(updatedTags));
   };
 
   const deleteTag = (key: string) => {
@@ -104,14 +109,15 @@ export const ImgCoorTagInputs: FC<FieldInputInterface> = ({
         error={errors.tagVal ? true : false}
       // sx={{ marginRight: '30px' }}
       /> */}
+
       {Object.keys(tags).map((key, index) => (
         <div key={index} style={{ display: "flex" }}>
           <TextField
             margin="normal"
             label="Tag Name"
             id="tagName"
-            {...register("tagName", requiredValidate)}
-            // onChange={(e) => updateTag(key, e.target.value, tags[key])}
+            // {...register("tagName", requiredValidate)}
+            onChange={(e) => updateTag(key, e.target.value, tags[key])}
             helperText={errors.tagName?.message?.toString()}
             error={errors.tagName ? true : false}
             sx={{ marginRight: '30px' }}
@@ -120,8 +126,8 @@ export const ImgCoorTagInputs: FC<FieldInputInterface> = ({
             margin="normal"
             label="Tag Value"
             id="tagVal"
-            {...register("tagVal", requiredValidate)}
-            // onChange={(e) => updateTag(key, key, e.target.value)}
+            // {...register("tagVal", requiredValidate)}
+            onChange={(e) => updateTag(key, key, e.target.value)}
             helperText={errors.tagVal?.message?.toString()}
             error={errors.tagVal ? true : false}
           />

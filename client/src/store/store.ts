@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import emailReducer from './emailSlice';
+import tagSlice from './tagSlice';
 
 export const store = configureStore({
   reducer: {
-    email: emailReducer
+    email: emailReducer,
+    tags: tagSlice
   }
 })
 

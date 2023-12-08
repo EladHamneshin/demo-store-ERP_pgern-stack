@@ -18,8 +18,8 @@ import SearchField from './SearchField';
 import usersAPI from '../api/userAPI.ts';
 import ROUTES from '../routes/routes.ts';
 import { toastError } from '../utils/Toastify/toastUtils.ts';
-import { useAppSelector, useAppDispatch } from '../utils/store/hooks.ts';
-import { saveEmail } from '../utils/store/emailSlice.ts';
+import { useAppSelector, useAppDispatch } from '../store/hooks.ts';
+import { saveEmail } from '../store/emailSlice.ts';
 
 
 const AppBar = () => {
