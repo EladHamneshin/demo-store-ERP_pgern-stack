@@ -56,7 +56,7 @@ const SubmitButton: FC<SubmitButtonInterface> = ({
     <>
       <Button
         type="submit"
-        // disabled={!isValid}
+        disabled={!isValid}
         onClick={handleAddProduct}
       >
         ADD

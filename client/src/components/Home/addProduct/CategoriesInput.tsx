@@ -8,6 +8,7 @@ import { saveCategory } from '../../../store/emailSlice';
 
 export const CategoriesInput: FC<FieldInputInterface> = ({
   register,
+  errors,
   requiredValidate
 }) => {
   
@@ -36,7 +37,13 @@ export const CategoriesInput: FC<FieldInputInterface> = ({
         {...register("Categories", requiredValidate)}
         options={allCategories!.map((option) => option.name)}
         sx={{ width: 534}}
-        renderInput={(params) => <TextField {...params} label="Categories" />}
+        renderInput={(params) => <TextField
+           {...params} 
+           label="Categories"
+           {...register("Categories", requiredValidate)} 
+           helperText={errors.Categories?.message?.toString()}
+           error={errors.Categories ? true : false}
+           />}
         onChange={(event, newValue) => {
           for (let category of allCategories) {
             if (newValue === category.name) {

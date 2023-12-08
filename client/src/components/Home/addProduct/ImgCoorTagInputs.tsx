@@ -2,7 +2,7 @@ import { Button, Grid, TextField } from "@mui/material";
 import { FC } from "react";
 import { FieldInputInterface } from "../../../types/addProductInterfaces/FieldInputInterface";
 import React from "react";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { useAppDispatch } from "../../../store/hooks";
 import { saveTags } from "../../../store/tagSlice";
 
 export const ImgCoorTagInputs: FC<FieldInputInterface> = ({
@@ -86,37 +86,12 @@ export const ImgCoorTagInputs: FC<FieldInputInterface> = ({
         sx={{ marginRight: '30px' }}
       />
 
-      {/* <TextField
-        margin="normal"
-        required
-        id="tagName"
-        label="Tag name"
-        autoFocus
-        {...register("tagName", requiredValidate)}
-        helperText={errors.tagName?.message?.toString()}
-        error={errors.tagName ? true : false}
-        sx={{ marginRight: '30px' }}
-      />
-
-      <TextField
-        margin="normal"
-        required
-        id="tagVal"
-        label="Tag value"
-        autoFocus
-        {...register("tagVal", requiredValidate)}
-        helperText={errors.tagVal?.message?.toString()}
-        error={errors.tagVal ? true : false}
-      // sx={{ marginRight: '30px' }}
-      /> */}
-
       {Object.keys(tags).map((key, index) => (
         <div key={index} style={{ display: "flex" }}>
           <TextField
             margin="normal"
             label="Tag Name"
             id="tagName"
-            // {...register("tagName", requiredValidate)}
             onChange={(e) => updateTag(key, e.target.value, tags[key])}
             helperText={errors.tagName?.message?.toString()}
             error={errors.tagName ? true : false}
@@ -126,7 +101,6 @@ export const ImgCoorTagInputs: FC<FieldInputInterface> = ({
             margin="normal"
             label="Tag Value"
             id="tagVal"
-            // {...register("tagVal", requiredValidate)}
             onChange={(e) => updateTag(key, key, e.target.value)}
             helperText={errors.tagVal?.message?.toString()}
             error={errors.tagVal ? true : false}
