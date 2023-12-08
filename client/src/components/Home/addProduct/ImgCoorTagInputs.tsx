@@ -2,7 +2,7 @@ import { Button, Grid, TextField } from "@mui/material";
 import { FC } from "react";
 import { FieldInputInterface } from "../../../types/addProductInterfaces/FieldInputInterface";
 import React from "react";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { useAppDispatch} from "../../../store/hooks";
 import { saveTags } from "../../../store/tagSlice";
 
 export const ImgCoorTagInputs: FC<FieldInputInterface> = ({

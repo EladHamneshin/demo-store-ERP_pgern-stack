@@ -39,11 +39,9 @@ const SubmitButton: FC<SubmitButtonInterface> = ({
   };
 
   const handleAddProduct = async () => {
-    console.log('form:',formProduct);
     
     try {
       const newProduct = await productsAPI.addnewProduct(formProduct);
-      console.log('newProduct:', newProduct);
       navigate(`/erp/product/${newProduct.id}`);
       handle();
 
