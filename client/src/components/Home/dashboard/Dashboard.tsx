@@ -66,7 +66,7 @@ export default function HomeDashboard() {
         id: product.id,
         productName: product.name,
         supplier: product.supplier,
-        costPrice: product.costPrice,
+        costPrice: product.costprice,
         salePrice: product.saleprice,
         quantity: product.quantity,
         description: product.description

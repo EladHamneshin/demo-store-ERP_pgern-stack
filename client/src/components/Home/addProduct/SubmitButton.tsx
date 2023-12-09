@@ -7,7 +7,6 @@ import { useAppSelector } from "../../../store/hooks";
 import { Product } from "../../../types/Product";
 
 const SubmitButton: FC<SubmitButtonInterface> = ({
-  isValid,
   watch,
   handle
 }) => {
@@ -18,7 +17,7 @@ const SubmitButton: FC<SubmitButtonInterface> = ({
   const formProduct: Omit<Product, 'id'> = {
     name: watch("name"),
     category: categoryId,
-    costPrice: parseInt(watch("costprice")),
+    costprice: parseInt(watch("costprice")),
     saleprice: parseInt(watch("salePrice")),
     quantity: parseInt(watch("quantity")),
     discount: parseInt(watch("discount")),

@@ -43,7 +43,7 @@ function UpdateProduct(props: Props) {
   const [isforsale, setIsForSale] = React.useState(product.isforsale);
   const [longitude, setLongitude] = React.useState(product.coordinate.longitude);
   const [latitude, setLatitude] = React.useState(product.coordinate.latitude);
-  const [costPrice, setCostPrice] = React.useState(product.costPrice);
+  const [costPrice, setCostPrice] = React.useState(product.costprice);
   const [supplier, setSupplier] = React.useState(product.supplier);
   const [tags, setTags] = React.useState({ ...product.tags });
   const [categories, setCategories] = React.useState<Category[]>([{name: 'foo', id: '1', clicked: 0}, {name: 'bar', id: '2', clicked: 0}])
@@ -74,7 +74,7 @@ function UpdateProduct(props: Props) {
       setIsForSale(product.isforsale);
       setLongitude(product.coordinate.longitude);
       setLatitude(product.coordinate.latitude);
-      setCostPrice(product.costPrice);
+      setCostPrice(product.costprice);
       setSupplier(product.supplier);
       setTags({ ...product.tags });
     }
@@ -90,7 +90,7 @@ function UpdateProduct(props: Props) {
         latitude,
         longitude
       },
-      costPrice: costPrice,
+      costprice: costPrice,
       image: {
         alt,
         url

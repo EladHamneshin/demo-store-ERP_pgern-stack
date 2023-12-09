@@ -14,7 +14,6 @@ import {
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import { useNavigate } from 'react-router-dom';
 import Logout from '@mui/icons-material/Logout';
-import SearchField from './SearchField';
 import usersAPI from '../api/userAPI.ts';
 import ROUTES from '../routes/routes.ts';
 import { toastError } from '../utils/Toastify/toastUtils.ts';

@@ -66,7 +66,7 @@ export const addNewProductDal = async (
 
   // Insert product
   const res = await query(`
-        INSERT INTO products (name, price, quantity, description, image, category, discount, rating, clicked, costPrice, supplier)
+        INSERT INTO products (name, price, quantity, description, image, category, discount, rating, clicked, costprice, supplier)
         VALUES ('${newProduct.name}', ${newProduct.saleprice}, ${newProduct.quantity}, '${newProduct.description}', '${imageRes?.rows[0].id}', '${category}', ${newProduct.discount}, ${newProduct.rating}, ${newProduct.clicked}, ${newProduct.costprice}, '${newProduct.supplier}')
         returning *;
     `);

@@ -85,7 +85,7 @@ function AddProduct() {
         longitude: longitude!
       },
 
-      costPrice: costprice!,
+      costprice: costprice!,
       image: {
         alt: alt!,
         url: url!
