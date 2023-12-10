@@ -667,3 +667,38 @@ VALUES ( (
                 lat = 55.7558
         )
     );
+
+CREATE OR REPLACE FUNCTION add_user(p_email VARCHAR, p_password VARCHAR)
+RETURNS TABLE (
+  id UUID,
+  email VARCHAR,
+  password VARCHAR
+) AS $$
+BEGIN
+  INSERT INTO users(email, password)
+  VALUES (p_email, p_password)
+  RETURNING * INTO STRICT id, email, password;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION get_user(p_user_id UUID)
+RETURNS TABLE (
+  id UUID,
+  email VARCHAR,
+  password VARCHAR
+) AS $$
+BEGIN
+  RETURN QUERY SELECT * FROM users WHERE users.id = p_user_id;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION get_user_by_email(p_email VARCHAR)
+RETURNS TABLE (
+  id UUID,
+  email VARCHAR,
+  password VARCHAR
+) AS $$
+BEGIN
+  RETURN QUERY SELECT * FROM users WHERE users.email = p_email;
+END;
+$$ LANGUAGE plpgsql;

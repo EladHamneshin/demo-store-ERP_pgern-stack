@@ -4,8 +4,10 @@ import { Product } from '../../../types/Product';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridRowParams, GridToolbar } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
-import AddProduct from '../addProduct/AddProduct';
+import AddProductComponent from '../addProduct/AddProductComponent';
 import ROUTES from '../../../routes/routes';
+
+
 
 const columns: GridColDef[] = [
   {
@@ -65,7 +67,7 @@ export default function HomeDashboard() {
         id: product.id,
         productName: product.name,
         supplier: product.supplier,
-        costPrice: product.costPrice,
+        costPrice: product.costprice,
         salePrice: product.saleprice,
         quantity: product.quantity,
         description: product.description
@@ -82,7 +84,7 @@ export default function HomeDashboard() {
   return (
     <Box sx={{ height: '100%', width: '100%' }}>
       <br></br>
-      <AddProduct />
+      <AddProductComponent/>
       <DataGrid
         rows={rows}
         columns={columns}
@@ -93,11 +95,11 @@ export default function HomeDashboard() {
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 20,
+              pageSize: 10,
             },
           },
         }}
-        pageSizeOptions={[5]}
+        pageSizeOptions={[10]}
         disableRowSelectionOnClick
         disableColumnMenu
         sx={{

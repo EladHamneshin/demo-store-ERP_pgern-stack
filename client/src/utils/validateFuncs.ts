@@ -6,9 +6,16 @@ function isValidPassword(password: string) {
   return /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=.{7,20}$)/.test(password);
 }
 
-function isEmpty(event: React.ChangeEvent<HTMLInputElement>) {
-  if (event.target.value.trim().length === 0) return true;
-  else if (event.target.value.trim().length !== 0) return false;
-}
+const nameValidate = {
+  required: "⚠ Required field",
+  minLength: {
+    value: 2,
+    message: "⚠ Must be at least two characters",
+  },
+};
 
-export { isValidEmail, isValidPassword, isEmpty };
+const requiredValidate = {
+  required: "⚠ Required field",
+};
+
+export { isValidEmail, isValidPassword, nameValidate, requiredValidate };
