@@ -14,12 +14,11 @@ import {
 import StorefrontIcon from '@mui/icons-material/Storefront';
 import { useNavigate } from 'react-router-dom';
 import Logout from '@mui/icons-material/Logout';
-import SearchField from './SearchField';
 import usersAPI from '../api/userAPI.ts';
 import ROUTES from '../routes/routes.ts';
 import { toastError } from '../utils/Toastify/toastUtils.ts';
-import { useAppSelector, useAppDispatch } from '../utils/store/hooks.ts';
-import { saveEmail } from '../utils/store/emailSlice.ts';
+import { useAppSelector, useAppDispatch } from '../store/hooks.ts';
+import { saveEmail } from '../store/emailSlice.ts';
 
 
 const AppBar = () => {
@@ -51,7 +50,7 @@ const AppBar = () => {
     <MUIAppBar position="static" color='primary'>
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box
-          onClick={() => navigate('/')}
+          onClick={() => navigate(ROUTES.HOME)}
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -63,10 +62,10 @@ const AppBar = () => {
           <Typography variant="h6" component="div" sx={{ marginRight: 2 }}>
             Demo Store Inventory
           </Typography>
-          <SearchField />
+          {/* <SearchField /> */}
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          {email && <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar src="" />
@@ -98,7 +97,7 @@ const AppBar = () => {
                 Logout
               </MenuItem>
             </Menu>
-          </Box>}
+          </Box>
         </Box>
       </Toolbar>
     </MUIAppBar>

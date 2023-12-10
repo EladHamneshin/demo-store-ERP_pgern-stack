@@ -9,12 +9,13 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Copyright } from '../../Copyright';
-import { useAppDispatch } from '../../../utils/store/hooks';
-import { saveEmail } from '../../../utils/store/emailSlice';
+import { useAppDispatch } from '../../../store/hooks';
+import { saveEmail } from '../../../store/emailSlice';
 import userAPI from '../../../api/userAPI';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { toastError } from '../../../utils/Toastify/toastUtils';
+import ROUTES from '../../../routes/routes'
 
 const defaultTheme = createTheme();
 
@@ -28,11 +29,13 @@ export default function Login() {
     const formEmail = data.get('email')!.toString();
     const password = data.get('password')!.toString();
     try {
-      const {email} = await userAPI.loginUser(formEmail, password);
-      dispatch(saveEmail(email!));
-      navigate('/');
+      const res = await userAPI.loginUser(formEmail, password);
+      localStorage.setItem('erp_token', res.token!) 
 
-    } catch(error) {      
+      dispatch(saveEmail(res.email!));
+      navigate(ROUTES.HOME);
+
+    } catch (error) {
       console.error(error);
       toastError((error as Error).message);
     }
@@ -40,28 +43,28 @@ export default function Login() {
 
   return (
     <>
-     <ThemeProvider theme={defaultTheme}>
-     <Container component="main" maxWidth="xs">
-        <CssBaseline />
-            <Box
-              sx={{
-                  marginTop: 8,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-              }}
-            >
+      <ThemeProvider theme={defaultTheme}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 8,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
             <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-                Sign in
+              Sign in
             </Typography>
               <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                 <LoginField />                
                 <Grid container>
                     <Grid item>
-                        <Link href='/register' variant="body2">
+                        <Link href={ROUTES.REGISTER} variant="body2">
                         {"Don't have an account? Sign Up"}
                         </Link>
                     </Grid>
@@ -71,7 +74,7 @@ export default function Login() {
             </Box>
             <Copyright sx={{ mt: 8, mb: 4 }} />
         </Container>
-     </ThemeProvider>
+      </ThemeProvider>
     </>
   )
 }

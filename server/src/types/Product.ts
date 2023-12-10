@@ -16,15 +16,15 @@ export interface Product {
 }
 
 export interface AdminProduct extends Product {
-  isForSale: boolean;
-  costPrice: number;
+  isforsale: boolean;
+  costprice: number;
   supplier: string;
 }
 
 export type UpdateBody = {
-  Products: {
+  items: {
     productId: string;
-    requiredQuantity: number;
+    quantity: number;
   }[];
   action: string;
 };

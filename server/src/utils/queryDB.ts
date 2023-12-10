@@ -1,27 +1,23 @@
-import { client } from '../configs/db'
+import { connectDB } from '../configs/db';
 import RequestError from '../types/errors/RequestError';
 import STATUS_CODES from './StatusCodes';
-import { DatabaseError } from 'pg';
+import { DatabaseError, PoolClient, Pool } from 'pg';
 
-
-const query = async (queryString: string) => {
+const query = async (query: string) => {
+  
+  const client: PoolClient = await connectDB();
   try {
-    const result = await client.query(queryString);
-    // Use client.release() if working with a connection pool
-    // await client.end();
-    // await client; // Make sure to await here
-
-    return result;
-  } catch (queryError) {
-    // Log the error for debugging purposes
-    console.error('Query error:', queryError);
-
-    // Throw a custom error based on the type of error
+    const res = await client.query(query);
+    return res;
+  } catch (error) {
+    console.error(error);
     throw new RequestError(
-      (queryError as DatabaseError).message || 'Unknown database error',
+      (error as DatabaseError).message,
       STATUS_CODES.INTERNAL_SERVER_ERROR
-    );
+      );
+    } finally {    
+        client.release()
   }
-}
+};
 
 export default query;

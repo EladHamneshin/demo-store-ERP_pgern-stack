@@ -26,7 +26,6 @@ export const getProductByIdService = async (id: string) => {
   const product: AdminProduct = await getProductByIdDal(id);
 
   if (!product) {
-    console.log(product);
     throw new RequestError(
       `product with '${id}' id does not exist`,
       STATUS_CODES.BAD_REQUEST
@@ -39,23 +38,16 @@ export const getProductByIdService = async (id: string) => {
 export const addNewProductService = async (
   newProduct: Omit<AdminProduct, 'id'>
 ) => {
-  console.log('0');
   
   const product: AdminProduct = await addNewProductDal(newProduct);
-  console.log('1');
-  
   if (!product) {
-    console.log('2');
-
     throw new RequestError(
       'failed to add product',
       STATUS_CODES.INTERNAL_SERVER_ERROR
     );
-  } else {
-    console.log('3');
-
-    return product;
   }
+  return product;
+  
 };
 
 export const updateProductByIdService = async (
@@ -64,7 +56,6 @@ export const updateProductByIdService = async (
 ) => {
   const product: AdminProduct = await getProductByIdDal(id);
   if (!product) {
-    console.log(product);
     throw new RequestError(
       `product with '${id}' id does not exist`,
       STATUS_CODES.BAD_REQUEST

@@ -7,6 +7,7 @@ export const getAllData = asyncHandler(
     const searchParam = req.query.search?.toString();
     const categoryParam = req.query.category?.toString();
     const allData = await Service.getAllData(searchParam, categoryParam);
+    
     res.json(allData);
   }
 );
@@ -21,7 +22,7 @@ export const getProductById = asyncHandler(
 
 export const updateInventory = asyncHandler(
   async (req: Request, res: Response) => {
-  const success = await Service.updateInventory(req);
+  const success = await Service.updateInventory(req.body);
   res.send(success)
   } 
 )

@@ -46,16 +46,28 @@ export const getProductByIdDal = async (id: string) => {
 export const addNewProductDal = async (
   newProduct: Omit<AdminProduct, 'id'>
 ) => {
+  const insertCategory = await query(`
+  INSERT INTO categories (name, clicked)
+  VALUES ('${newProduct.category}', 0)
+  ON CONFLICT (name) DO NOTHING;
+  `);
   
+  const selectCategory = await query(`
+  SELECT id FROM categories WHERE name = '${newProduct.category}';
+  `);
+  
+  const category = await selectCategory.rows[0].id
+
   // Insert image
-  const imageRes = await query(
-    `INSERT INTO images (url, alt) VALUES ('${newProduct.image.url}', '${newProduct.image.alt}') returning *;`
+  const imageRes = await query(`
+    INSERT INTO images (url, alt)
+    VALUES ('${newProduct.image.url}', '${newProduct.image.alt}') returning *;`
   );
 
   // Insert product
   const res = await query(`
-        INSERT INTO products (name, price, quantity, description, image, category, discount, rating, clicked, costPrice, supplier)
-        VALUES ('${newProduct.name}', ${newProduct.saleprice}, ${newProduct.quantity}, '${newProduct.description}', '${imageRes?.rows[0].id}', '${newProduct.category}', ${newProduct.discount}, ${newProduct.rating}, ${newProduct.clicked}, ${newProduct.costPrice}, '${newProduct.supplier}')
+        INSERT INTO products (name, price, quantity, description, image, category, discount, rating, clicked, costprice, supplier)
+        VALUES ('${newProduct.name}', ${newProduct.saleprice}, ${newProduct.quantity}, '${newProduct.description}', '${imageRes?.rows[0].id}', '${category}', ${newProduct.discount}, ${newProduct.rating}, ${newProduct.clicked}, ${newProduct.costprice}, '${newProduct.supplier}')
         returning *;
     `);
 
@@ -73,7 +85,6 @@ export const addNewProductDal = async (
       const idQuery = await query(`select id from tags where name = '${key}'`);
       tagId = idQuery?.rows[0].id;
     }
-    console.log('d');
 
     const tagValueRes = await query(
       `INSERT INTO tag_values (name, tag) VALUES ('${newProduct.tags[key]}', '${tagId}') ON CONFLICT (name, tag) DO NOTHING returning *;`
@@ -87,19 +98,16 @@ export const addNewProductDal = async (
       );
       tagValueId = idQuery?.rows[0].id;
     }
-    console.log('e');
 
     await query(
       `INSERT INTO product_tags (product, tag_and_value_id) VALUES ('${productId}', '${tagValueId}') returning *;`
     );
   }
-  console.log('f');
 
   // Insert coordinates
   const coordinatesRes = await query(
     `INSERT INTO coordinates (lat, lng) VALUES (${newProduct.coordinate.latitude}, ${newProduct.coordinate.longitude}) ON CONFLICT DO NOTHING returning *;`
   );
-  console.log('g');
 
   let coordinatesId = ' ';
   if (coordinatesRes?.rows[0]) {
@@ -125,16 +133,16 @@ export const updateProductByIdDal = async (partsOfProductToUpdate: Partial<Admin
 
     const {rows: updatedProduct}: any = await query(`UPDATE products
     SET
-        name = '${partsOfProductToUpdate.name || 'name'}',
-        price = ${partsOfProductToUpdate.saleprice || 'price'},
-        quantity = ${partsOfProductToUpdate.quantity || 'quantity'},
-        description = '${partsOfProductToUpdate.description || 'description'}',
-        discount = ${partsOfProductToUpdate.discount || 'discount'},
-        rating = ${partsOfProductToUpdate.rating || 'rating'},
-        clicked = ${partsOfProductToUpdate.clicked || 'clicked'},
-        isforsale = ${partsOfProductToUpdate.isForSale || 'isforsale'},
-        costprice = ${partsOfProductToUpdate.costPrice || 'costprice'},
-        supplier = '${partsOfProductToUpdate.supplier || 'supplier'}'
+        name = '${partsOfProductToUpdate.name}',
+        price = ${partsOfProductToUpdate.saleprice},
+        quantity = ${partsOfProductToUpdate.quantity},
+        description = '${partsOfProductToUpdate.description}',
+        discount = ${partsOfProductToUpdate.discount},
+        rating = ${partsOfProductToUpdate.rating},
+        clicked = ${partsOfProductToUpdate.clicked},
+        isforsale = ${partsOfProductToUpdate.isforsale},
+        costprice = ${partsOfProductToUpdate.costprice},
+        supplier = '${partsOfProductToUpdate.supplier}'
 
     WHERE id = '${id}';  `);
 
@@ -142,7 +150,7 @@ export const updateProductByIdDal = async (partsOfProductToUpdate: Partial<Admin
     const coordinatesRes = await query(
       `INSERT INTO coordinates (lat, lng) VALUES (${partsOfProductToUpdate.coordinate.latitude}, ${partsOfProductToUpdate.coordinate.longitude}) ON CONFLICT DO NOTHING returning *;`
     );
-    let coordinatesId = ' ';
+    let coordinatesId = '';
     if (coordinatesRes?.rows[0]) {
       coordinatesId = coordinatesRes.rows[0].id;
     } else {
