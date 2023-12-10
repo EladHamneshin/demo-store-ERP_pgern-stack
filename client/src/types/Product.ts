@@ -1,5 +1,5 @@
 export interface Product {
-  id: string;
+  id?: string;
   name: string;
   saleprice: number;
   quantity: number;
@@ -12,22 +12,23 @@ export interface Product {
     alt: string;
     url: string;
   }
-  coordinate?: {
+  coordinate: {
     longitude: number;
     latitude: number
   };
-  tags?: {
+  tags: {
     [key: string]: string;
   };
-  costPrice: number;
-  isForSale: boolean;
+  costprice: number;
+  isforsale: boolean;
   supplier: string;
 }
 
-export interface AdminProduct extends Product {
-  isForSale: boolean;
-  costPrice: number;
-  supplier: string;
+
+export interface Category {
+  id: string,
+  name: string,
+  clicked: number,
 }
 
 export type UpdateBody = {
@@ -41,3 +42,13 @@ export type UpdateBody = {
 export interface ProductsArr {
   [productId: string]: number;
 }
+
+export interface AllCategories {
+  id: string,
+  name: string,
+  clicked: number
+}
+
+export interface Tags {
+  [key: string]: string;
+};

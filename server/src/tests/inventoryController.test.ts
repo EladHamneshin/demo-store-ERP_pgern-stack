@@ -55,8 +55,8 @@ test('testing inventory addNewProduct:', async () => {
         "tags": {
             "brand": "Apple"
         },
-        "costPrice": 1800,
-        "isForSale": true,
+        "costprice": 1800,
+        "isforsale": true,
         "supplier": "ivan electronics"
     }
     fetchMock.mockResponseOnce(JSON.stringify(mockBody));
@@ -90,8 +90,8 @@ test('testing inventory updateProduct:', async () => {
         "tags": {
             "brand": "Apple"
         },
-        "costPrice": 1800,
-        "isForSale": true,
+        "costprice": 1800,
+        "isforsale": true,
         "supplier": "ivan electronics"
     }
     fetchMock.mockResponseOnce(JSON.stringify(mockBody));

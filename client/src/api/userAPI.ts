@@ -12,7 +12,6 @@ async function loginUser(email: string, password: string): Promise<UserInfo> {
     },
     body: JSON.stringify({ email, password }),
   });  
-  console.log(response);
   
   return await handleApiRes(response);
 }

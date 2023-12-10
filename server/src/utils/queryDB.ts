@@ -5,20 +5,18 @@ import { DatabaseError, PoolClient, Pool } from 'pg';
 
 const query = async (query: string) => {
   
+  const client: PoolClient = await connectDB();
   try {
-    const client: PoolClient = await connectDB()
     const res = await client.query(query);
-    client.release()
-
-    await console.log(":)");
     return res;
   } catch (error) {
     console.error(error);
     throw new RequestError(
       (error as DatabaseError).message,
       STATUS_CODES.INTERNAL_SERVER_ERROR
-    );
-  } finally {    
+      );
+    } finally {    
+        client.release()
   }
 };
 
