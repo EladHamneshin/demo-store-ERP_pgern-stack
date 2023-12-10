@@ -37,7 +37,7 @@ export const CategoriesInput: FC<FieldInputInterface> = ({
         options={allCategories!.map((option) => option.name)}
         sx={{ width: 534}}
         renderInput={(params) => <TextField {...params} label="Categories" />}
-        onChange={(event, newValue) => {
+        onChange={(_event, newValue) => {
           for (let category of allCategories) {
             if (newValue === category.name) {
               dispatch(saveCategory(category.id));
