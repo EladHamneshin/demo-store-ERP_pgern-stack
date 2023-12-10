@@ -12,7 +12,6 @@ async function loginUser(email: string, password: string): Promise<UserInfo> {
     },
     body: JSON.stringify({ email, password }),
   });  
-  console.log(response);
   
   return await handleApiRes(response);
 }
@@ -21,6 +20,7 @@ async function logoutUser(): Promise<{ message: string }> {
   const response = await fetch(`${apiUri}/user/auth/logout`, {
     method: "POST"
   });
+  localStorage.setItem('erp_token','')
   return await handleApiRes(response);
 }
 

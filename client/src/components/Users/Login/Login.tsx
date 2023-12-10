@@ -9,8 +9,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Copyright } from '../../Copyright';
-import { useAppDispatch } from '../../../utils/store/hooks';
-import { saveEmail } from '../../../utils/store/emailSlice';
+import { useAppDispatch } from '../../../store/hooks';
+import { saveEmail } from '../../../store/emailSlice';
 import userAPI from '../../../api/userAPI';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -29,8 +29,10 @@ export default function Login() {
     const formEmail = data.get('email')!.toString();
     const password = data.get('password')!.toString();
     try {
-      const { email } = await userAPI.loginUser(formEmail, password);
-      dispatch(saveEmail(email!));
+      const res = await userAPI.loginUser(formEmail, password);
+      localStorage.setItem('erp_token', res.token!) 
+
+      dispatch(saveEmail(res.email!));
       navigate(ROUTES.HOME);
 
     } catch (error) {

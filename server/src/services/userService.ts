@@ -13,7 +13,6 @@ export const addUser = async (user: User) => {
 
 	const hashedPassword = await hashPassword(password);
 	const newUser = await userDal.addUser({ email, password: hashedPassword });
-	// console.log(newUser.id);
 	return newUser;
 }
 
