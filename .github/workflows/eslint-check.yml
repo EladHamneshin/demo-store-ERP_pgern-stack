@@ -1,0 +1,32 @@
+name: ESLint Check
+
+on:
+  pull_request:
+    branches: [ dev, main ]
+    paths:
+      - '**/*.ts'
+      - '**/*.tsx'
+      - '.github/workflows/eslint-check.yml'
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18' # Set this to your Node.js version
+      
+    - name: Install Dependencies
+      working-directory: client
+      run: npm install
+
+    - name: Run ESLint
+      working-directory: client
+      run: npx eslint 'src/**/*.{ts,tsx}' --quiet
+
+    - name: Check for TypeScript errors
+      working-directory: client
+      run: npx tsc --noEmit
