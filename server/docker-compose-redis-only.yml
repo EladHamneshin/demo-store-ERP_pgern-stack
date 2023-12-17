@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 25s
+      retries: 3
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning
+    volumes:
+      - cache:/data
+  api:
+    container_name: quotes-api
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_started
+    ports:
+      - 4000:4000
+    environment:
+      NODE_ENV: production
+      PG_HOST: db
+      PG_PORT: 5432
+      PG_USER: postgres
+      PG_PASSWORD: postgres
+      PG_NAME: postgres
+      REDIS_HOST: cache
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
+    links:
+      - db
+      - cache
+    volumes:
+      - ./src:/src
+volumes:
+  db:
+    driver: local
+  cache:
+    driver: local

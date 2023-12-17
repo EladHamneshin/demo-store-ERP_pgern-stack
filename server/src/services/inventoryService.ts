@@ -84,4 +84,5 @@ export const deleteProductByIdService = async (id: string) => {
   }
 
   await deleteProductByIdDal(id);
+  return 'product deleted successfully';
 };

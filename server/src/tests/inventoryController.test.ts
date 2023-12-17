@@ -106,7 +106,7 @@ test('testing inventory deleteProduct:', async () => {
     const productId = 'product_id_to_delete';
     fetchMock.mockResponseOnce(JSON.stringify({ message: 'Product deleted' }));
 
-    jest.spyOn(Service, 'deleteProductByIdService').mockResolvedValue();
+    // jest.spyOn(Service, 'deleteProductByIdService').mockResolvedValue();
 
     const response = await Service.deleteProductByIdService(productId);
   

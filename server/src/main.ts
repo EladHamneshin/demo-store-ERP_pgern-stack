@@ -1,27 +1,39 @@
-import express from 'express';
-const { ApolloServer } = require('apollo-server-express');
-const { typeDefs, resolvers } = require('./schema');
-import cors from 'cors';
+const express = require('express');
+import { ApolloServer } from 'apollo-server-express';
+import { typeDefs, resolvers } from './schema';
 import dotenv from 'dotenv';
-import morgan from 'morgan';
 import { notFound, errorHandler } from './middlewares/errorsMiddleware';
-import shopCategoriesRouter from './routes/categoriesRouter';
-import inventoryRouter from './routes/inventoryRouts';
-import shopInventoryRouter from './routes/shopInventoryRouts';
-import userRoutes from './routes/userRoutes';
-import { connectDB } from './configs/db';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import morgan from 'morgan';
+
+const app = express();
+
 
 export async function startApolloServer() {
-  const app = express();
+  dotenv.config();
+  // app.use(cors());
+  // app.use(morgan('dev'));
+  // app.use(express.json());
+  // app.use(express.urlencoded({ extended: true }));
+  // app.use(cookieParser());
+
   const server = new ApolloServer({
     typeDefs,
     resolvers,
   });
+
+  app.use(notFound);
+  app.use(errorHandler);
   await server.start();
 
   server.applyMiddleware({ app });
 
-  await new Promise(resolve => app.listen({ port: 4000 }, resolve));
-  console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
+  const port = process.env.PORT || 5000;
+
+  await new Promise(() => app.listen({ port: port }));
+  console.log(`🚀 Server ready at ${port} ${server.graphqlPath}`);
   return { server, app };
 }
+
+startApolloServer()

@@ -2,7 +2,7 @@ import asyncHandler from "express-async-handler";
 import { Request, Response } from "express";
 import STATUS_CODES from "../utils/StatusCodes";
 import RequestError from "../types/errors/RequestError";
-import * as userService from "../services/userService";
+import userService from "../services/userService";
 import userValidation from "../utils/validations/userValidation";
 
 
@@ -15,7 +15,7 @@ export const registerUser = asyncHandler(async (req: Request, res: Response) => 
     if (error)
       throw new RequestError(error.message, STATUS_CODES.BAD_REQUEST);
     
-    const user = await userService.addUser(req.body);
+    const user = await userService.createUser(req.body);
   
     res.status(STATUS_CODES.CREATED).json({
       id: user?.id,

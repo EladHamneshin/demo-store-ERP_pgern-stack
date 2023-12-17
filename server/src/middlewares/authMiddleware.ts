@@ -2,12 +2,11 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
 import STATUS_CODES from '../utils/StatusCodes';
 import RequestError from '../types/errors/RequestError';
-import { getUser } from '../services/userService'
+import userService from '../services/userService'
 import { json } from 'express';
 
 export const authHandler = asyncHandler(async (req, _res, next) => {
   const token = req.headers.authorization;
-  
 
   if (!token) {
     throw new RequestError('Not authorized, no token', STATUS_CODES.UNAUTHORIZED);
@@ -22,7 +21,7 @@ export const authHandler = asyncHandler(async (req, _res, next) => {
     const decoded = jwt.verify(JSON.parse(token), process.env.JWT_SECRET);
 
     req.userId = (decoded as JwtPayload).userId;
-    await getUser(req.userId)
+    await userService.getUser(req.userId)
     req.isAuthenticated = true;
     next();
   } catch (error) {

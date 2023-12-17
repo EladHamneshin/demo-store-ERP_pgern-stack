@@ -677,9 +677,10 @@ RETURNS TABLE (
 BEGIN
   INSERT INTO users(email, password)
   VALUES (p_email, p_password)
-  RETURNING * INTO STRICT id, email, password;
+  RETURNING id, email, password INTO id, email, password;
 END;
 $$ LANGUAGE plpgsql;
+
 
 CREATE OR REPLACE FUNCTION get_user(p_user_id UUID)
 RETURNS TABLE (
