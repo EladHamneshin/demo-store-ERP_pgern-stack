@@ -7,19 +7,23 @@ import {
   getProductByIdDal,
   updateProductByIdDal,
 } from '../dal/inventoryDal';
-import { AdminProduct } from '../types/Product';
+import { RedisGetAllProducts } from '../dal/RedisInventoryDal';
+import { AdminProduct, ProductForRedis } from '../types/Product';
 
 export const getAllProductsService = async () => {
-  const products = await getAllProductsDal();
-
+  
+  const products = await RedisGetAllProducts();
   if (!products) {
     throw new RequestError(
       'failed to get products',
       STATUS_CODES.INTERNAL_SERVER_ERROR
     );
-  } else {
-    return products;
+  } 
+  else {
+    const parsedProducts: ProductForRedis[] = JSON.parse(JSON.stringify(products));
+    return parsedProducts;
   }
+  
 };
 
 export const getProductByIdService = async (id: string) => {

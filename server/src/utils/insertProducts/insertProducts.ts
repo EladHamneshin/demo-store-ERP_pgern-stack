@@ -1,4 +1,4 @@
-const productsData = [
+export const productsData = [
   {
     "category": "Computers",
     "products": [
@@ -1123,7 +1123,7 @@ const productsData = [
     ]
   }
 ]
-import { addNewProductDal } from './dal/inventoryDal';
+import { addNewProductDal } from '../../dal/inventoryDal';
 
 // Assuming your productsData has a specific structure. Adjust the type accordingly.
 interface Product {

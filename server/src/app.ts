@@ -12,7 +12,8 @@ import inventoryRouter from './routes/inventoryRouts';
 import shopInventoryRouter from './routes/shopInventoryRouts';
 import userRoutes from './routes/userRoutes';
 import cookieParser from 'cookie-parser';
-import { connectToRedis } from './redisClient'
+import { RedisClient } from './utils/Redis/redisClient';
+import { RedisInsertProducts } from './utils/insertProducts/insertProductsToRedis';
 
 interface MyContext {
   token?: String;
@@ -25,13 +26,16 @@ const server = new ApolloServer<MyContext>({
   resolvers,
   plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 });
-const startServer = async () => {
-  await server.start();
-  app.use(cors<cors.CorsRequest>());
-  app.use(morgan('dev'));
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: true }));
-  app.use(cookieParser());
+
+
+app.use(cors<cors.CorsRequest>());
+app.use(morgan('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
+server.start().then(async () => {
+
   app.use(
     '/graphql',
     // cors<cors.CorsRequest>(),
@@ -45,10 +49,12 @@ const startServer = async () => {
   app.use('/inventory', inventoryRouter);
   app.use(notFound);
   app.use(errorHandler);
-  const port: number = Number(process.env.PORT) || 4000
-  connectToRedis();
+  const port: number = Number(process.env.PORT) || 4000;
   await new Promise<void>((resolve) => httpServer.listen({ port: port }, resolve));
-  console.log(`🚀 Server ready at port: ${port}`);
-}
+  console.log(`🚀 Server is ready at port: ${port}`);
+  console.log(`http://localhost:5000/graphql`);
+  RedisClient.connect()
+  .then(() =>  console.log( "connected successfully to Redis client!!!" ))
+  .catch((error) => {  if (error instanceof Error) console.log(error.message) });
+})
 
-startServer();

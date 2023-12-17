@@ -21,6 +21,7 @@ export interface AdminProduct extends Product {
   supplier: string;
 }
 
+
 export type UpdateBody = {
   items: {
     productId: string;
@@ -31,4 +32,25 @@ export type UpdateBody = {
 
 export interface ProductsArr {
   [productId: string]: number;
+}
+
+
+export type ProductForRedis = {
+  id: string;
+  name: string;
+  saleprice: number;
+  quantity: number;
+  description: string;
+  category: string;
+  discount: number;
+  rating: number;
+  clicked: number;
+  image: { url: string; alt: string };
+  coordinate: { longitude: number; latitude: number };
+  tags: {
+    [key: string]: string;
+  };
+  isforsale: boolean;
+  costprice: number;
+  supplier: string;
 }

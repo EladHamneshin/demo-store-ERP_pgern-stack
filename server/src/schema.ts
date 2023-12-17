@@ -2,9 +2,9 @@ import { gql, ApolloServer } from 'apollo-server-express';
 import UserService from './services/userService';
 import authService from './services/authService';
 import { addNewProductService, deleteProductByIdService, getAllProductsService, getProductByIdService, updateProductByIdService } from './services/inventoryService';
-import { AdminProduct, Product, UpdateBody } from './types/Product';
+import { AdminProduct, Product, UpdateBody, ProductForRedis } from './types/Product';
 
-const typeDefs = gql(`
+const typeDefs = (`#gql
 type Product {
   id: String
   name: String
@@ -18,6 +18,9 @@ type Product {
   image: Image
   coordinate: Coordinate
   tags: Tags
+  isforsale: Boolean
+  costprice: Int,
+  supplier: String
 }
 
 type Image {
@@ -108,13 +111,16 @@ input TagInput {
 const resolvers = {
   Query: {
     getUser: (_: never, { id }: { id: string }) => UserService.getUser(id),
-    getAllProducts: async (): Promise<Product[]> => {
-      // check token 
-      return await getAllProductsService();
-  },
+    getAllProducts: async (): Promise<ProductForRedis[]> => {
+      // check token
+      const allProducts = await getAllProductsService();
+      console.log(allProducts[0]);
+      
+      return allProducts
+    },
   getProductById: async (_: unknown, args: { id: string }): Promise<Product | null> => {
       return await getProductByIdService(args.id);
-  }
+    }
   },
   Mutation: {
     loginUser: (_: never, { email, password }: { email: string, password: string }) => {
