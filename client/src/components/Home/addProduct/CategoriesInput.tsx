@@ -5,6 +5,7 @@ import { FC, useEffect, useState } from 'react';
 import { AllCategories } from '../../../types/Product';
 import { useAppDispatch } from '../../../store/hooks';
 import { saveCategory } from '../../../store/emailSlice';
+import productsAPI from '../../../api/productsAPI';
 
 export const CategoriesInput: FC<FieldInputInterface> = ({
   register,
@@ -17,8 +18,7 @@ export const CategoriesInput: FC<FieldInputInterface> = ({
   
   useEffect(() => {
     const getData = async () => {
-      const res = await fetch('https://erp-server-zqf9.onrender.com/shopInventory/categories')
-      const resCategories: AllCategories[] = await res.json();
+      const resCategories: AllCategories[] = await productsAPI.getCategories();
       setAllCategories(resCategories);
     }
     getData()
@@ -37,7 +37,7 @@ export const CategoriesInput: FC<FieldInputInterface> = ({
         options={allCategories!.map((option) => option.name)}
         sx={{ width: 534}}
         renderInput={(params) => <TextField {...params} label="Categories" />}
-        onChange={(event, newValue) => {
+        onChange={(_event, newValue) => {
           for (let category of allCategories) {
             if (newValue === category.name) {
               dispatch(saveCategory(category.id));
