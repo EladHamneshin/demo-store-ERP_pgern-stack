@@ -4,7 +4,7 @@ import authService from './services/authService';
 import { addNewProductService, deleteProductByIdService, getAllProductsService, getProductByIdService, updateProductByIdService } from './services/inventoryService';
 import { AdminProduct, Product, UpdateBody } from './types/Product';
 
-const typeDefs = gql(`
+const typeDefs = gql`
 type Product {
   id: String
   name: String
@@ -103,7 +103,7 @@ input TagInput {
     updateProductById(id: String, updateInput: ProductUpdateInput!): Product
     deleteProductById(id: String): String!
   }
-`);
+`;
 
 const resolvers = {
   Query: {

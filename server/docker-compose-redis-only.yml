@@ -36,11 +36,11 @@ services:
       - 4000:4000
     environment:
       NODE_ENV: production
-      PG_HOST: db
-      PG_PORT: 5432
-      PG_USER: postgres
-      PG_PASSWORD: postgres
-      PG_NAME: postgres
+      PGHOST: db
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGNAME: postgres
       REDIS_HOST: cache
       REDIS_PORT: 6379
       REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81

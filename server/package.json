@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsc -w && nodemon dist/server.js",
     "pro": "nodemon",
-    "start": "node ./dist/app.js",
+    "start": "node ./dist/server.js",
     "test": "jest --coverage .",
     "buildtest": "babel src -d dist",
     "build": "tsc"
