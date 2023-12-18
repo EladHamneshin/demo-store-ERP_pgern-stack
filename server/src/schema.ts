@@ -114,7 +114,6 @@ const resolvers = {
     getAllProducts: async (): Promise<ProductForRedis[]> => {
       // check token
       const allProducts = await getAllProductsService();
-      console.log(allProducts[0]);
       
       return allProducts
     },

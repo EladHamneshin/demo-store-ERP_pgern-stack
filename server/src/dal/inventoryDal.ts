@@ -1,11 +1,18 @@
-import { AdminProduct } from '../types/Product';
+import { AdminProduct, ProductForRedis } from '../types/Product';
+import { RedisClient } from '../utils/Redis/redisClient';
 import query from '../utils/queryDB';
 
 export const getAllProductsDal = async () => {
-
-    const {rows}: { rows:AdminProduct[] }  = await query(selectAll)
-
+        
+  const RedisAllProducts = await RedisClient.json.get('products');
+  if (!RedisAllProducts) {
+    const {rows}: { rows: ProductForRedis[] }  = await query(selectAll);
+    await RedisClient.json.set('products', '.', rows);
     return rows;
+  } 
+  else {
+    return RedisAllProducts;
+  }
 };
 
 export const getProductByIdDal = async (id: string) => {    

@@ -13,7 +13,6 @@ import shopInventoryRouter from './routes/shopInventoryRouts';
 import userRoutes from './routes/userRoutes';
 import cookieParser from 'cookie-parser';
 import { RedisClient } from './utils/Redis/redisClient';
-import { RedisInsertProducts } from './utils/insertProducts/insertProductsToRedis';
 
 interface MyContext {
   token?: String;
