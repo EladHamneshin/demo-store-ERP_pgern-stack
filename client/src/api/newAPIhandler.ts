@@ -4,12 +4,12 @@ const handleApiRes = async (response: Response) => {
   if (!apiUri) {
     throw new Error('Please provide a valid API URI in the config file');
   }
-  const data = await response.json();
+  const res = await response.json();
   if (response.ok) {
-    return data.data;
+    return res.data;
   } else {
     // Handle errors from the GraphQL server
-    throw new Error(data.errors?.[0]?.message || 'GraphQL request failed');
+    throw new Error(res.errors?.[0]?.message || 'GraphQL request failed');
   }
 }
 

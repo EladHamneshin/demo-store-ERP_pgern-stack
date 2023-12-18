@@ -11,7 +11,6 @@ import shopCategoriesRouter from './routes/categoriesRouter';
 import inventoryRouter from './routes/inventoryRouts';
 import shopInventoryRouter from './routes/shopInventoryRouts';
 import userRoutes from './routes/userRoutes';
-import cookieParser from 'cookie-parser';
 import { connectToRedis } from './redisClient'
 
 interface MyContext {
@@ -31,10 +30,8 @@ const startServer = async () => {
   app.use(morgan('dev'));
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
-  app.use(cookieParser());
   app.use(
     '/graphql',
-    // cors<cors.CorsRequest>(),
     expressMiddleware(server, {
       context: async ({ req }) => ({ token: req.headers.token }),
     }),
@@ -46,7 +43,7 @@ const startServer = async () => {
   app.use(notFound);
   app.use(errorHandler);
   const port: number = Number(process.env.PORT) || 4000
-  connectToRedis();
+  // connectToRedis();
   await new Promise<void>((resolve) => httpServer.listen({ port: port }, resolve));
   console.log(`🚀 Server ready at port: ${port}`);
 }

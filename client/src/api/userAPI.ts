@@ -33,6 +33,7 @@ async function loginUser(email: string, password: string): Promise<UserInfo> {
       }),
     });
     const data = await handleApiRes(response);
+    localStorage.setItem('erp_token', data.loginUser.token);
     return data;
   } catch (error) {
     // Handle network errors or other exceptions
