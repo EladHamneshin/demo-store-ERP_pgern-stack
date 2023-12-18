@@ -11,7 +11,9 @@ import shopCategoriesRouter from './routes/categoriesRouter';
 import inventoryRouter from './routes/inventoryRouts';
 import shopInventoryRouter from './routes/shopInventoryRouts';
 import userRoutes from './routes/userRoutes';
-import { connectToRedis } from './redisClient'
+import cookieParser from 'cookie-parser';
+import { RedisClient } from './utils/Redis/redisClient';
+import { RedisInsertProducts } from './utils/insertProducts/insertProductsToRedis';
 
 interface MyContext {
   token?: String;
@@ -45,7 +47,10 @@ const startServer = async () => {
   const port: number = Number(process.env.PORT) || 4000
   // connectToRedis();
   await new Promise<void>((resolve) => httpServer.listen({ port: port }, resolve));
-  console.log(`🚀 Server ready at port: ${port}`);
-}
+  console.log(`🚀 Server is ready at port: ${port}`);
+  console.log(`http://localhost:5000/graphql`);
+  RedisClient.connect()
+  .then(() =>  console.log( "connected successfully to Redis client!!!" ))
+  .catch((error) => {  if (error instanceof Error) console.log(error.message) });
+})
 
-startServer();
