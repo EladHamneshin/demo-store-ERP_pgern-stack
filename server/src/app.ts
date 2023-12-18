@@ -44,13 +44,11 @@ const startServer = async () => {
   app.use('/inventory', inventoryRouter);
   app.use(notFound);
   app.use(errorHandler);
-  const port: number = Number(process.env.PORT) || 4000
-  // connectToRedis();
+  const port: number = Number(process.env.PORT) || 4000;
   await new Promise<void>((resolve) => httpServer.listen({ port: port }, resolve));
   console.log(`🚀 Server is ready at port: ${port}`);
-  console.log(`http://localhost:5000/graphql`);
   RedisClient.connect()
-  .then(() =>  console.log( "connected successfully to Redis client!!!" ))
-  .catch((error) => {  if (error instanceof Error) console.log(error.message) });
-})
-
+    .then(() =>  console.log( "connected successfully to Redis client!!!" ))
+    .catch((error) => {  if (error instanceof Error) console.log(error.message) });
+}
+startServer();
