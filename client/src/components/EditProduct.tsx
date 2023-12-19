@@ -81,8 +81,7 @@ function UpdateProduct(props: Props) {
   }, [open, product]);
 
   const submitUpdates = async () => {
-    const updatedProduct: Product = {
-      id: product.id,
+    const updatedProduct: Omit<Product,"id"> = {
       category,
       clicked,
       description,
@@ -105,6 +104,8 @@ function UpdateProduct(props: Props) {
       discount
     };
     try {
+      // console.log(updatedProduct);
+      
       await productsAPI.updateProduct(updatedProduct, product.id!);
       setOpen(false)
     } catch (err) {

@@ -1,11 +1,18 @@
-import { gql, ApolloServer } from 'apollo-server-express';
+import { gql } from 'apollo-server-express';
 import UserService from './services/userService';
 import authService from './services/authService';
-import { addNewProductService, deleteProductByIdService, getAllProductsService, getProductByIdService, updateProductByIdService } from './services/inventoryService';
-import { AdminProduct, Product, UpdateBody } from './types/Product';
+import { AdminProduct, Product } from './types/Product';
+import {
+  addNewProductService,
+  deleteProductByIdService,
+  getAllProductsService,
+  getProductByIdService,
+  updateProductByIdService
+} from './services/inventoryService';
 
 const typeDefs = gql(`
 scalar JSON
+
 type Product {
   id: String
   name: String
@@ -19,6 +26,9 @@ type Product {
   image: Image
   coordinate: Coordinate
   tags: JSON
+  isforsale: Boolean
+  costprice: Int
+  supplier: String
 }
 
 type Image {
@@ -31,11 +41,6 @@ type Coordinate {
   latitude: Float!
 }
 
-type Tags {
-  key: String!
-  value: String!
-}
-
 input ProductInput {
   name: String
   saleprice: Float
@@ -45,32 +50,22 @@ input ProductInput {
   discount: Float
   rating: Float
   clicked: Int
-  imageUrl: String
-  imageAlt: String
-  longitude: Float
-  latitude: Float
+  image: ImageInput
+  coordinate: CoordinateInput
   tags: JSON
+  isforsale: Boolean
+  costprice: Int
+  supplier: String
 }
 
-input ProductUpdateInput {
-  name: String
-  saleprice: Float
-  quantity: Int
-  description: String
-  category: String
-  discount: Float
-  rating: Float
-  clicked: Int
-  imageUrl: String
-  imageAlt: String
-  longitude: Float
-  latitude: Float
-  tags: JSON
+input ImageInput {
+  url: String
+  alt: String
 }
 
-input TagInput {
-  key: String!
-  value: String!
+input CoordinateInput {
+  longitude: Float
+  latitude: Float
 }
 
   type User {
@@ -101,7 +96,7 @@ input TagInput {
     updateUser(email: String! password: String!): User
     deleteUser(email: String! password: String!): Massage
     addNewProduct(productInput: ProductInput!): Product
-    updateProductById(id: String, updateInput: ProductUpdateInput!): Product
+    updateProductById(id: String, updateInput: ProductInput!): Product
     deleteProductById(id: String): String!
   }
 `);
@@ -109,33 +104,45 @@ input TagInput {
 const resolvers = {
   Query: {
     getUser: (_: never, { id }: { id: string }) => UserService.getUser(id),
-    getAllProducts: async (): Promise<Product[]> => {
-      // check token 
-      return await getAllProductsService();
-  },
-  getProductById: async (_: unknown, args: { id: string }): Promise<Product | null> => {
+    getAllProducts: async () => {
+      // check token
+      const allProduct = await getAllProductsService();
+      return allProduct;
+    },
+    // getAllUsers: (_: never) => UserService.,
+    getProductById: async (_: unknown, args: { id: string }): Promise<Product | null> => {
       return await getProductByIdService(args.id);
-  }
+    }
   },
   Mutation: {
+    
     loginUser: (_: never, { email, password }: { email: string, password: string }) => {
       return authService.loginUser({email, password})
     },
+
     createUser: (_: never, { email, password }: { email: string, password: string }) => {
       return UserService.createUser({email, password})
     },
+
     updateUser: (_: never, { email, password }: { email: string, password: string }) => {
       return UserService.updateUser({email, password})
     },
+
     deleteUser: (_: never, { email, password }: { email: string; password: string }) => {
       return UserService.deleteUser({ email, password })
     },
-    addNewProduct: async (_: never, args: { productInput: AdminProduct }): Promise<Product> => {
+
+    addNewProduct: async (_: never, args: {productInput: AdminProduct}): Promise<Product> => {
+      /// check token
       return await addNewProductService(args.productInput);
     },
-    updateProductById: async (_: never, args: { id: string; updateInput: Partial<AdminProduct> }): Promise<Product> => {
+
+    updateProductById: async (_: never, args: {updateInput: Partial<AdminProduct>,  id: string;  }): Promise<Product> => {
+      console.log("args.updateInput", args);
+      
       return await updateProductByIdService(args.updateInput, args.id);
     },
+
     deleteProductById: async (_: never, args: { id: string }): Promise<string> => {
       return await deleteProductByIdService(args.id);
     }
