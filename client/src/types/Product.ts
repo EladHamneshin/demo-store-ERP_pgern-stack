@@ -24,6 +24,21 @@ export interface Product {
   supplier: string;
 }
 
+export interface DashboardProduct {
+  id: string,
+  name: string,
+  supplier: string,
+  costprice: number,
+  saleprice: number,
+  quantity: number,
+  description: string
+}
+
+export interface AllProductsRes {
+  data: {
+    getAllProducts: DashboardProduct[]
+  }
+}
 
 export interface Category {
   id: string,

@@ -1,6 +1,6 @@
 import productsAPI from '../../../api/productsAPI';
 import { useEffect, useState } from 'react';
-import { Product } from '../../../types/Product';
+import { DashboardProduct } from '../../../types/Product';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef, GridRowParams, GridToolbar } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
@@ -50,16 +50,17 @@ const columns: GridColDef[] = [
 
 export default function HomeDashboard() {
   const navigate = useNavigate();
-  const [productsArr, setProductsArr] = useState<Product[]>([]);
+  const [productsArr, setProductsArr] = useState<DashboardProduct[]>([]);
 
   useEffect(() => {
     const getData = async () => {
-      const allProducts: Product[] = await productsAPI.getAllProducts();
+      const res = await productsAPI.getAllProductsGraphQL();
+      const allProducts: DashboardProduct[] = res.data.getAllProducts;      
       setProductsArr(allProducts);
     }
     getData()
   }, []);
-
+  
   const rows = productsArr.map((product) => {
     return (
       {
@@ -79,7 +80,6 @@ export default function HomeDashboard() {
   }
 
   
-
   return (
     <Box sx={{ height: '100%', width: '100%' }}>
       <br></br>
