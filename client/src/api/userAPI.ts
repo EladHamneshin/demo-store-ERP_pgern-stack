@@ -32,8 +32,9 @@ async function loginUser(email: string, password: string): Promise<UserInfo> {
         variables,
       }),
     });
-    const data = await handleApiRes(response);
-    return data;
+    
+    const data = await handleApiRes(response);    
+    return data.loginUser;
   } catch (error) {
     // Handle network errors or other exceptions
     throw new Error(`Failed to login user: ${(error as Error).message}`);

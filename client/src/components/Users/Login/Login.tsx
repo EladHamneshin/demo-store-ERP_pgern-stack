@@ -29,7 +29,7 @@ export default function Login() {
     const formEmail = data.get('email')!.toString();
     const password = data.get('password')!.toString();
     try {
-      const res = await userAPI.loginUser(formEmail, password);
+      const res = await userAPI.loginUser(formEmail, password);      
       localStorage.setItem('erp_token', res.token!) 
 
       dispatch(saveEmail(res.email!));
