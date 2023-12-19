@@ -7,6 +7,7 @@ import { json } from 'express';
 
 export const authHandler = asyncHandler(async (req, _res, next) => {
   const token = req.headers.authorization;
+console.log('token', token);
 
   if (!token) {
     throw new RequestError('Not authorized, no token', STATUS_CODES.UNAUTHORIZED);

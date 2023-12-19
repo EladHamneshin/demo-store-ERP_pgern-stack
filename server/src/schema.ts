@@ -123,13 +123,13 @@ const resolvers = {
   },
   Mutation: {
     loginUser: (_: never, { email, password }: { email: string, password: string }) => {
-      authService.loginUser({email, password})
+      return authService.loginUser({email, password})
     },
     createUser: (_: never, { email, password }: { email: string, password: string }) => {
-      UserService.createUser({email, password})
+      return UserService.createUser({email, password})
     },
     updateUser: (_: never, { email, password }: { email: string, password: string }) => {
-      UserService.updateUser({email, password})
+      return UserService.updateUser({email, password})
     },
     deleteUser: (_: never, { email, password }: { email: string; password: string }) => {
       return UserService.deleteUser({ email, password })
