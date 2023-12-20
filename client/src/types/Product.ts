@@ -67,3 +67,4 @@ export interface AllCategories {
 export interface Tags {
   [key: string]: string;
 };
+

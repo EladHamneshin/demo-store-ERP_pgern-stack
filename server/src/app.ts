@@ -4,7 +4,8 @@ import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHt
 import express from 'express';
 import http from 'http';
 import cors from 'cors';
-import { typeDefs, resolvers } from './schema';
+import { typeDefs } from './GraphQL/types';
+import { resolvers } from './GraphQL/resolvers';
 import morgan from 'morgan';
 import { notFound, errorHandler } from './middlewares/errorsMiddleware';
 import shopCategoriesRouter from './routes/categoriesRouter';
@@ -13,6 +14,9 @@ import shopInventoryRouter from './routes/shopInventoryRouts';
 import userRoutes from './routes/userRoutes';
 import cookieParser from 'cookie-parser';
 import { RedisClient } from './utils/Redis/redisClient';
+import { makeExecutableSchema } from "@graphql-tools/schema";
+import { WebSocketServer } from 'ws';
+import { useServer } from 'graphql-ws/lib/use/ws';
 
 interface MyContext {
   token?: String;
@@ -20,24 +24,43 @@ interface MyContext {
 
 const app = express();
 const httpServer = http.createServer(app);
+
+const wsServer = new WebSocketServer({
+  server: httpServer,
+  path: '/graphql'
+});
+
+const schema = makeExecutableSchema({ typeDefs, resolvers });
+
+const serverCleanup = useServer({ schema }, wsServer);
+
 const server = new ApolloServer<MyContext>({
-  typeDefs,
-  resolvers,
-  plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+  schema,
+  plugins: [
+    ApolloServerPluginDrainHttpServer({ httpServer }),
+    {
+      async serverWillStart() {
+        return {
+          async drainServer() {
+            await serverCleanup.dispose();
+          },
+        };
+      },
+    },
+  ]
 });
 
 
-app.use(cors<cors.CorsRequest>());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 server.start().then(async () => {
-
+  app.use(cors<cors.CorsRequest>());
   app.use(
     '/graphql',
-    // cors<cors.CorsRequest>(),
+    cors<cors.CorsRequest>(),
     expressMiddleware(server, {
       context: async ({ req }) => ({ token: req.headers.token }),
     }),

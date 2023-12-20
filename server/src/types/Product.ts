@@ -54,3 +54,8 @@ export type ProductForRedis = {
   costprice: number;
   supplier: string;
 }
+
+export interface NewsEvent {
+  title: String
+  description: String
+}

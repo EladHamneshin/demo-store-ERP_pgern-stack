@@ -1,6 +1,7 @@
 const express = require('express');
 import { ApolloServer } from 'apollo-server-express';
-import { typeDefs, resolvers } from './schema';
+import { typeDefs } from './GraphQL/types';
+import { resolvers } from './GraphQL/resolvers';
 import dotenv from 'dotenv';
 import { notFound, errorHandler } from './middlewares/errorsMiddleware';
 import cors from 'cors';
