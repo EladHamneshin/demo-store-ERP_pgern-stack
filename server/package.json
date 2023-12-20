@@ -25,6 +25,7 @@
     "express": "^4.18.2",
     "express-async-handler": "^1.2.0",
     "graphql": "^16.8.1",
+    "graphql-redis-subscriptions": "^2.6.0",
     "graphql-subscriptions": "^2.0.0",
     "graphql-ws": "^5.14.2",
     "joi": "^17.11.0",

@@ -1,13 +1,11 @@
-import { gql, ApolloServer } from 'apollo-server-express';
 import UserService from '../services/userService';
 import authService from '../services/authService';
 import { addNewProductService, deleteProductByIdService, getAllProductsService, getProductByIdService, updateProductByIdService } from '../services/inventoryService';
 import { AdminProduct, Product, UpdateBody, ProductForRedis } from '../types/Product';
-import { PubSub } from "graphql-subscriptions";
 import { NewsEvent } from '../types/Product';
+import { RedisPubSub } from 'graphql-redis-subscriptions';
 
-
-const pubsub = new PubSub();
+const pubsub = new RedisPubSub();
 
 const resolvers = {
   Query: {

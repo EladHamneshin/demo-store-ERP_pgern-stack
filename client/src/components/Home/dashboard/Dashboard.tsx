@@ -87,13 +87,12 @@ export default function HomeDashboard() {
   }
   useEffect(() => {
     if (newsData) {
-      console.log('News data updated:', newsData);
+      // console.log('News data updated:', newsData);
     }
   }, [newsData]);
 
   useEffect(() => {
     if (subscriptionData) {
-      console.log('Subscription data updated:', subscriptionData);
       setMyTitle(subscriptionData.newsFeed.title);
       setMyDescription(subscriptionData.newsFeed.description);
     }
