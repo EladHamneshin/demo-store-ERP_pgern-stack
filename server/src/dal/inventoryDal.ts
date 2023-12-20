@@ -1,14 +1,24 @@
 import { AdminProduct } from '../types/Product';
 import query from '../utils/queryDB';
+import { redisClient } from '../app';
 
-export const getAllProductsDal = async () => {
 
-    const {rows}: { rows:AdminProduct[] }  = await query(selectAll)
+export const getAllProductsDal = async () => {  
 
+  const RedisAllProducts = await (await redisClient).GET('products');  
+  if (!RedisAllProducts) {
+    const {rows}: { rows:AdminProduct[] }  = await query(selectAll);
+    (await redisClient).set('products', JSON.stringify(rows))
     return rows;
+  }
+  else {
+    return JSON.parse(RedisAllProducts);
+  }
 };
 
 export const getProductByIdDal = async (id: string) => {    
+  const RedisAllProducts = await (await redisClient).GET('products');  
+  if (!RedisAllProducts) {
     const {rows}: { rows:AdminProduct[] } = await query(`SELECT p.id, 
     p.name, 
     p.price AS saleprice,
@@ -41,6 +51,15 @@ export const getProductByIdDal = async (id: string) => {
     WHERE p.id = '${id}' 
     GROUP BY p.id, c.name, i.url, i.alt, c2.lng, c2.lat;`)
     return rows[0];
+  }
+  else {
+    const product = JSON.parse(RedisAllProducts).filter((product: AdminProduct)=> {
+        if (product.id == id) {
+          return product
+        } 
+    });
+    return product[0]
+  }
 };
 
 export const addNewProductDal = async (
@@ -123,6 +142,9 @@ export const addNewProductDal = async (
     `INSERT INTO product_coordinates (product, coordinates) VALUES ('${productId}', '${coordinatesId}') returning *;`
   );
 
+  const {rows}: { rows:AdminProduct[] }  = await query(selectAll);
+  (await redisClient).set('products', JSON.stringify(rows))
+  
   // Get the product by ID
   const product = await getProductByIdDal(productId);
 
@@ -214,6 +236,9 @@ export const updateProductByIdDal = async (partsOfProductToUpdate: Partial<Admin
         `);
   }
 
+  const {rows}: { rows:AdminProduct[] }  = await query(selectAll);
+  (await redisClient).set('products', JSON.stringify(rows))
+
   const product = await getProductByIdDal(id);
 
   return product;
@@ -225,6 +250,9 @@ export const deleteProductByIdDal = async (id: string) => {
     delete from product_tags where product = '${id}';
     delete from products where id = '${id}' returning * ;`);
     await query(`delete from images where id = '${imageId[0].image}'`);
+
+    const {rows: rows2}: { rows:AdminProduct[] }  = await query(selectAll);
+    (await redisClient).set('products', JSON.stringify(rows2))
 }
 
 

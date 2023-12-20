@@ -28,7 +28,7 @@
     "jsonwebtoken": "^9.0.2",
     "morgan": "^1.10.0",
     "pg": "^8.11.3",
-    "redis": "^4.6.11",
+    "redis": "^4.6.12",
     "uuid": "^9.0.1",
     "uuid-validate": "^0.0.3"
   },

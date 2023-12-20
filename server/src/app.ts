@@ -11,11 +11,12 @@ import shopCategoriesRouter from './routes/categoriesRouter';
 import inventoryRouter from './routes/inventoryRouts';
 import shopInventoryRouter from './routes/shopInventoryRouts';
 import userRoutes from './routes/userRoutes';
-import { connectToRedis } from './redisClient'
+import { connectToRedis } from './redisClient';
 
 interface MyContext {
   token?: String;
 }
+export const redisClient = connectToRedis();
 
 const app = express();
 const httpServer = http.createServer(app);
