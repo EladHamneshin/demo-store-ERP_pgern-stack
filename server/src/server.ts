@@ -9,7 +9,7 @@ import inventoryRouter from './routes/inventoryRouts';
 import shopInventoryRouter from './routes/shopInventoryRouts';
 import userRoutes from './routes/userRoutes';
 import { connectDB } from "./configs/db";
-
+//test
 export const app = express();
 
 // APP CONFIGS
