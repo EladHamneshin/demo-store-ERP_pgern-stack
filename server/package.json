@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "tsc -w && nodemon dist/server.js",
+    "dev": "tsc && nodemon dist/server.js",
     "pro": "nodemon",
     "start": "node .",
     "test": "jest --coverage .",
