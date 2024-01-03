@@ -23,8 +23,8 @@ jobs:
       working-directory: client
       run: npm install
 
-    - name: Run ESLint
-      working-directory: client
+    # - name: Run ESLint
+    #   working-directory: client
       # run: npx eslint 'src/**/*.{ts,tsx}' --quiet
 
     - name: Check for TypeScript errors
