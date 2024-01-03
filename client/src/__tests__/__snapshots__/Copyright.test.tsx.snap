@@ -1,0 +1,15 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Copyright > matches snapshot 1`] = `
+<div>
+  <p
+    class="MuiTypography-root MuiTypography-body2 MuiTypography-alignCenter css-1vl95ex-MuiTypography-root"
+  >
+    Copyright © 
+    ERP Website
+     
+    2024
+    .
+  </p>
+</div>
+`;

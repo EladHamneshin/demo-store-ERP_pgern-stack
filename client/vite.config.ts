@@ -13,7 +13,8 @@ process.env.VITE_API_URI = loadEnv(mode, process.cwd()).VITE_API_URI;
         test: {
             globals: true,
             environment: "jsdom",
-            setupFiles: "./src/tests/setup.ts",
+            setupFiles: "./src/__tests__/setup.ts",
+            include: ['**/?(*.)test.ts?(x)'],
         },
     });
 }
